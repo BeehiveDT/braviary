@@ -1,69 +1,89 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# 勇士雄鷹（Braviary）
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+## Clone turtwig
+Git Clone from turtwig repository.
 
-## About Laravel
+```
+git clone git@github.com:BeehiveDG/braviary
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+## 複製及設定環境參數檔
+複製並修改 `.env` 檔案，加上資料庫等帳號密碼
+```bash
+cd turtwig
+cp .env.example .env
+vim .env
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 修改資料夾寫入權限
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+```bash
+# Laravel requires some folders to be writable for the web server user.
+sudo chgrp -R www-data storage bootstrap/cache
+sudo chmod -R ug+rwx storage bootstrap/cache
+```
 
-## Learning Laravel
+## composer 安裝套件
+在 turtwig 資料夾透過 composer 安裝需要的套件（記錄在 composer.json）。
+```
+$ composer install
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+## 產生密鑰
+```bash
+php artisan key:generate
+```
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+## 加入 sqlite 設定至環境參數檔
+```bash
+vim .env
+```
+在檔案最後加上下面內容
+```
+DB_CONNECTION=mysql
+=>
+DB_CONNECTION=sqlite
 
-## Laravel Sponsors
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
+```
 
-## Contributing
+## 資料庫 Migration
+```bash 
+php artisan migrate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+若要 seed 一些實驗用資料，會加入各一筆資訊
+```bash
+php artisan migrate:refresh --seed
+```
 
-## Security Vulnerabilities
+## 加入 MailGun 設定至環境參數檔
+```bash
+vim .env
+```
+在檔案後面加入 Mail 設定
+```
+MAIL_DRIVER=mailgun
+MAIL_HOST=smtp.mailgun.org
+MAIL_PORT=587
+MAIL_USERNAME=service@cloud.agriweather.online
+MAIL_PASSWORD=<password>
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=service@cloud.agriweather.online
+MAIL_FROM_NAME=Agriweather Service
+MAILGUN_DOMAIN=cloud.agriweather.online
+MAILGUN_SECRET=<secret>
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 加入 Google Cloud Storage 參數
+```bash
+vim .env
+```
+在檔案最後面加入 Google Cloud Storage 設定
+```
+GOOGLE_CLOUD_PROJECT_ID=
+GOOGLE_CLOUD_STORAGE_BUCKET=
+GOOGLE_CLOUD_KEY_FILE=
+GOOGLE_CLOUD_STORAGE_API_URI=
+```
