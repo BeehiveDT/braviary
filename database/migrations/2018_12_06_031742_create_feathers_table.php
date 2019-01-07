@@ -15,6 +15,7 @@ class CreateFeathersTable extends Migration
     {
         Schema::create('feathers', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('eagle_id')->index()->comment('工作編號');
             $table->timestamps();
         });
     }

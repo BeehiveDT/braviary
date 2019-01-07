@@ -27,4 +27,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * 取得所有的 Eagle
+     *
+     * @return void
+     */
+    public function eagles()
+    {
+        return $this->hasMany('App\Eagle');
+    }
+
+    /**
+     * Produce a new token for login
+     *
+     * @return uniqueid
+     */
+    protected function getNewTokenAttribute()
+    {
+        return uniqid(base64_encode(str_random(60)));
+    }
 }
