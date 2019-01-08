@@ -8,19 +8,10 @@ git clone git@github.com:BeehiveDG/braviary
 ```
 
 ## 複製及設定環境參數檔
-複製並修改 `.env` 檔案，加上資料庫等帳號密碼
+複製 `.env` 檔案
 ```bash
 cd braviary
 cp .env.example .env
-vim .env
-```
-
-## 修改資料夾寫入權限
-
-```bash
-# Laravel requires some folders to be writable for the web server user.
-sudo chgrp -R www-data storage bootstrap/cache
-sudo chmod -R ug+rwx storage bootstrap/cache
 ```
 
 ## composer 安裝套件
@@ -35,15 +26,9 @@ php artisan key:generate
 ```
 
 ## 加入 sqlite 設定至環境參數檔
-在database底下加入database.sqlite
-```bash
-cd database
-vim database.sqlite
-(存檔)
-```
 修改.env
-修改DB_CONNECTION從mysql至sqlite
-註解DB_DATABASE
+1. 修改DB_CONNECTION從mysql至sqlite
+2. 註解DB_DATABASE
 ```
 vim .env
 
@@ -56,8 +41,14 @@ DB_DATABASE=homestead
 =>
 # DB_DATABASE=homestead
 ```
-
+在database底下加入database.sqlite
+```bash
+cd database
+vim database.sqlite
+(存檔)
+```
 ## 資料庫 Migration
 ```bash 
+# 回到專案目錄後
 php artisan migrate
 ```
