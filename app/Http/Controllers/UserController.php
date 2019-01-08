@@ -32,6 +32,14 @@ class UserController extends Controller
 
         $token = $request->header('Authorization');
         $user = User::where('api_token', $token)->first();
+        if (is_null($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'User Not Found'
+                ]
+            ], 404);
+        }
 
         return response()->json([
             'Success' => [
@@ -65,6 +73,14 @@ class UserController extends Controller
 
         $token = $request->header('Authorization');
         $user = User::where('api_token', $token)->first();
+        if (is_null($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'User Not Found'
+                ]
+            ], 404);
+        }
 
         $user->name = $request->name ?? $user->name;
         $user->password = bcrypt($request->password) ?? $user->password;
@@ -72,7 +88,7 @@ class UserController extends Controller
         return response()->json([
             'Success' => [
                 'status' => 200,
-                'message' => "Successfully updated"
+                'message' => 'Successfully updated'
             ]
         ], 200);
     }

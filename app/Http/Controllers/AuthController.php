@@ -40,7 +40,7 @@ class AuthController extends Controller
         if ($user->save()) {
             return response()->json([
                 'status' => 200,
-                'message'=> "Successfully registered",
+                'message'=> 'Successfully registered',
                 'name' => $user->name,
                 'access_token' => $user->api_token,
             ], 200);
@@ -78,14 +78,14 @@ class AuthController extends Controller
             $user->api_token = $token;
             $user->save();
             return response()->json([
-                'message' => "Successfully logged in",
+                'message' => 'Successfully logged in',
                 'access_token' => $user->api_token,
             ], 200);
         } else {
             return response()->json([
                 'error' => [
                     'status' => 422,
-                    'message' => "Wrong Password"
+                    'message' => 'Wrong Password'
                 ]
             ], 422);
         }
