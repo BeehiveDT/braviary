@@ -4,7 +4,7 @@
 Git Clone from braviary repository.
 
 ```
-git clone git@github.com:BeehiveDG/braviary
+git clone https://github.com/BeehiveDG/braviary.git
 ```
 
 ## 複製及設定環境參數檔
