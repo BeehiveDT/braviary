@@ -17,6 +17,7 @@
         
     </head>
     <body>
+        <!-- Vue App-->
         <div id="app">
             <main-app></main-app>
         </div>

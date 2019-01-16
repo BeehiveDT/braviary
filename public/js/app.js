@@ -14024,53 +14024,7 @@ module.exports = Cancel;
 
 
 /***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = null
-/* template */
-var __vue_template__ = __webpack_require__(53)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources/js/components/NavigationBar.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-30e7b4f8", Component.options)
-  } else {
-    hotAPI.reload("data-v-30e7b4f8", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
+/* 12 */,
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -14129,7 +14083,6 @@ var router = new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navigation-bar', __webpack_require__(12));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
@@ -51632,8 +51585,38 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavigationBar_vue__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__NavigationBar_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__NavigationBar_vue__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -51644,67 +51627,85 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
+// import NavigationBar from './NavigationBar.vue';
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     // mounted() {
     //     console.log('Component mounted.')
     // }
-    name: 'main-app',
-    components: {
-        NavigationBar: __WEBPACK_IMPORTED_MODULE_0__NavigationBar_vue___default.a
-    }
+    name: 'main-app'
+    // components: {
+    //     NavigationBar
+    // }
 });
 
 /***/ }),
-/* 53 */
+/* 53 */,
+/* 54 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "navigation-bar" }, [
-    _c("nav", { staticClass: "navbar navbar-expand-lg navbar-dark bg-dark" }, [
-      _c(
-        "div",
-        { staticClass: "container" },
-        [
+  return _c("div", { attrs: { id: "main" } }, [
+    _c(
+      "div",
+      { staticClass: "wrapper" },
+      [
+        _c("div", { staticClass: "navigation-bar" }, [
           _c(
-            "router-link",
-            { staticClass: "navbar-brand", attrs: { to: "/" } },
-            [_vm._v("WatchTurtle")]
-          ),
-          _vm._v(" "),
-          _vm._m(0),
-          _vm._v(" "),
-          _c(
-            "div",
-            {
-              staticClass: "collapse navbar-collapse",
-              attrs: { id: "navbarNavAltMarkup" }
-            },
+            "nav",
+            { staticClass: "navbar navbar-expand-lg navbar-dark bg-dark" },
             [
               _c(
                 "div",
-                { staticClass: "navbar-nav ml-auto" },
+                { staticClass: "container" },
                 [
-                  _c("router-link", { attrs: { to: "/sign-up" } }, [
-                    _vm._v("Sign Up")
-                  ]),
+                  _c(
+                    "router-link",
+                    { staticClass: "navbar-brand", attrs: { to: "/" } },
+                    [_vm._v("WatchTurtle")]
+                  ),
                   _vm._v(" "),
-                  _c("router-link", { attrs: { to: "/log-in" } }, [
-                    _vm._v("Log In")
-                  ])
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      staticClass: "collapse navbar-collapse",
+                      attrs: { id: "navbarNavAltMarkup" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "navbar-nav ml-auto" },
+                        [
+                          _c("router-link", { attrs: { to: "/sign-up" } }, [
+                            _vm._v("Sign Up")
+                          ]),
+                          _vm._v(" "),
+                          _c("router-link", { attrs: { to: "/log-in" } }, [
+                            _vm._v("Log In")
+                          ])
+                        ],
+                        1
+                      )
+                    ]
+                  )
                 ],
                 1
               )
             ]
           )
-        ],
-        1
-      )
-    ])
+        ]),
+        _vm._v(" "),
+        _c("router-view")
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _vm._m(1)
   ])
 }
 var staticRenderFns = [
@@ -51727,37 +51728,26 @@ var staticRenderFns = [
       },
       [_c("span", { staticClass: "navbar-toggler-icon" })]
     )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("section", { staticClass: "footer" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-12 " }, [
+            _c("div", { staticClass: "text-center text-white" }, [
+              _vm._v(
+                "\n                            © 2018 Your Company. All Rights Reserved.\n                    "
+              )
+            ])
+          ])
+        ])
+      ])
+    ])
   }
 ]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-30e7b4f8", module.exports)
-  }
-}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "main" } },
-    [
-      _c("navigation-bar"),
-      _vm._v(" "),
-      _c("div", { staticClass: "content" }, [_c("router-view")], 1)
-    ],
-    1
-  )
-}
-var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

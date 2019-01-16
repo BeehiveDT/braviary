@@ -11439,9 +11439,23 @@ a.text-dark:focus {
   }
 }
 
-.navbar-nav a {
+#main .wrapper {
+  min-height: 100vh;
+  /* Equal to height of footer */
+  /* But also accounting for potential margin-bottom of last child */
+  margin-bottom: -50px;
+}
+
+#main .wrapper .navbar-nav a {
   padding-left: 10px;
   color: white;
+}
+
+#main .footer {
+  background-color: #343a40;
+  padding: 12px 0;
+  font-size: 14px;
+  height: 50px;
 }
 
 .navbar-laravel {

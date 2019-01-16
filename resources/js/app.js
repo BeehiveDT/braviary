@@ -10,8 +10,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import {routes} from './routes';
-import StoreData from './store'
-import MainApp from './components/MainApp.vue'
+import StoreData from './store';
+import MainApp from './components/MainApp.vue';
 
 // window.Vue = require('vue');
 
@@ -35,7 +35,7 @@ const router = new VueRouter({
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-Vue.component('navigation-bar', require('./components/NavigationBar.vue'));
+
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
