@@ -1,9 +1,9 @@
 #main{
+    // navbar + page content
     .wrapper {
         min-height: 100vh;
-        /* Equal to height of footer */
-        /* But also accounting for potential margin-bottom of last child */
         margin-bottom: -50px;
+        background: $background-color;
         .navbar-nav {
             a {
                 padding-left: 10px;
@@ -11,6 +11,7 @@
             }
         }
     }
+
     .footer {
         background-color: #343a40; //#111
         padding: 12px 0;

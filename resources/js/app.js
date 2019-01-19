@@ -21,8 +21,9 @@ Vue.use(Vuex);
 const store = new Vuex.Store(StoreData);
 
 const router = new VueRouter({
-    routes,
-    mode: 'history'
+    mode: 'history',
+    routes,         // short for `routes: routes`
+    linkActiveClass: 'active'
 });
 
 /**

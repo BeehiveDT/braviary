@@ -5,13 +5,13 @@ import LogIn from './components/LogIn.vue'
 
 // Assign Page to paths
 export const routes = [
-
     {
         path:'/',
         component: Home
     },
     {
         path:'/sign-up',
+        name:'Sign Up',
         component: SignUp
     },
     {
