@@ -1,0 +1,21 @@
+#main{
+    // navbar + page content
+    .wrapper {
+        min-height: 100vh;
+        margin-bottom: -50px;
+        background: $background-color;
+        .navbar-nav {
+            a {
+                padding-left: 10px;
+                color: white;
+            }
+        }
+    }
+
+    .footer {
+        background-color: #343a40; //#111
+        padding: 12px 0;
+        font-size: 14px;
+        height: 50px;
+    }
+}

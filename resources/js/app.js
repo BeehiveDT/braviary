@@ -6,8 +6,25 @@
  */
 
 require('./bootstrap');
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Vuex from 'vuex';
+import {routes} from './routes';
+import StoreData from './store';
+import MainApp from './components/MainApp.vue';
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
+
+Vue.use(VueRouter);
+Vue.use(Vuex);
+
+const store = new Vuex.Store(StoreData);
+
+const router = new VueRouter({
+    mode: 'history',
+    routes,         // short for `routes: routes`
+    linkActiveClass: 'active'
+});
 
 /**
  * The following block of code may be used to automatically register your
@@ -17,7 +34,9 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
@@ -29,5 +48,10 @@ Vue.component('example-component', require('./components/ExampleComponent.vue'))
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    store,
+    router,
+    components:{
+        MainApp
+    }
 });
