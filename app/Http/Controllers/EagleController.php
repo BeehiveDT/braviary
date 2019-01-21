@@ -31,7 +31,10 @@ class EagleController extends Controller
         return response()->json([
             'Success' => [
                 'status' => 200,
-                'eagles' => $user->eagles->makeHidden('user_id')->load('lastFeather')
+                'eagles' => [
+                    'my_eagles' => $user->myEagles,
+                    'link_eagles' => $user->linkEagles
+                ]
             ]
         ], 200);
     }
@@ -46,8 +49,8 @@ class EagleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'frequency' => 'required|numeric',
-            'tolerance' => 'required|numeric',
+            'frequency' => 'required|integer',
+            'tolerance' => 'required|integer',
             'description' => 'filled|string|'
         ]);
 
@@ -56,22 +59,6 @@ class EagleController extends Controller
                 'error' => [
                     'status' => 422,
                     'message' => $validator->messages()
-                ]
-            ], 422);
-        }
-        if (filter_var($request->frequency, FILTER_VALIDATE_INT) === false) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid frequency'
-                ]
-            ], 422);
-        }
-        if (filter_var($request->tolerance, FILTER_VALIDATE_INT) === false) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid tolerance'
                 ]
             ], 422);
         }
@@ -115,8 +102,8 @@ class EagleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'filled|string|max:255',
-            'frequency' => 'filled|numeric',
-            'tolerance' => 'filled|numeric',
+            'frequency' => 'filled|integer',
+            'tolerance' => 'filled|integer',
             'description' => 'filled|string|'
         ]);
 
@@ -125,22 +112,6 @@ class EagleController extends Controller
                 'error' => [
                     'status' => 422,
                     'message' => $validator->messages()
-                ]
-            ], 422);
-        }
-        if (filter_var($request->frequency, FILTER_VALIDATE_INT) === false) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid frequency'
-                ]
-            ], 422);
-        }
-        if (filter_var($request->tolerance, FILTER_VALIDATE_INT) === false) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid tolerance'
                 ]
             ], 422);
         }
@@ -155,12 +126,19 @@ class EagleController extends Controller
                 ]
             ], 404);
         }
-        $eagle = $user->eagles->where('id', $eagleId)->first();
+
+        if ($user->is_admin) {
+            // 如果是zoo keeper，就可以修改所有老鷹
+            $eagle = Eagle::where('id', $eagleId)->first();
+        } else {
+            // 不然只能修改自己的
+            $eagle = $user->myEagles->where('id', $eagleId)->first();
+        }
         if (is_null($eagle)) {
             return response()->json([
                 'error' => [
                     'status' => 404,
-                    'message' => 'Eagle Not Found'
+                    'message' => 'Eagle Update Failed'
                 ]
             ], 404);
         }
@@ -188,8 +166,8 @@ class EagleController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'filled|string|max:255',
-            'frequency' => 'filled|numeric',
-            'tolerance' => 'filled|numeric',
+            'frequency' => 'filled|integer',
+            'tolerance' => 'filled|integer',
             'description' => 'filled|string|'
         ]);
 
@@ -198,22 +176,6 @@ class EagleController extends Controller
                 'error' => [
                     'status' => 422,
                     'message' => $validator->messages()
-                ]
-            ], 422);
-        }
-        if (filter_var($request->frequency, FILTER_VALIDATE_INT) === false ){
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid frequency'
-                ]
-            ], 422);
-        }
-        if (filter_var($request->tolerance, FILTER_VALIDATE_INT) === false ){
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => 'Invalid tolerance'
                 ]
             ], 422);
         }
@@ -228,7 +190,14 @@ class EagleController extends Controller
                 ]
             ], 404);
         }
-        $eagle = $user->eagles->where('id', $eagleId)->first();
+
+        if ($user->is_admin) {
+            // 如果是zoo keeper，就可以刪除所有老鷹
+            $eagle = Eagle::where('id', $eagleId)->first();
+        } else {
+            // 不然只能刪除自己的
+            $eagle = $user->myEagles->where('id', $eagleId)->first();
+        }
         if (is_null($eagle)) {
             return response()->json([
                 'error' => [
@@ -243,6 +212,73 @@ class EagleController extends Controller
             'Success' => [
                 'status' => 200,
                 'message' => 'Delete Eagle '.$eagle->name.'\'s info succeed!'
+            ]
+        ], 200);
+    }
+   /**
+     * 給最後n根羽毛
+     *
+     * @param Request $request
+     * @param integer $eagleId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function feathers(Request $request, $eagleId)
+    {
+        $limit = $request->input('limit') ?? 1;
+        if (filter_var($limit, FILTER_VALIDATE_INT) === false) {
+            return response()->json([
+                'error' => [
+                    'status' => 422,
+                    'message' => 'Invalid limit'
+                ]
+            ], 422);
+        }
+
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if (is_null($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'User Not Found'
+                ]
+            ], 404);
+        }
+
+        if ($user->is_admin) {
+            // 如果是zoo keeper，就可以觀測所有老鷹
+            $eagle = Eagle::where('id', $eagleId)->first();
+        } else {
+            // 如果是擁有者或是觀察者也可以看到
+            $eagle = $user->myEagles->where('id', $eagleId)->first() ??
+                     $user->linkEagles->where('id', $eagleId)->first();
+        }
+
+        if (is_null($eagle)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'Eagle Not Found'
+                ]
+            ], 404);
+        }
+
+        if ($limit >0 && $limit <=6) {
+            $feathers = $eagle->feathers->sortByDesc('created_at')
+                        ->take($limit)->pluck('created_at')->map(function ($time) {
+                            return $time->format('Y-m-d H:i:s');
+                        });
+        } else {
+            $feathers = $eagle->feathers->sortByDesc('created_at')
+                        ->take(1)->pluck('created_at')->map(function ($time) {
+                            return $time->format('Y-m-d H:i:s');
+                        });
+        }
+
+        return response()->json([
+            'Success' => [
+                'status' => 200,
+                'feathers' => $feathers
             ]
         ], 200);
     }

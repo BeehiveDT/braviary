@@ -30,11 +30,11 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::middleware('agriweather.api')->group(function () {
-    // 列出使用者資訊
+    // 列出個人資訊
     Route::get('/me', 'UserController@show');
-    // 更新使用者資訊
+    // 更新個人資訊
     Route::post('/me', 'UserController@update');
-    // 列出老鷹with最新一根羽毛
+    // 列出老鷹
     Route::get('/eagles', 'EagleController@show');
     // 新增老鷹
     Route::post('/eagles', 'EagleController@store');
@@ -42,12 +42,20 @@ Route::middleware('agriweather.api')->group(function () {
     Route::post('/eagles/{eagleId}', 'EagleController@update');
     // 刪除老鷹
     Route::delete('/eagles/{eagleId}', 'EagleController@delete');
+    // 要最後數支羽毛，預設1支
+    Route::get('/eagles/{eagleId}/feathers', 'EagleController@feathers');
+    // 新增觀察者
+    Route::post('/eagles/{eagleId}/link', 'UserEagleController@link');
+    // 刪除觀察者
+    Route::post('/eagles/{eagleId}/unlink', 'UserEagleController@unlink');
 });
 
 // 新增羽毛
 Route::post('/feathers/{jobToken}', 'FeatherController@store');
 
-Route::middleware('isadmin.api')->group(function () {
+Route::group(['prefix' => 'zookeeper',  'middleware' => 'isadmin.api'], function () {
     //列出所有使用者
-    //列出所有老鷹with最新一根羽毛
+    Route::get('/users', 'AdminController@users');
+    //列出所有老鷹
+    Route::get('/eagles', 'AdminController@eagles');
 });

@@ -4,24 +4,36 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Webpatser\Uuid\Uuid;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Eagle extends Model
 {
+    use SoftDeletes;
     /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
      */
-    protected $hidden = ['created_at', 'updated_at',];
+    protected $hidden = ['user_id', 'created_at', 'updated_at', 'deleted_at'];
+
+    /**
+     * 取得所屬的 owner
+     *
+     * @return void
+     */
+    public function owner()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 
     /**
      * 取得所屬的 User
      *
      * @return void
      */
-    public function user()
+    public function users()
     {
-        return $this->belongsTo('App\User', 'user_id');
+        return $this->belongsToMany('App\User', 'user_eagle')->withTimestamps();
     }
 
     /**
@@ -53,4 +65,6 @@ class Eagle extends Model
     {
         return (string)Uuid::generate();
     }
+
+    protected $dates = ['deleted_at'];
 }
