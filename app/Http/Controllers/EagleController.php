@@ -10,7 +10,7 @@ use App\User;
 class EagleController extends Controller
 {
     /**
-     * 列出老鷹with最後一根羽毛
+     * 列出老鷹
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
