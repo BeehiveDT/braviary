@@ -25,17 +25,27 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'id', 'is_admin',  'created_at', 'updated_at', 'api_token', 'pivot',
     ];
 
     /**
-     * 取得所有的 Eagle
+     * 取得管理的 Eagle
      *
      * @return void
      */
-    public function eagles()
+    public function myEagles()
     {
         return $this->hasMany('App\Eagle');
+    }
+
+    /**
+     * 取得可看到的 Eagles
+     *
+     * @return void
+     */
+    public function linkEagles()
+    {
+        return $this->belongsToMany('App\Eagle', 'user_eagle')->withTimestamps();
     }
 
     /**

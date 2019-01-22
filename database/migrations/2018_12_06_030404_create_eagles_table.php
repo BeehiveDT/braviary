@@ -22,6 +22,7 @@ class CreateEaglesTable extends Migration
             $table->unsignedTinyInteger('tolerance')->comment('允許沒到次數');
             $table->text('description')->nullable()->default('新手鷹(初始專案)')->commemt('專案說明');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

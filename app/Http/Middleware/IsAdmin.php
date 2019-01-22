@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\User;
 
 class IsAdmin
 {
@@ -27,7 +28,7 @@ class IsAdmin
         if ($request->header('Authorization')) {
             $token = $request->header('Authorization');
             $user = User::where('api_token', $token)->first();
-            if ($user->isadmin) {
+            if ($user->is_admin) {
                 return $next($request);
             } else {
                 return response()->json([
