@@ -1,5 +1,6 @@
 export default {
     state: {
+        userToken: '',
         homeMessage: `
             Home Page
         `,
@@ -10,7 +11,12 @@ export default {
             Log In Page
         `
     },
-    mutations: {},
+    mutations: {
+        userLogIn(state, token){
+            state.usertoken = token;
+            console.log(`userToken: ${ token}`);
+        }
+    },
     getters: {
         homeMessage(state) {
             return state.homeMessage;

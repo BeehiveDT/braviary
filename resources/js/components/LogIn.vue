@@ -2,7 +2,6 @@
     <div id="log-in">
         <div class="container">
             <h2>{{ logInMessage }}</h2>
-            <h2>email, password</h2>
             <form @submit.prevent="submit">
                 <div class="form-group">
                     <label for="LogInEmail1">Email</label>
@@ -12,10 +11,10 @@
                     <label for="LogInPassword">Password</label>
                     <input v-model="password" type="password" class="form-control" id="LogInPassword" placeholder="Password">
                 </div>
-                <div class="form-check">
+                <!-- <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Show Password</label>
-                </div>
+                </div> -->
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
@@ -30,7 +29,7 @@ export default {
     name: 'logIn',
     data(){
         return {
-            email: 'abc',
+            email: '',
             password: '',
         }
     },
@@ -42,11 +41,19 @@ export default {
     methods: {
         submit(){
             axios.post(`${API}/auth/login`, {
-	            email: "xxx@beehivedt.com",
-	            password: "1q2w#E$R"
+	            email: this.email,
+	            password: this.password
             })
-            .then(response=>{
-                console.log(response);
+            .then(response =>{
+                // successful POST request
+                const token = response.data.access_token;
+                this.$store.commit('userLogIn', token);
+            })
+            .catch(error=>{
+                // relog setup
+                this.email = '';
+                this.password = '';
+                console.log("Sorry, we couldn't log you in. Please try again.")
             })
         },
     }
