@@ -9,7 +9,7 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
-import {routes} from './routes';
+import {routes} from './routes';    // {routes} because importing a const.
 import StoreData from './store';
 import MainApp from './components/MainApp.vue';
 
@@ -22,7 +22,7 @@ const store = new Vuex.Store(StoreData);
 
 const router = new VueRouter({
     mode: 'history',
-    routes,         // short for `routes: routes`
+    routes,                         // short for `routes: routes`
     linkActiveClass: 'active'
 });
 
