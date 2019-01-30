@@ -1,4 +1,5 @@
 import axios from "axios";
+import {router} from "./app.js"
 
 const API="http://braviary.test/api";
 
@@ -19,17 +20,18 @@ export default {
 		},
         updateEmail(state, email){
             state.email = email;
-            console.log(email);
+            // console.log(email);
         },
         updatePassword(state, password){
             state.password = password;
-            console.log(password);
+            // console.log(password);
         },
         updateUserToken(state, token){
             state.userToken = token;
-            console.log(`userToken: ${ token}`);
+            // console.log(`userToken: ${ token}`);
             // store token in localStorage
             localStorage.setItem('token', JSON.stringify(token));
+            router.push('/')
         },
     },
     getters: {
@@ -57,7 +59,10 @@ export default {
             })
             .catch(error=>{
                 // relog setup
-                console.log("cannot log in")
+                commit('updateEmail', '');
+                commit('updatePassword', '');
+                router.push('/log-in');
+                console.log("cannot log in");
             })
 
         }

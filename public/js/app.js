@@ -36885,6 +36885,7 @@ var render = function() {
             _c("input", {
               staticClass: "form-control",
               attrs: { type: "email", id: "logInEmail", placeholder: "Email" },
+              domProps: { value: _vm.email },
               on: { input: _vm.updateEmail }
             })
           ]),
@@ -36901,6 +36902,7 @@ var render = function() {
                 id: "logInPassword",
                 placeholder: "Password"
               },
+              domProps: { value: _vm.password },
               on: { input: _vm.updatePassword }
             })
           ]),
@@ -52055,11 +52057,12 @@ module.exports = function(module) {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no exports provided */
+/*! exports provided: router */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "router", function() { return router; });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
@@ -52499,6 +52502,8 @@ var routes = [{
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.js */ "./resources/js/app.js");
+
 
 var API = "http://braviary.test/api";
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -52517,18 +52522,17 @@ var API = "http://braviary.test/api";
       }
     },
     updateEmail: function updateEmail(state, email) {
-      state.email = email;
-      console.log(email);
+      state.email = email; // console.log(email);
     },
     updatePassword: function updatePassword(state, password) {
-      state.password = password;
-      console.log(password);
+      state.password = password; // console.log(password);
     },
     updateUserToken: function updateUserToken(state, token) {
-      state.userToken = token;
-      console.log("userToken: ".concat(token)); // store token in localStorage
+      state.userToken = token; // console.log(`userToken: ${ token}`);
+      // store token in localStorage
 
       localStorage.setItem('token', JSON.stringify(token));
+      _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
     }
   },
   getters: {
@@ -52553,6 +52557,9 @@ var API = "http://braviary.test/api";
         commit('updateUserToken', token);
       }).catch(function (error) {
         // relog setup
+        commit('updateEmail', '');
+        commit('updatePassword', '');
+        _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
         console.log("cannot log in");
       });
     }

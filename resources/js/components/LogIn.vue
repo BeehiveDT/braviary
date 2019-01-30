@@ -4,11 +4,11 @@
             <form @submit.prevent="submit">
                 <div class="form-group">
                     <label for="logInEmail">Email</label>
-                    <input type="email" class="form-control" id="logInEmail" placeholder="Email" @input="updateEmail">
+                    <input :value="email" type="email" class="form-control" id="logInEmail" placeholder="Email" @input="updateEmail">
                 </div>
                 <div class="form-group">
                     <label for="logInPassword">Password</label>
-                    <input type="password" class="form-control" id="logInPassword" placeholder="Password" @input="updatePassword">
+                    <input :value="password" type="password" class="form-control" id="logInPassword" placeholder="Password" @input="updatePassword">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
