@@ -9,6 +9,7 @@ export default {
         password: '',
         homeMessage: `Home Page`,
     },
+    // sync
     mutations: {
 		initializeStore(state) {
 			// if token exists, replace userToken in state
@@ -53,6 +54,7 @@ export default {
             return state.homeMessage;
         },
     },
+    // async
     actions: {
         logInSubmit({commit}, payload){
             commit('userLogIn',  payload )

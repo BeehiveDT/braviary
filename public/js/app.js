@@ -52508,6 +52508,7 @@ var API = "http://braviary.test/api";
     password: '',
     homeMessage: "Home Page"
   },
+  // sync
   mutations: {
     initializeStore: function initializeStore(state) {
       // if token exists, replace userToken in state
@@ -52549,6 +52550,7 @@ var API = "http://braviary.test/api";
       return state.homeMessage;
     }
   },
+  // async
   actions: {
     logInSubmit: function logInSubmit(_ref, payload) {
       var commit = _ref.commit;
