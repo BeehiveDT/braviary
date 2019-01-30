@@ -61,7 +61,6 @@ export default {
                 // relog setup
                 commit('updateEmail', '');
                 commit('updatePassword', '');
-                router.push('/log-in');
                 console.log("cannot log in");
             })
 
