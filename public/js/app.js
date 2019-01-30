@@ -52114,6 +52114,9 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   router: router,
   components: {
     MainApp: _components_MainApp_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  },
+  beforeCreate: function beforeCreate() {
+    this.$store.commit('initializeStore');
   }
 });
 
@@ -52503,10 +52506,15 @@ var API = "http://braviary.test/api";
     userToken: '',
     email: '',
     password: '',
-    homeMessage: "\n            Home Page\n        ",
-    signUpMessage: "\n            Sign Up Page\n        "
+    homeMessage: "Home Page"
   },
   mutations: {
+    initializeStore: function initializeStore(state) {
+      // if token exists, replace userToken in state
+      if (localStorage.getItem('token')) {
+        state.userToken = localStorage.getItem('token');
+      }
+    },
     updateEmail: function updateEmail(state, email) {
       state.email = email;
       console.log(email);
@@ -52517,10 +52525,9 @@ var API = "http://braviary.test/api";
     },
     userLogIn: function userLogIn(state, payload) {
       // extract email and password from payload
-      // console.log(payload.email);
-      // console.log(payload.password);
       var email = payload.email;
-      var password = payload.password;
+      var password = payload.password; // POST request to log in
+
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), {
         email: email,
         password: password
@@ -52528,7 +52535,9 @@ var API = "http://braviary.test/api";
         // success
         var token = response.data.access_token;
         state.userToken = token;
-        console.log("userToken: ".concat(token));
+        console.log("userToken: ".concat(token)); // store token in localStorage
+
+        localStorage.setItem('token', JSON.stringify(token));
       }).catch(function (error) {
         // relog setup
         console.log("cannot log in");
@@ -52538,9 +52547,6 @@ var API = "http://braviary.test/api";
   getters: {
     homeMessage: function homeMessage(state) {
       return state.homeMessage;
-    },
-    signUpMessage: function signUpMessage(state) {
-      return state.signUpMessage;
     }
   },
   actions: {
