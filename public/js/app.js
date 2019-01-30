@@ -52559,7 +52559,6 @@ var API = "http://braviary.test/api";
         // relog setup
         commit('updateEmail', '');
         commit('updatePassword', '');
-        _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
         console.log("cannot log in");
       });
     }
