@@ -25,7 +25,22 @@ export default {
             state.password = password;
             console.log(password);
         },
-        userLogIn(state, payload){
+        updateUserToken(state, token){
+            state.userToken = token;
+            console.log(`userToken: ${ token}`);
+            // store token in localStorage
+            localStorage.setItem('token', JSON.stringify(token));
+        },
+    },
+    getters: {
+        homeMessage(state) {
+            return state.homeMessage;
+        },
+    },
+    // async
+    actions: {
+        logInSubmit({commit}, payload){
+
             // extract email and password from payload
             let email = payload.email;
             let password = payload.password;
@@ -38,26 +53,13 @@ export default {
             .then(response=> {
                 // success
                 let token = response.data.access_token;
-                state.userToken = token;
-                console.log(`userToken: ${ token}`);
-                // store token in localStorage
-                localStorage.setItem('token', JSON.stringify(token));
+                commit('updateUserToken', token)
             })
             .catch(error=>{
                 // relog setup
                 console.log("cannot log in")
             })
-        },
-    },
-    getters: {
-        homeMessage(state) {
-            return state.homeMessage;
-        },
-    },
-    // async
-    actions: {
-        logInSubmit({commit}, payload){
-            commit('userLogIn',  payload )
+
         }
     }
 };

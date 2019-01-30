@@ -52524,25 +52524,11 @@ var API = "http://braviary.test/api";
       state.password = password;
       console.log(password);
     },
-    userLogIn: function userLogIn(state, payload) {
-      // extract email and password from payload
-      var email = payload.email;
-      var password = payload.password; // POST request to log in
+    updateUserToken: function updateUserToken(state, token) {
+      state.userToken = token;
+      console.log("userToken: ".concat(token)); // store token in localStorage
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), {
-        email: email,
-        password: password
-      }).then(function (response) {
-        // success
-        var token = response.data.access_token;
-        state.userToken = token;
-        console.log("userToken: ".concat(token)); // store token in localStorage
-
-        localStorage.setItem('token', JSON.stringify(token));
-      }).catch(function (error) {
-        // relog setup
-        console.log("cannot log in");
-      });
+      localStorage.setItem('token', JSON.stringify(token));
     }
   },
   getters: {
@@ -52554,7 +52540,21 @@ var API = "http://braviary.test/api";
   actions: {
     logInSubmit: function logInSubmit(_ref, payload) {
       var commit = _ref.commit;
-      commit('userLogIn', payload);
+      // extract email and password from payload
+      var email = payload.email;
+      var password = payload.password; // POST request to log in
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), {
+        email: email,
+        password: password
+      }).then(function (response) {
+        // success
+        var token = response.data.access_token;
+        commit('updateUserToken', token);
+      }).catch(function (error) {
+        // relog setup
+        console.log("cannot log in");
+      });
     }
   }
 });
