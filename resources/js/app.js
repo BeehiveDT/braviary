@@ -53,5 +53,8 @@ const app = new Vue({
     router,
     components:{
         MainApp
-    }
+    },
+    beforeCreate() {
+		this.$store.commit('initializeStore');
+	}
 });

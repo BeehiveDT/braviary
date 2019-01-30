@@ -1,4 +1,5 @@
 import axios from "axios";
+
 const API="http://braviary.test/api";
 
 export default {
@@ -6,14 +7,16 @@ export default {
         userToken: '',
         email: '',
         password: '',
-        homeMessage: `
-            Home Page
-        `,
-        signUpMessage: `
-            Sign Up Page
-        `,
+        homeMessage: `Home Page`,
     },
+    // sync
     mutations: {
+		initializeStore(state) {
+			// if token exists, replace userToken in state
+			if(localStorage.getItem('token')) {
+                state.userToken = localStorage.getItem('token')
+			}
+		},
         updateEmail(state, email){
             state.email = email;
             console.log(email);
@@ -24,12 +27,10 @@ export default {
         },
         userLogIn(state, payload){
             // extract email and password from payload
-            // console.log(payload.email);
-            // console.log(payload.password);
-
             let email = payload.email;
             let password = payload.password;
 
+            // POST request to log in
             axios.post(`${API}/auth/login`, {
                 email,
                 password
@@ -39,6 +40,8 @@ export default {
                 let token = response.data.access_token;
                 state.userToken = token;
                 console.log(`userToken: ${ token}`);
+                // store token in localStorage
+                localStorage.setItem('token', JSON.stringify(token));
             })
             .catch(error=>{
                 // relog setup
@@ -50,10 +53,8 @@ export default {
         homeMessage(state) {
             return state.homeMessage;
         },
-        signUpMessage(state){
-            return state.signUpMessage;
-        },
     },
+    // async
     actions: {
         logInSubmit({commit}, payload){
             commit('userLogIn',  payload )
