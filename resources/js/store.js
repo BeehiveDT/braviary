@@ -2,6 +2,11 @@ import axios from "axios";
 import {router} from "./app.js"
 
 const API="http://braviary.test/api";
+const headers = {
+    headers: {
+        'Content-Type': 'application/json'
+    }
+}
 
 export default {
     state: {
@@ -28,10 +33,9 @@ export default {
         },
         updateUserToken(state, token){
             state.userToken = token;
-            // console.log(`userToken: ${ token}`);
             // store token in localStorage
             localStorage.setItem('token', JSON.stringify(token));
-            router.push('/')
+            router.push('/');
         },
     },
     getters: {
@@ -41,17 +45,15 @@ export default {
     },
     // async
     actions: {
-        logInSubmit({commit}, payload){
-
+        logInSubmit({ commit }, payload){
             // extract email and password from payload
-            let email = payload.email;
-            let password = payload.password;
+            // let email = payload.email;
+            // let password = payload.password;
+
+            // let data = JSON.stringify(payload)
 
             // POST request to log in
-            axios.post(`${API}/auth/login`, {
-                email,
-                password
-            })
+            axios.post(`${API}/auth/login`, payload, headers)
             .then(response=> {
                 // success
                 let token = response.data.access_token;
@@ -63,7 +65,25 @@ export default {
                 commit('updatePassword', '');
                 console.log("cannot log in");
             })
+        },
+        signUpSubmit ({ commit }, payload) {
+            return new Promise((resolve, reject) => {
 
-        }
+                let data = JSON.stringify(payload)
+
+                // POST request to sign up
+                axios.post(`${API}/auth/register`, payload, headers)
+                .then(response=> {
+                    // success
+                    router.push('/log-in');
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // signup failed
+                    console.log(error);
+                    reject(error);
+                })
+            })
+          }
     }
 };

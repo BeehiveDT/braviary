@@ -1,13 +1,14 @@
 <template>
     <div id="sign-up">
         <div class="container">
-            <h2>{{ signUpMessage }}</h2>
-            <h2>email, password, name</h2>
+            <div class="alert alert-warning" v-if="signUpFailed">
+                <span>Please try again</span>
+            </div>
             <form @submit.prevent="submit">
                 <div class="form-group">
                     <label for="SignUpName">Name</label>
-                    <input v-model="username" type="text" class="form-control" id="SignUpName" placeholder="Name">
-                    <span> {{ username }} </span>
+                    <input v-model="userName" type="text" class="form-control" id="SignUpName" placeholder="Name">
+                    <span> {{ userName }} </span>
                 </div>
                 <div class="form-group">
                     <label for="SignUpEmail">Email</label>
@@ -39,10 +40,11 @@ export default {
     name: 'sign-up',
     data(){
         return{
-            username: '',
+            userName: '',
             email: '',
             password1: '',
             password2: '',
+            signUpFailed: false
         }
     },
     computed: {
@@ -52,27 +54,29 @@ export default {
     },
     methods: {
         submit(){
-            console.log(this.username);
-            // axios.post(`${API}/auth/login`, {
-	        //     email: this.email,
-	        //     password: this.password
-            // })
-            // .then(response =>{
-            //     // successful POST request
-            //     const token = response.data.access_token;
-            //     this.$store.commit('userLogIn', token);
-            // })
-            // .catch(error=>{
-            //     // relog setup
-            //     this.email = '';
-            //     this.password = '';
-            //     console.log("Sorry, we couldn't log you in. Please try again.")
-            // })
+            let email = this.email;
+            let password = this.password1;
+            let name = this.userName;
+
+            this.$store.dispatch('signUpSubmit', { 
+                email, 
+                password,
+                name
+                })
+                .then(response => { 
+                    // do nothing
+                    })
+                    .catch(
+                    error => {
+                        // console.log(`signup failed RAWR`);
+                        // console.log(error.message.email);
+                        this.signUpFailed = true;
+                    })
         },
     },
-    created: function () {
-        console.log("UserToken")
-        console.log(this.$store.state.homeMessage);
-    }
+    // created: function () {
+    //     console.log("UserToken")
+    //     console.log(this.$store.state.homeMessage);
+    // }
 }
 </script>
