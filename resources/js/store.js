@@ -11,8 +11,8 @@ const headers = {
 export default {
     state: {
         userToken: '',
-        email: '',
-        password: '',
+        // email: '',
+        // password: '',
         homeMessage: `Home Page`,
     },
     // sync
@@ -23,14 +23,14 @@ export default {
                 state.userToken = localStorage.getItem('token')
 			}
 		},
-        updateEmail(state, email){
-            state.email = email;
-            // console.log(email);
-        },
-        updatePassword(state, password){
-            state.password = password;
-            // console.log(password);
-        },
+        // updateEmail(state, email){
+        //     state.email = email;
+        //     // console.log(email);
+        // },
+        // updatePassword(state, password){
+        //     state.password = password;
+        //     // console.log(password);
+        // },
         updateUserToken(state, token){
             state.userToken = token;
             // store token in localStorage
@@ -46,24 +46,25 @@ export default {
     // async
     actions: {
         logInSubmit({ commit }, payload){
-            // extract email and password from payload
-            // let email = payload.email;
-            // let password = payload.password;
+            return new Promise((resolve, reject) => {
 
-            // let data = JSON.stringify(payload)
+                let data = JSON.stringify(payload)
 
-            // POST request to log in
-            axios.post(`${API}/auth/login`, payload, headers)
-            .then(response=> {
-                // success
-                let token = response.data.access_token;
-                commit('updateUserToken', token)
-            })
-            .catch(error=>{
-                // relog setup
-                commit('updateEmail', '');
-                commit('updatePassword', '');
-                console.log("cannot log in");
+                // POST request to log in
+                axios.post(`${API}/auth/login`, payload, headers)
+                .then(response=> {
+                    // success
+                    let token = response.data.access_token;
+                    commit('updateUserToken', token);
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // relog setup
+                    // commit('updateEmail', '');
+                    // commit('updatePassword', '');
+                    // console.log(error.response);
+                    reject(error.response);
+                })
             })
         },
         signUpSubmit ({ commit }, payload) {
