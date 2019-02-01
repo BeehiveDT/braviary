@@ -1947,16 +1947,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 var API = "http://braviary.test/api";
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'sign-up',
   data: function data() {
     return {
-      username: '',
+      userName: '',
       email: '',
       password1: '',
-      password2: ''
+      password2: '',
+      signUpFailed: false
     };
   },
   computed: {
@@ -1966,27 +1968,27 @@ var API = "http://braviary.test/api";
   },
   methods: {
     submit: function submit() {
-      console.log(this.username); // axios.post(`${API}/auth/login`, {
-      //     email: this.email,
-      //     password: this.password
-      // })
-      // .then(response =>{
-      //     // successful POST request
-      //     const token = response.data.access_token;
-      //     this.$store.commit('userLogIn', token);
-      // })
-      // .catch(error=>{
-      //     // relog setup
-      //     this.email = '';
-      //     this.password = '';
-      //     console.log("Sorry, we couldn't log you in. Please try again.")
-      // })
+      var _this = this;
+
+      var email = this.email;
+      var password = this.password1;
+      var name = this.userName;
+      this.$store.dispatch('signUpSubmit', {
+        email: email,
+        password: password,
+        name: name
+      }).then(function (response) {// do nothing
+      }).catch(function (error) {
+        // console.log(`signup failed RAWR`);
+        // console.log(error.message.email);
+        _this.signUpFailed = true;
+      });
     }
-  },
-  created: function created() {
-    console.log("UserToken");
-    console.log(this.$store.state.homeMessage);
-  }
+  } // created: function () {
+  //     console.log("UserToken")
+  //     console.log(this.$store.state.homeMessage);
+  // }
+
 });
 
 /***/ }),
@@ -37066,9 +37068,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "sign-up" } }, [
     _c("div", { staticClass: "container" }, [
-      _c("h2", [_vm._v(_vm._s(_vm.signUpMessage))]),
-      _vm._v(" "),
-      _c("h2", [_vm._v("email, password, name")]),
+      _vm.signUpFailed
+        ? _c("div", { staticClass: "alert alert-warning" }, [
+            _c("span", [_vm._v("Please try again")])
+          ])
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "form",
@@ -37089,24 +37093,24 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.username,
-                  expression: "username"
+                  value: _vm.userName,
+                  expression: "userName"
                 }
               ],
               staticClass: "form-control",
               attrs: { type: "text", id: "SignUpName", placeholder: "Name" },
-              domProps: { value: _vm.username },
+              domProps: { value: _vm.userName },
               on: {
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.username = $event.target.value
+                  _vm.userName = $event.target.value
                 }
               }
             }),
             _vm._v(" "),
-            _c("span", [_vm._v(" " + _vm._s(_vm.username) + " ")])
+            _c("span", [_vm._v(" " + _vm._s(_vm.userName) + " ")])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
@@ -52506,6 +52510,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var API = "http://braviary.test/api";
+var headers = {
+  headers: {
+    'Content-Type': 'application/json'
+  }
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     userToken: '',
@@ -52528,8 +52537,7 @@ var API = "http://braviary.test/api";
       state.password = password; // console.log(password);
     },
     updateUserToken: function updateUserToken(state, token) {
-      state.userToken = token; // console.log(`userToken: ${ token}`);
-      // store token in localStorage
+      state.userToken = token; // store token in localStorage
 
       localStorage.setItem('token', JSON.stringify(token));
       _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
@@ -52545,13 +52553,11 @@ var API = "http://braviary.test/api";
     logInSubmit: function logInSubmit(_ref, payload) {
       var commit = _ref.commit;
       // extract email and password from payload
-      var email = payload.email;
-      var password = payload.password; // POST request to log in
-
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), {
-        email: email,
-        password: password
-      }).then(function (response) {
+      // let email = payload.email;
+      // let password = payload.password;
+      // let data = JSON.stringify(payload)
+      // POST request to log in
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
         // success
         var token = response.data.access_token;
         commit('updateUserToken', token);
@@ -52560,6 +52566,22 @@ var API = "http://braviary.test/api";
         commit('updateEmail', '');
         commit('updatePassword', '');
         console.log("cannot log in");
+      });
+    },
+    signUpSubmit: function signUpSubmit(_ref2, payload) {
+      var commit = _ref2.commit;
+      return new Promise(function (resolve, reject) {
+        var data = JSON.stringify(payload); // POST request to sign up
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers).then(function (response) {
+          // success
+          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
+          resolve(response);
+        }).catch(function (error) {
+          // signup failed
+          console.log(error);
+          reject(error);
+        });
       });
     }
   }
