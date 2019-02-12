@@ -1809,35 +1809,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'logIn',
   data: function data() {
-    return {// email: '',
-      // password: '',
+    return {
+      email: '',
+      password: '',
+      logInFailed: false
     };
   },
-  computed: {
-    email: function email() {
-      return this.$store.state.email;
-    },
-    password: function password() {
-      return this.$store.state.password;
-    }
+  computed: {//
   },
   methods: {
-    // listen to email changes and update state.email in store.js
-    updateEmail: function updateEmail(input) {
-      this.$store.commit('updateEmail', input.target.value);
-    },
-    updatePassword: function updatePassword(input) {
-      this.$store.commit('updatePassword', input.target.value);
-    },
     submit: function submit() {
+      var _this = this;
+
       var email = this.email;
       var password = this.password;
       this.$store.dispatch('logInSubmit', {
         email: email,
         password: password
+      }).then(function (response) {// do nothing
+      }).catch(function (error) {
+        // console.log(`signup failed RAWR`);
+        // console.log(error.message.email);
+        _this.email = '';
+        _this.password = '';
+        _this.logInFailed = true;
+        console.log(typeof error.data.error.message === "string");
+        console.log(error.data.error.message);
       });
     }
   }
@@ -1897,8 +1900,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'main-app'
+  name: 'main-app',
+  computed: {
+    userNotLoggedIn: function userNotLoggedIn() {
+      return !this.$store.state.userLoggedIn;
+    }
+  },
+  methods: {
+    userLogOut: function userLogOut() {
+      this.$store.dispatch('userLogOut').then(function (response) {// do nothing
+      }).catch(function (error) {// do nothing
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -36870,6 +36886,12 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "log-in" } }, [
     _c("div", { staticClass: "container" }, [
+      _vm.logInFailed
+        ? _c("div", { staticClass: "alert alert-warning" }, [
+            _c("span", [_vm._v("Please try again")])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c(
         "form",
         {
@@ -36885,10 +36907,25 @@ var render = function() {
             _c("label", { attrs: { for: "logInEmail" } }, [_vm._v("Email")]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.email,
+                  expression: "email"
+                }
+              ],
               staticClass: "form-control",
               attrs: { type: "email", id: "logInEmail", placeholder: "Email" },
               domProps: { value: _vm.email },
-              on: { input: _vm.updateEmail }
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.email = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
@@ -36898,6 +36935,14 @@ var render = function() {
             ]),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.password,
+                  expression: "password"
+                }
+              ],
               staticClass: "form-control",
               attrs: {
                 type: "password",
@@ -36905,7 +36950,14 @@ var render = function() {
                 placeholder: "Password"
               },
               domProps: { value: _vm.password },
-              on: { input: _vm.updatePassword }
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.password = $event.target.value
+                }
+              }
             })
           ]),
           _vm._v(" "),
@@ -36974,15 +37026,30 @@ var render = function() {
                         "div",
                         { staticClass: "navbar-nav ml-auto" },
                         [
-                          _c(
-                            "router-link",
-                            { attrs: { to: { name: "Sign Up" } } },
-                            [_vm._v("Sign Up")]
-                          ),
+                          _vm.userNotLoggedIn
+                            ? _c(
+                                "router-link",
+                                { attrs: { to: { name: "Sign Up" } } },
+                                [_vm._v("Sign Up")]
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("router-link", { attrs: { to: "/log-in" } }, [
-                            _vm._v("Log In")
-                          ])
+                          _vm.userNotLoggedIn
+                            ? _c("router-link", { attrs: { to: "/log-in" } }, [
+                                _vm._v("Log In")
+                              ])
+                            : _c(
+                                "router-link",
+                                {
+                                  attrs: { to: "/" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      return _vm.userLogOut($event)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Log Out")]
+                              )
                         ],
                         1
                       )
@@ -52518,8 +52585,9 @@ var headers = {
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     userToken: '',
-    email: '',
-    password: '',
+    // email: '',
+    // password: '',
+    userLoggedIn: false,
     homeMessage: "Home Page"
   },
   // sync
@@ -52530,17 +52598,22 @@ var headers = {
         state.userToken = localStorage.getItem('token');
       }
     },
-    updateEmail: function updateEmail(state, email) {
-      state.email = email; // console.log(email);
-    },
-    updatePassword: function updatePassword(state, password) {
-      state.password = password; // console.log(password);
-    },
+    // updateEmail(state, email){
+    //     state.email = email;
+    //     // console.log(email);
+    // },
+    // updatePassword(state, password){
+    //     state.password = password;
+    //     // console.log(password);
+    // },
     updateUserToken: function updateUserToken(state, token) {
       state.userToken = token; // store token in localStorage
 
       localStorage.setItem('token', JSON.stringify(token));
       _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
+    },
+    updateUserLoggedIn: function updateUserLoggedIn(state) {
+      state.userLoggedIn = !state.userLoggedIn;
     }
   },
   getters: {
@@ -52552,20 +52625,22 @@ var headers = {
   actions: {
     logInSubmit: function logInSubmit(_ref, payload) {
       var commit = _ref.commit;
-      // extract email and password from payload
-      // let email = payload.email;
-      // let password = payload.password;
-      // let data = JSON.stringify(payload)
-      // POST request to log in
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
-        // success
-        var token = response.data.access_token;
-        commit('updateUserToken', token);
-      }).catch(function (error) {
-        // relog setup
-        commit('updateEmail', '');
-        commit('updatePassword', '');
-        console.log("cannot log in");
+      return new Promise(function (resolve, reject) {
+        var data = JSON.stringify(payload); // POST request to log in
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
+          // success
+          var token = response.data.access_token;
+          commit('updateUserToken', token);
+          commit('updateUserLoggedIn');
+          resolve(response);
+        }).catch(function (error) {
+          // relog setup
+          // commit('updateEmail', '');
+          // commit('updatePassword', '');
+          // console.log(error.response);
+          reject(error.response);
+        });
       });
     },
     signUpSubmit: function signUpSubmit(_ref2, payload) {
@@ -52582,6 +52657,43 @@ var headers = {
           console.log(error);
           reject(error);
         });
+      });
+    },
+    userLogOut: function userLogOut(_ref3) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      return new Promise(function (resolve, reject) {
+        var logOutHeader = {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': state.userToken
+        };
+        var config = {
+          method: 'POST',
+          url: "".concat(API, "/auth/logout"),
+          headers: logOutHeader
+        };
+        axios__WEBPACK_IMPORTED_MODULE_0___default()(config).then(function (response) {
+          commit('updateUserLoggedIn');
+          commit('updateUserToken', '');
+          resolve(response);
+        }).catch(function (error) {
+          reject(error);
+        }); // CANNOT USE CUZ NO BODY -.-
+        // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
+        // axios.post(`${API}/auth/logout`)
+        // .then(response=> {
+        //     console.log("logged out")
+        //     commit('updateUserLoggedIn')
+        //     router.push('/');
+        //     resolve(response);
+        // })
+        // .catch(error=>{
+        //     // logout failed
+        //     console.log("why...")
+        //     console.log(error);
+        //     reject(error);
+        // })
       });
     }
   }

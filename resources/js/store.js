@@ -11,8 +11,9 @@ const headers = {
 export default {
     state: {
         userToken: '',
-        email: '',
-        password: '',
+        // email: '',
+        // password: '',
+        userLoggedIn: false,
         homeMessage: `Home Page`,
     },
     // sync
@@ -23,20 +24,23 @@ export default {
                 state.userToken = localStorage.getItem('token')
 			}
 		},
-        updateEmail(state, email){
-            state.email = email;
-            // console.log(email);
-        },
-        updatePassword(state, password){
-            state.password = password;
-            // console.log(password);
-        },
+        // updateEmail(state, email){
+        //     state.email = email;
+        //     // console.log(email);
+        // },
+        // updatePassword(state, password){
+        //     state.password = password;
+        //     // console.log(password);
+        // },
         updateUserToken(state, token){
             state.userToken = token;
             // store token in localStorage
             localStorage.setItem('token', JSON.stringify(token));
             router.push('/');
         },
+        updateUserLoggedIn(state){
+            state.userLoggedIn = !state.userLoggedIn;
+        }
     },
     getters: {
         homeMessage(state) {
@@ -46,24 +50,26 @@ export default {
     // async
     actions: {
         logInSubmit({ commit }, payload){
-            // extract email and password from payload
-            // let email = payload.email;
-            // let password = payload.password;
+            return new Promise((resolve, reject) => {
 
-            // let data = JSON.stringify(payload)
+                let data = JSON.stringify(payload)
 
-            // POST request to log in
-            axios.post(`${API}/auth/login`, payload, headers)
-            .then(response=> {
-                // success
-                let token = response.data.access_token;
-                commit('updateUserToken', token)
-            })
-            .catch(error=>{
-                // relog setup
-                commit('updateEmail', '');
-                commit('updatePassword', '');
-                console.log("cannot log in");
+                // POST request to log in
+                axios.post(`${API}/auth/login`, payload, headers)
+                .then(response=> {
+                    // success
+                    let token = response.data.access_token;
+                    commit('updateUserToken', token);
+                    commit('updateUserLoggedIn');
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // relog setup
+                    // commit('updateEmail', '');
+                    // commit('updatePassword', '');
+                    // console.log(error.response);
+                    reject(error.response);
+                })
             })
         },
         signUpSubmit ({ commit }, payload) {
@@ -84,6 +90,48 @@ export default {
                     reject(error);
                 })
             })
-          }
+        },
+        userLogOut({commit, state}){
+            return new Promise((resolve, reject) => {
+
+                const logOutHeader = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': state.userToken
+                }
+
+                const config = {
+                    method:'POST',
+                    url: `${API}/auth/logout`,
+                    headers: logOutHeader
+                }
+
+                axios(config)
+                .then( response => {
+                    commit('updateUserLoggedIn');
+                    commit('updateUserToken', '');
+                    resolve(response);
+                })
+                .catch( error => {
+                    reject(error);
+                })
+
+                // CANNOT USE CUZ NO BODY -.-
+                // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
+                // axios.post(`${API}/auth/logout`)
+                // .then(response=> {
+                //     console.log("logged out")
+                //     commit('updateUserLoggedIn')
+                //     router.push('/');
+                //     resolve(response);
+                // })
+                // .catch(error=>{
+                //     // logout failed
+                //     console.log("why...")
+                //     console.log(error);
+                //     reject(error);
+                // })
+            })
+        }
     }
 };
