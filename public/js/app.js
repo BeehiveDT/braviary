@@ -1900,8 +1900,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'main-app'
+  name: 'main-app',
+  computed: {
+    userNotLoggedIn: function userNotLoggedIn() {
+      return !this.$store.state.userLoggedIn;
+    }
+  },
+  methods: {
+    userLogOut: function userLogOut() {
+      this.$store.dispatch('userLogOut').then(function (response) {// do nothing
+      }).catch(function (error) {// do nothing
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -37013,15 +37026,30 @@ var render = function() {
                         "div",
                         { staticClass: "navbar-nav ml-auto" },
                         [
-                          _c(
-                            "router-link",
-                            { attrs: { to: { name: "Sign Up" } } },
-                            [_vm._v("Sign Up")]
-                          ),
+                          _vm.userNotLoggedIn
+                            ? _c(
+                                "router-link",
+                                { attrs: { to: { name: "Sign Up" } } },
+                                [_vm._v("Sign Up")]
+                              )
+                            : _vm._e(),
                           _vm._v(" "),
-                          _c("router-link", { attrs: { to: "/log-in" } }, [
-                            _vm._v("Log In")
-                          ])
+                          _vm.userNotLoggedIn
+                            ? _c("router-link", { attrs: { to: "/log-in" } }, [
+                                _vm._v("Log In")
+                              ])
+                            : _c(
+                                "router-link",
+                                {
+                                  attrs: { to: "/" },
+                                  nativeOn: {
+                                    click: function($event) {
+                                      return _vm.userLogOut($event)
+                                    }
+                                  }
+                                },
+                                [_vm._v("Log Out")]
+                              )
                         ],
                         1
                       )
@@ -52559,6 +52587,7 @@ var headers = {
     userToken: '',
     // email: '',
     // password: '',
+    userLoggedIn: false,
     homeMessage: "Home Page"
   },
   // sync
@@ -52582,6 +52611,9 @@ var headers = {
 
       localStorage.setItem('token', JSON.stringify(token));
       _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
+    },
+    updateUserLoggedIn: function updateUserLoggedIn(state) {
+      state.userLoggedIn = !state.userLoggedIn;
     }
   },
   getters: {
@@ -52600,6 +52632,7 @@ var headers = {
           // success
           var token = response.data.access_token;
           commit('updateUserToken', token);
+          commit('updateUserLoggedIn');
           resolve(response);
         }).catch(function (error) {
           // relog setup
@@ -52624,6 +52657,43 @@ var headers = {
           console.log(error);
           reject(error);
         });
+      });
+    },
+    userLogOut: function userLogOut(_ref3) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      return new Promise(function (resolve, reject) {
+        var logOutHeader = {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': state.userToken
+        };
+        var config = {
+          method: 'POST',
+          url: "".concat(API, "/auth/logout"),
+          headers: logOutHeader
+        };
+        axios__WEBPACK_IMPORTED_MODULE_0___default()(config).then(function (response) {
+          commit('updateUserLoggedIn');
+          commit('updateUserToken', '');
+          resolve(response);
+        }).catch(function (error) {
+          reject(error);
+        }); // CANNOT USE CUZ NO BODY -.-
+        // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
+        // axios.post(`${API}/auth/logout`)
+        // .then(response=> {
+        //     console.log("logged out")
+        //     commit('updateUserLoggedIn')
+        //     router.push('/');
+        //     resolve(response);
+        // })
+        // .catch(error=>{
+        //     // logout failed
+        //     console.log("why...")
+        //     console.log(error);
+        //     reject(error);
+        // })
       });
     }
   }

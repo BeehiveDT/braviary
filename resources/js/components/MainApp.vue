@@ -13,9 +13,10 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav ml-auto">
-                                <router-link :to="{name:'Sign Up'}">Sign Up</router-link>
+                                <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
                                 <!-- <span class="navbar-item-divider">|</span> -->
-                                <router-link to="/log-in">Log In</router-link>
+                                <router-link v-if="userNotLoggedIn" to="/log-in">Log In</router-link>
+                                <router-link v-else v-on:click.native="userLogOut" to="/">Log Out</router-link>
                             </div>
                         </div>
                     </div>
@@ -44,5 +45,21 @@
 <script>
     export default {
         name: 'main-app',
+        computed: {
+            userNotLoggedIn(){
+                return !this.$store.state.userLoggedIn;
+            }
+        },
+        methods: {
+            userLogOut(){
+                this.$store.dispatch('userLogOut')
+                    .then(response => { 
+                        // do nothing
+                    })
+                    .catch(error => {
+                        // do nothing
+                    })
+            }
+        }
     }
 </script>

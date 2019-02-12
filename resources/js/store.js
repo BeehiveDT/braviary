@@ -13,6 +13,7 @@ export default {
         userToken: '',
         // email: '',
         // password: '',
+        userLoggedIn: false,
         homeMessage: `Home Page`,
     },
     // sync
@@ -37,6 +38,9 @@ export default {
             localStorage.setItem('token', JSON.stringify(token));
             router.push('/');
         },
+        updateUserLoggedIn(state){
+            state.userLoggedIn = !state.userLoggedIn;
+        }
     },
     getters: {
         homeMessage(state) {
@@ -56,6 +60,7 @@ export default {
                     // success
                     let token = response.data.access_token;
                     commit('updateUserToken', token);
+                    commit('updateUserLoggedIn');
                     resolve(response);
                 })
                 .catch(error=>{
@@ -85,6 +90,48 @@ export default {
                     reject(error);
                 })
             })
-          }
+        },
+        userLogOut({commit, state}){
+            return new Promise((resolve, reject) => {
+
+                const logOutHeader = {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': state.userToken
+                }
+
+                const config = {
+                    method:'POST',
+                    url: `${API}/auth/logout`,
+                    headers: logOutHeader
+                }
+
+                axios(config)
+                .then( response => {
+                    commit('updateUserLoggedIn');
+                    commit('updateUserToken', '');
+                    resolve(response);
+                })
+                .catch( error => {
+                    reject(error);
+                })
+
+                // CANNOT USE CUZ NO BODY -.-
+                // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
+                // axios.post(`${API}/auth/logout`)
+                // .then(response=> {
+                //     console.log("logged out")
+                //     commit('updateUserLoggedIn')
+                //     router.push('/');
+                //     resolve(response);
+                // })
+                // .catch(error=>{
+                //     // logout failed
+                //     console.log("why...")
+                //     console.log(error);
+                //     reject(error);
+                // })
+            })
+        }
     }
 };
