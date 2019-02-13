@@ -7,13 +7,19 @@ const headers = {
         'Content-Type': 'application/json'
     }
 }
+const authorizedHeader = {
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': ''
+    }
+}
 
 export default {
     state: {
         userToken: '',
-        // email: '',
-        // password: '',
         userLoggedIn: false,
+        eagles: [],
         homeMessage: `Home Page`,
     },
     // sync
@@ -21,25 +27,22 @@ export default {
 		initializeStore(state) {
 			// if token exists, replace userToken in state
 			if(localStorage.getItem('token')) {
-                state.userToken = localStorage.getItem('token')
+                state.userToken = localStorage.getItem('token');
+                state.eagles = JSON.parse(localStorage.getItem('eagles'));
+                state.userLoggedIn = true;
 			}
 		},
-        // updateEmail(state, email){
-        //     state.email = email;
-        //     // console.log(email);
-        // },
-        // updatePassword(state, password){
-        //     state.password = password;
-        //     // console.log(password);
-        // },
         updateUserToken(state, token){
             state.userToken = token;
             // store token in localStorage
-            localStorage.setItem('token', JSON.stringify(token));
-            router.push('/');
+            localStorage.setItem('token', token);
         },
         updateUserLoggedIn(state){
             state.userLoggedIn = !state.userLoggedIn;
+        },
+        updateEagles(state, eagles){
+            state.eagles = eagles;
+            localStorage.setItem('eagles', JSON.stringify(eagles));
         }
     },
     getters: {
@@ -49,7 +52,7 @@ export default {
     },
     // async
     actions: {
-        logInSubmit({ commit }, payload){
+        logInSubmit({ dispatch, commit }, payload){
             return new Promise((resolve, reject) => {
 
                 let data = JSON.stringify(payload)
@@ -61,21 +64,20 @@ export default {
                     let token = response.data.access_token;
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
+                    dispatch('retrieveEagles')
+                    .then(response=>{
+                        commit('updateEagles', response)
+                    })
+                    router.push('/eagles');
                     resolve(response);
                 })
                 .catch(error=>{
-                    // relog setup
-                    // commit('updateEmail', '');
-                    // commit('updatePassword', '');
-                    // console.log(error.response);
                     reject(error.response);
                 })
             })
         },
         signUpSubmit ({ commit }, payload) {
             return new Promise((resolve, reject) => {
-
-                let data = JSON.stringify(payload)
 
                 // POST request to sign up
                 axios.post(`${API}/auth/register`, payload, headers)
@@ -86,14 +88,12 @@ export default {
                 })
                 .catch(error=>{
                     // signup failed
-                    console.log(error);
                     reject(error);
                 })
             })
         },
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
-
                 const logOutHeader = {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -109,7 +109,8 @@ export default {
                 axios(config)
                 .then( response => {
                     commit('updateUserLoggedIn');
-                    commit('updateUserToken', '');
+                    localStorage.clear();
+                    router.push('/');
                     resolve(response);
                 })
                 .catch( error => {
@@ -131,6 +132,41 @@ export default {
                 //     console.log(error);
                 //     reject(error);
                 // })
+            })
+        },
+        createEagle({ dispatch, commit, state }, payload) {
+            return new Promise((resolve, reject) => {
+                authorizedHeader.headers['Authorization'] = state.userToken;
+                
+                // POST request to sign up
+                axios.post(`${API}/eagles`, payload, authorizedHeader)
+                .then(response=> {
+                    // success
+                    dispatch('retrieveEagles')
+                    .then(response=>{
+                        commit('updateEagles', response)
+                    })
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // creation failed
+                    reject(error);
+                })
+            })
+        },
+        retrieveEagles({commit, state}){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.get(`${API}/eagles`, authorizedHeader)
+                .then(response => {
+                    let successResponse = response.data["Success"]
+                    resolve(successResponse.eagles.my_eagles)
+                })
+                .catch((error) => {
+                    reject(error)
+                });
             })
         }
     }

@@ -1,7 +1,8 @@
 // Load Component Page
 import Home from './components/Home.vue';
 import SignUp from './components/SignUp.vue';
-import LogIn from './components/LogIn.vue'
+import LogIn from './components/LogIn.vue';
+import Eagles from './components/Eagles.vue';
 
 // Assign Page to paths
 export const routes = [
@@ -17,5 +18,9 @@ export const routes = [
     {
         path: '/log-in',
         component: LogIn
+    },
+    {
+        path: '/eagles',
+        component: Eagles
     }
 ];

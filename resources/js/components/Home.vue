@@ -12,7 +12,7 @@ export default {
     computed: {
         homeMessage(){
             return this.$store.getters.homeMessage;
-        }
-    }
+        },
+    },
 }
 </script>
