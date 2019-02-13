@@ -263,22 +263,16 @@ class EagleController extends Controller
             ], 404);
         }
 
-        if ($limit >0 && $limit <=6) {
-            $feathers = $eagle->feathers->sortByDesc('created_at')
-                        ->take($limit)->pluck('created_at')->map(function ($time) {
-                            return $time->format('Y-m-d H:i:s');
-                        });
-        } else {
-            $feathers = $eagle->feathers->sortByDesc('created_at')
-                        ->take(1)->pluck('created_at')->map(function ($time) {
-                            return $time->format('Y-m-d H:i:s');
-                        });
-        }
+        $limit = $limit >0 && $limit <=6 ? $limit : 1;
+        $feathers = $eagle->feathers->sortByDesc('created_at')->take($limit);
 
         return response()->json([
             'Success' => [
                 'status' => 200,
-                'feathers' => $feathers
+                'feathers' => $feathers->pluck('created_at')->map(function ($time) {
+                    return $time->format('Y-m-d H:i:s');
+                }),
+                'spots' => $feathers->pluck('spot')
             ]
         ], 200);
     }

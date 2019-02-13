@@ -44,8 +44,7 @@ DB_DATABASE=homestead
 在database底下加入database.sqlite
 ```bash
 cd database
-vim database.sqlite
-(存檔)
+touch database.sqlite
 ```
 ## 資料庫 Migration
 ```bash 
