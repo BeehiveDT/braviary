@@ -55,6 +55,28 @@ const app = new Vue({
         MainApp
     },
     beforeCreate() {
-		this.$store.commit('initializeStore');
-	}
+        this.$store.commit('initializeStore');
+        console.log(`before create`)
+    },
+    created(){
+        console.log(`created`)
+    },
+    beforeMount(){
+        console.log(`before mount`)
+    },
+    mounted(){
+        console.log(`mounted`)
+    },
+    beforeUpdate(){
+        console.log(`beforeUpdate`)
+    },
+    updated(){
+        console.log(`updated`)
+    },
+    beforeDestroy(){
+        console.log(`beforeDestroy`)
+    },
+    destroyed(){
+        console.log(`destroyed`)
+    }
 });

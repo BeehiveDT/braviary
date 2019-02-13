@@ -65,13 +65,10 @@ export default {
                 })
                 .then(response => { 
                     // do nothing
-                    })
-                    .catch(
-                    error => {
-                        // console.log(`signup failed RAWR`);
-                        // console.log(error.message.email);
+                })
+                .catch(error => {
                         this.signUpFailed = true;
-                    })
+                })
         },
     },
     // created: function () {

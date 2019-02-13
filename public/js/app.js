@@ -1754,6 +1754,105 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'eagles',
+  data: function data() {
+    return {
+      name: '',
+      frequency: 0,
+      tolerance: 0,
+      eaglePageMessage: 'Hey hey, You need to log-in first.'
+    };
+  },
+  computed: {
+    userNotLoggedIn: function userNotLoggedIn() {
+      return !this.$store.state.userLoggedIn;
+    },
+    eagles: function eagles() {
+      return this.$store.state.eagles;
+    }
+  },
+  methods: {
+    clearForm: function clearForm() {
+      this.name = '';
+      this.frequency = 0;
+      this.tolerance = 0;
+    },
+    submit: function submit() {
+      var _this = this;
+
+      var name = this.name;
+      var frequency = parseInt(this.frequency);
+      var tolerance = parseInt(this.tolerance);
+      this.$store.dispatch('createEagle', {
+        name: name,
+        frequency: frequency,
+        tolerance: tolerance
+      }).then(function (response) {
+        // clear form after successful eagle creation
+        _this.clearForm();
+      }).catch(function (error) {// failed to create eagle
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=script&lang=js&":
 /*!***************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=script&lang=js& ***!
@@ -1771,11 +1870,28 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
   computed: {
     homeMessage: function homeMessage() {
       return this.$store.getters.homeMessage;
+    },
+    userNotLoggedIn: function userNotLoggedIn() {
+      return !this.$store.state.userLoggedIn;
     }
   }
 });
@@ -1995,8 +2111,6 @@ var API = "http://braviary.test/api";
         name: name
       }).then(function (response) {// do nothing
       }).catch(function (error) {
-        // console.log(`signup failed RAWR`);
-        // console.log(error.message.email);
         _this.signUpFailed = true;
       });
     }
@@ -36841,6 +36955,203 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc&":
+/*!*********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc& ***!
+  \*********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "eagles" } }, [
+    _c("div", { staticClass: "container" }, [
+      _vm.userNotLoggedIn
+        ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.eaglePageMessage))])])
+        : _c("div", [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "collapse", attrs: { id: "addNewEagle" } },
+              [
+                _c("div", { staticClass: "card card-body" }, [
+                  _c(
+                    "form",
+                    {
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.submit($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "EagleName" } }, [
+                          _vm._v("Name")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.name,
+                              expression: "name"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "EagleName",
+                            placeholder: "Eagle Name"
+                          },
+                          domProps: { value: _vm.name },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.name = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "EagleFrequency" } }, [
+                          _vm._v("Frequency")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.frequency,
+                              expression: "frequency"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "EagleFrequency",
+                            placeholder: "Frequency"
+                          },
+                          domProps: { value: _vm.frequency },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.frequency = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group" }, [
+                        _c("label", { attrs: { for: "EagleTolerance" } }, [
+                          _vm._v("Tolerance")
+                        ]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.tolerance,
+                              expression: "tolerance"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "number",
+                            id: "EagleTolerance",
+                            placeholder: "Tolerance"
+                          },
+                          domProps: { value: _vm.tolerance },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.tolerance = $event.target.value
+                            }
+                          }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-primary",
+                          attrs: { type: "submit" }
+                        },
+                        [_vm._v("Submit")]
+                      )
+                    ]
+                  )
+                ])
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { attrs: { id: "ShowEagles" } },
+              _vm._l(_vm.eagles, function(item, index) {
+                return _c("div", { key: index }, [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(item.id) +
+                      "\n                    |\n                    " +
+                      _vm._s(item.name) +
+                      "\n                    "
+                  )
+                ])
+              }),
+              0
+            )
+          ])
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: {
+            type: "button",
+            "data-toggle": "collapse",
+            "data-target": "#addNewEagle",
+            "aria-expanded": "false",
+            "aria-controls": "collapseExample"
+          }
+        },
+        [_vm._v("\n                    Add New Eagle\n                ")]
+      )
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c&":
 /*!*******************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Home.vue?vue&type=template&id=f2b6376c& ***!
@@ -36858,11 +37169,49 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "home" } }, [
     _c("div", { staticClass: "container" }, [
-      _c("h2", [_vm._v(_vm._s(_vm.homeMessage))])
+      _vm.userNotLoggedIn
+        ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.homeMessage))])])
+        : _c("div", [_vm._m(0), _vm._v(" "), _vm._m(1)])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary",
+          attrs: {
+            type: "button",
+            "data-toggle": "collapse",
+            "data-target": "#addNewEagle",
+            "aria-expanded": "false",
+            "aria-controls": "collapseExample"
+          }
+        },
+        [_vm._v("\n                    Add New Eagle\n                ")]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "collapse", attrs: { id: "addNewEagle" } },
+      [
+        _c("div", { staticClass: "card card-body" }, [
+          _vm._v("\n                A form to add new eagle\n            ")
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
@@ -52191,6 +52540,28 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   beforeCreate: function beforeCreate() {
     this.$store.commit('initializeStore');
+    console.log("before create");
+  },
+  created: function created() {
+    console.log("created");
+  },
+  beforeMount: function beforeMount() {
+    console.log("before mount");
+  },
+  mounted: function mounted() {
+    console.log("mounted");
+  },
+  beforeUpdate: function beforeUpdate() {
+    console.log("beforeUpdate");
+  },
+  updated: function updated() {
+    console.log("updated");
+  },
+  beforeDestroy: function beforeDestroy() {
+    console.log("beforeDestroy");
+  },
+  destroyed: function destroyed() {
+    console.log("destroyed");
   }
 });
 
@@ -52251,6 +52622,75 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/Eagles.vue":
+/*!********************************************!*\
+  !*** ./resources/js/components/Eagles.vue ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Eagles.vue?vue&type=template&id=4e111ccc& */ "./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc&");
+/* harmony import */ var _Eagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Eagles.vue?vue&type=script&lang=js& */ "./resources/js/components/Eagles.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Eagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Eagles.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Eagles.vue?vue&type=script&lang=js&":
+/*!*********************************************************************!*\
+  !*** ./resources/js/components/Eagles.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Eagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Eagles.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Eagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc&":
+/*!***************************************************************************!*\
+  !*** ./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc& ***!
+  \***************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Eagles.vue?vue&type=template&id=4e111ccc& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles.vue?vue&type=template&id=4e111ccc&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Eagles_vue_vue_type_template_id_4e111ccc___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 
@@ -52543,7 +52983,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue");
 /* harmony import */ var _components_SignUp_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/SignUp.vue */ "./resources/js/components/SignUp.vue");
 /* harmony import */ var _components_LogIn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/LogIn.vue */ "./resources/js/components/LogIn.vue");
+/* harmony import */ var _components_Eagles_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Eagles.vue */ "./resources/js/components/Eagles.vue");
 // Load Component Page
+
 
 
  // Assign Page to paths
@@ -52558,6 +53000,9 @@ var routes = [{
 }, {
   path: '/log-in',
   component: _components_LogIn_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+}, {
+  path: '/eagles',
+  component: _components_Eagles_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
 }];
 
 /***/ }),
@@ -52582,12 +53027,18 @@ var headers = {
     'Content-Type': 'application/json'
   }
 };
+var authorizedHeader = {
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+    'Authorization': ''
+  }
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     userToken: '',
-    // email: '',
-    // password: '',
     userLoggedIn: false,
+    eagles: [],
     homeMessage: "Home Page"
   },
   // sync
@@ -52596,6 +53047,9 @@ var headers = {
       // if token exists, replace userToken in state
       if (localStorage.getItem('token')) {
         state.userToken = localStorage.getItem('token');
+        state.eagles = JSON.parse(localStorage.getItem('eagles'));
+        state.userLoggedIn = true;
+        console.log(state.eagles[0]);
       }
     },
     // updateEmail(state, email){
@@ -52609,11 +53063,16 @@ var headers = {
     updateUserToken: function updateUserToken(state, token) {
       state.userToken = token; // store token in localStorage
 
-      localStorage.setItem('token', JSON.stringify(token));
-      _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
+      localStorage.setItem('token', token);
     },
     updateUserLoggedIn: function updateUserLoggedIn(state) {
       state.userLoggedIn = !state.userLoggedIn;
+    },
+    updateEagles: function updateEagles(state, eagles) {
+      state.eagles = eagles;
+      localStorage.setItem('eagles', JSON.stringify(eagles));
+      console.log("eagles updated");
+      console.log(state.eagles);
     }
   },
   getters: {
@@ -52624,7 +53083,8 @@ var headers = {
   // async
   actions: {
     logInSubmit: function logInSubmit(_ref, payload) {
-      var commit = _ref.commit;
+      var dispatch = _ref.dispatch,
+          commit = _ref.commit;
       return new Promise(function (resolve, reject) {
         var data = JSON.stringify(payload); // POST request to log in
 
@@ -52633,6 +53093,10 @@ var headers = {
           var token = response.data.access_token;
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
+          dispatch('retrieveEagles').then(function (response) {
+            commit('updateEagles', response);
+          });
+          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
           resolve(response);
         }).catch(function (error) {
           // relog setup
@@ -52646,8 +53110,7 @@ var headers = {
     signUpSubmit: function signUpSubmit(_ref2, payload) {
       var commit = _ref2.commit;
       return new Promise(function (resolve, reject) {
-        var data = JSON.stringify(payload); // POST request to sign up
-
+        // POST request to sign up
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers).then(function (response) {
           // success
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
@@ -52663,6 +53126,8 @@ var headers = {
       var commit = _ref3.commit,
           state = _ref3.state;
       return new Promise(function (resolve, reject) {
+        console.log("trying to log out now");
+        console.log(state.userToken);
         var logOutHeader = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -52675,9 +53140,11 @@ var headers = {
         };
         axios__WEBPACK_IMPORTED_MODULE_0___default()(config).then(function (response) {
           commit('updateUserLoggedIn');
-          commit('updateUserToken', '');
+          localStorage.clear();
+          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
           resolve(response);
         }).catch(function (error) {
+          console.log(config);
           reject(error);
         }); // CANNOT USE CUZ NO BODY -.-
         // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
@@ -52694,6 +53161,40 @@ var headers = {
         //     console.log(error);
         //     reject(error);
         // })
+      });
+    },
+    createEagle: function createEagle(_ref4, payload) {
+      var dispatch = _ref4.dispatch,
+          commit = _ref4.commit,
+          state = _ref4.state;
+      return new Promise(function (resolve, reject) {
+        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to sign up
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles"), payload, authorizedHeader).then(function (response) {
+          // success
+          dispatch('retrieveEagles').then(function (response) {
+            commit('updateEagles', response);
+          });
+          resolve(response);
+        }).catch(function (error) {
+          // creation failed
+          reject(error);
+        });
+      });
+    },
+    retrieveEagles: function retrieveEagles(_ref5) {
+      var commit = _ref5.commit,
+          state = _ref5.state;
+      return new Promise(function (resolve, reject) {
+        authorizedHeader.headers['Authorization'] = state.userToken;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles"), authorizedHeader).then(function (response) {
+          var successResponse = response.data["Success"]; // console.log(`yes`)
+          // console.log(successResponse.eagles.my_eagles);
+
+          resolve(successResponse.eagles.my_eagles);
+        }).catch(function (error) {
+          reject(error);
+        });
       });
     }
   }
