@@ -29,7 +29,7 @@ class FeatherController extends Controller
 
         $feather = new Feather;
         $feather->eagle_id = $eagle->id;
-        $feather->spot = $request->input('val');
+        $feather->spot = $request->spot;
         $feather->save();
         return response()->json([
             'Success' => [
