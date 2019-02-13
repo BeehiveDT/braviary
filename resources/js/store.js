@@ -30,17 +30,8 @@ export default {
                 state.userToken = localStorage.getItem('token');
                 state.eagles = JSON.parse(localStorage.getItem('eagles'));
                 state.userLoggedIn = true;
-                console.log(state.eagles[0])
 			}
 		},
-        // updateEmail(state, email){
-        //     state.email = email;
-        //     // console.log(email);
-        // },
-        // updatePassword(state, password){
-        //     state.password = password;
-        //     // console.log(password);
-        // },
         updateUserToken(state, token){
             state.userToken = token;
             // store token in localStorage
@@ -52,8 +43,6 @@ export default {
         updateEagles(state, eagles){
             state.eagles = eagles;
             localStorage.setItem('eagles', JSON.stringify(eagles));
-            console.log(`eagles updated`)
-            console.log(state.eagles)
         }
     },
     getters: {
@@ -83,10 +72,6 @@ export default {
                     resolve(response);
                 })
                 .catch(error=>{
-                    // relog setup
-                    // commit('updateEmail', '');
-                    // commit('updatePassword', '');
-                    // console.log(error.response);
                     reject(error.response);
                 })
             })
@@ -103,15 +88,12 @@ export default {
                 })
                 .catch(error=>{
                     // signup failed
-                    console.log(error);
                     reject(error);
                 })
             })
         },
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
-                console.log(`trying to log out now`)
-                console.log(state.userToken)
                 const logOutHeader = {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -132,7 +114,6 @@ export default {
                     resolve(response);
                 })
                 .catch( error => {
-                    console.log(config)
                     reject(error);
                 })
 
@@ -175,13 +156,12 @@ export default {
         },
         retrieveEagles({commit, state}){
             return new Promise((resolve, reject) => {
+                // Set user token for authorization
                 authorizedHeader.headers['Authorization'] = state.userToken;
 
                 axios.get(`${API}/eagles`, authorizedHeader)
                 .then(response => {
                     let successResponse = response.data["Success"]
-                    // console.log(`yes`)
-                    // console.log(successResponse.eagles.my_eagles);
                     resolve(successResponse.eagles.my_eagles)
                 })
                 .catch((error) => {

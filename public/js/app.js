@@ -1870,28 +1870,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'home',
   computed: {
     homeMessage: function homeMessage() {
       return this.$store.getters.homeMessage;
-    },
-    userNotLoggedIn: function userNotLoggedIn() {
-      return !this.$store.state.userLoggedIn;
     }
   }
 });
@@ -37169,49 +37152,11 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { attrs: { id: "home" } }, [
     _c("div", { staticClass: "container" }, [
-      _vm.userNotLoggedIn
-        ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.homeMessage))])])
-        : _c("div", [_vm._m(0), _vm._v(" "), _vm._m(1)])
+      _c("h2", [_vm._v(_vm._s(_vm.homeMessage))])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: {
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#addNewEagle",
-            "aria-expanded": "false",
-            "aria-controls": "collapseExample"
-          }
-        },
-        [_vm._v("\n                    Add New Eagle\n                ")]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "collapse", attrs: { id: "addNewEagle" } },
-      [
-        _c("div", { staticClass: "card card-body" }, [
-          _vm._v("\n                A form to add new eagle\n            ")
-        ])
-      ]
-    )
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -53049,17 +52994,8 @@ var authorizedHeader = {
         state.userToken = localStorage.getItem('token');
         state.eagles = JSON.parse(localStorage.getItem('eagles'));
         state.userLoggedIn = true;
-        console.log(state.eagles[0]);
       }
     },
-    // updateEmail(state, email){
-    //     state.email = email;
-    //     // console.log(email);
-    // },
-    // updatePassword(state, password){
-    //     state.password = password;
-    //     // console.log(password);
-    // },
     updateUserToken: function updateUserToken(state, token) {
       state.userToken = token; // store token in localStorage
 
@@ -53071,8 +53007,6 @@ var authorizedHeader = {
     updateEagles: function updateEagles(state, eagles) {
       state.eagles = eagles;
       localStorage.setItem('eagles', JSON.stringify(eagles));
-      console.log("eagles updated");
-      console.log(state.eagles);
     }
   },
   getters: {
@@ -53099,10 +53033,6 @@ var authorizedHeader = {
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
           resolve(response);
         }).catch(function (error) {
-          // relog setup
-          // commit('updateEmail', '');
-          // commit('updatePassword', '');
-          // console.log(error.response);
           reject(error.response);
         });
       });
@@ -53117,7 +53047,6 @@ var authorizedHeader = {
           resolve(response);
         }).catch(function (error) {
           // signup failed
-          console.log(error);
           reject(error);
         });
       });
@@ -53126,8 +53055,6 @@ var authorizedHeader = {
       var commit = _ref3.commit,
           state = _ref3.state;
       return new Promise(function (resolve, reject) {
-        console.log("trying to log out now");
-        console.log(state.userToken);
         var logOutHeader = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -53144,7 +53071,6 @@ var authorizedHeader = {
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
           resolve(response);
         }).catch(function (error) {
-          console.log(config);
           reject(error);
         }); // CANNOT USE CUZ NO BODY -.-
         // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
@@ -53186,11 +53112,10 @@ var authorizedHeader = {
       var commit = _ref5.commit,
           state = _ref5.state;
       return new Promise(function (resolve, reject) {
+        // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles"), authorizedHeader).then(function (response) {
-          var successResponse = response.data["Success"]; // console.log(`yes`)
-          // console.log(successResponse.eagles.my_eagles);
-
+          var successResponse = response.data["Success"];
           resolve(successResponse.eagles.my_eagles);
         }).catch(function (error) {
           reject(error);
