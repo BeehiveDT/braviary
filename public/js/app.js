@@ -1808,6 +1808,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'eagles',
   data: function data() {
@@ -1847,6 +1851,9 @@ __webpack_require__.r(__webpack_exports__);
         _this.clearForm();
       }).catch(function (error) {// failed to create eagle
       });
+    },
+    updateEagle: function updateEagle(id) {
+      console.log(id);
     }
   }
 });
@@ -37091,13 +37098,28 @@ var render = function() {
               { attrs: { id: "ShowEagles" } },
               _vm._l(_vm.eagles, function(item, index) {
                 return _c("div", { key: index }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(item.id) +
-                      "\n                    |\n                    " +
-                      _vm._s(item.name) +
-                      "\n                    "
-                  )
+                  _c("div", [
+                    _c("span", [_vm._v(_vm._s(item.id))]),
+                    _vm._v(
+                      "\n                        |\n                        "
+                    ),
+                    _c("span", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(
+                      "\n                        |\n                        "
+                    ),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            _vm.updateEagle(item.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Edit")]
+                    )
+                  ])
                 ])
               }),
               0

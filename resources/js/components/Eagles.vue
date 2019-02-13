@@ -32,11 +32,15 @@
                 </div>
 
                 <div id="ShowEagles">
-                    <div v-for="(item, index) in eagles" :key="index" >
-                        {{item.id}}
-                        |
-                        {{item.name}}
+                    <div v-for="(item, index) in eagles" :key="index">
+                        <div>
+                            <span>{{item.id}}</span>
+                            |
+                            <span>{{item.name}}</span>
+                            |
+                            <button class="btn btn-success" v-on:click="updateEagle(item.id)">Edit</button>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,7 +73,6 @@ export default {
             this.tolerance = 0;
         },
         submit(){
-
             let name = this.name;
             let frequency = parseInt(this.frequency);
             let tolerance = parseInt(this.tolerance);
@@ -87,6 +90,9 @@ export default {
                     // failed to create eagle
                 })
         },
+        updateEagle(id){
+            console.log(id)
+        }
     },
 }
 </script>
