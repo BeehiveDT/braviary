@@ -1872,6 +1872,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1969,8 +1976,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'update-eagle',
   props: {
@@ -1982,9 +1987,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       isOpen: false,
-      name: eagle.name,
-      frequency: 0,
-      tolerance: 0
+      name: this.eagle.name,
+      frequency: this.eagle.frequency,
+      tolerance: this.eagle.tolerance
     };
   },
   methods: {
@@ -1996,23 +2001,26 @@ __webpack_require__.r(__webpack_exports__);
       this.frequency = 0;
       this.tolerance = 0;
     },
-    submit: function submit() {
+    updateEagle: function updateEagle(id) {
       var _this = this;
 
       var name = this.name;
       var frequency = parseInt(this.frequency);
       var tolerance = parseInt(this.tolerance);
-      this.$store.dispatch('createEagle', {
+      var eagle = {
         name: name,
         frequency: frequency,
         tolerance: tolerance
+      };
+      this.$store.dispatch('updateEagle', {
+        id: id,
+        eagle: eagle
       }).then(function (response) {
         // clear and close form after successful eagle creation
-        _this.toggleShow();
+        _this.toggleOpen(); // this.clearForm();
 
-        _this.clearForm();
       }).catch(function (error) {// failed to create eagle
-      });
+      }); // console.log(this.name, this.frequency, this.tolerance)
     }
   }
 });
@@ -37297,26 +37305,47 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "div",
-                { attrs: { id: "ShowEagles" } },
-                _vm._l(_vm.eagles, function(item, index) {
-                  return _c("div", { key: index }, [
-                    _c(
-                      "div",
-                      [
-                        _c("span", [_vm._v(_vm._s(item.id))]),
-                        _vm._v(
-                          "\n                        |\n                        "
-                        ),
-                        _c("span", [_vm._v(_vm._s(item.name))]),
-                        _vm._v(
-                          "\n                        |\n                        "
-                        ),
-                        _vm._v(" "),
-                        _c("update-eagle", { attrs: { eagle: item } })
-                      ],
-                      1
-                    )
-                  ])
+                { staticClass: "row", attrs: { id: "ShowEagles" } },
+                _vm._l(_vm.eagles, function(eagle, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: index,
+                      staticClass: "card col-lg-4 col-md-6 col-sm-12"
+                    },
+                    [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c(
+                          "div",
+                          { staticClass: "card-text" },
+                          [
+                            _c("span", [_vm._v(_vm._s(eagle.id))]),
+                            _vm._v(
+                              "\n                                |\n                                "
+                            ),
+                            _c("span", [_vm._v(_vm._s(eagle.name))]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v("Frequency: " + _vm._s(eagle.frequency))
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("span", [
+                              _vm._v("Tolerance: " + _vm._s(eagle.tolerance))
+                            ]),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("update-eagle", { attrs: { eagle: eagle } })
+                          ],
+                          1
+                        )
+                      ])
+                    ]
+                  )
                 }),
                 0
               )
@@ -37333,10 +37362,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&":
-/*!*********************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6& ***!
-  \*********************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -37348,150 +37377,144 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "UpdateEagle" + _vm.eagle.id } }, [
-    _c("p", [
+  return _c(
+    "div",
+    { attrs: { id: "UpdateEagle" + _vm.eagle.id } },
+    [
       _c(
         "button",
-        {
-          staticClass: "btn btn-success",
-          attrs: {
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#UpdateEagleForm-" + _vm.eagle.id,
-            "aria-expanded": "false",
-            "aria-controls": "collapseExample"
-          },
-          on: { click: _vm.toggleOpen }
-        },
-        [_vm._v("\n            " + _vm._s(_vm.eagle.name) + "\n        ")]
-      )
-    ]),
-    _vm._v(" "),
-    _c(
-      "div",
-      {
-        staticClass: "collapse",
-        class: { show: _vm.isOpen },
-        attrs: { id: "UpdateEagleForm-" + _vm.eagle.id }
-      },
-      [
-        _c("div", { staticClass: "card card-body" }, [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function($event) {
-                  $event.preventDefault()
-                  return _vm.submit($event)
-                }
-              }
-            },
-            [
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "EagleName" } }, [_vm._v("Name")]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.name,
-                      expression: "name"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "text",
-                    id: "EagleName",
-                    placeholder: "Eagle Name"
-                  },
-                  domProps: { value: _vm.name },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
+        { staticClass: "btn btn-success", on: { click: _vm.toggleOpen } },
+        [_vm._v("Toggle")]
+      ),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "slide-fade" } }, [
+        _vm.isOpen
+          ? _c("div", { attrs: { id: "UpdateEagleForm-" + _vm.eagle.id } }, [
+              _c("div", { staticClass: "card card-body" }, [
+                _c(
+                  "form",
+                  {
+                    on: {
+                      submit: function($event) {
+                        $event.preventDefault()
+                        _vm.updateEagle(_vm.eagle.id)
                       }
-                      _vm.name = $event.target.value
                     }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "EagleFrequency" } }, [
-                  _vm._v("Frequency")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.frequency,
-                      expression: "frequency"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    id: "EagleFrequency",
-                    placeholder: "Frequency"
                   },
-                  domProps: { value: _vm.frequency },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.frequency = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "form-group" }, [
-                _c("label", { attrs: { for: "EagleTolerance" } }, [
-                  _vm._v("Tolerance")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.tolerance,
-                      expression: "tolerance"
-                    }
-                  ],
-                  staticClass: "form-control",
-                  attrs: {
-                    type: "number",
-                    id: "EagleTolerance",
-                    placeholder: "Tolerance"
-                  },
-                  domProps: { value: _vm.tolerance },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.tolerance = $event.target.value
-                    }
-                  }
-                })
-              ]),
-              _vm._v(" "),
-              _c(
-                "button",
-                { staticClass: "btn btn-primary", attrs: { type: "submit" } },
-                [_vm._v("Submit")]
-              )
-            ]
-          )
-        ])
-      ]
-    )
-  ])
+                  [
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "EagleName" } }, [
+                        _vm._v("Name")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.name,
+                            expression: "name"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "text",
+                          id: "EagleName",
+                          placeholder: "Eagle Name"
+                        },
+                        domProps: { value: _vm.name },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.name = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "EagleFrequency" } }, [
+                        _vm._v("Frequency")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.frequency,
+                            expression: "frequency"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "EagleFrequency",
+                          placeholder: "Frequency"
+                        },
+                        domProps: { value: _vm.frequency },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.frequency = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c("label", { attrs: { for: "EagleTolerance" } }, [
+                        _vm._v("Tolerance")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.tolerance,
+                            expression: "tolerance"
+                          }
+                        ],
+                        staticClass: "form-control",
+                        attrs: {
+                          type: "number",
+                          id: "EagleTolerance",
+                          placeholder: "Tolerance"
+                        },
+                        domProps: { value: _vm.tolerance },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.tolerance = $event.target.value
+                          }
+                        }
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { type: "submit" }
+                      },
+                      [_vm._v("Submit")]
+                    )
+                  ]
+                )
+              ])
+            ])
+          : _vm._e()
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -53082,7 +53105,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateEagle.vue?vue&type=template&id=7fda77a6& */ "./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&");
+/* harmony import */ var _UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true& */ "./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true&");
 /* harmony import */ var _UpdateEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateEagle.vue?vue&type=script&lang=js& */ "./resources/js/components/Eagles/UpdateEagle.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -53094,11 +53117,11 @@ __webpack_require__.r(__webpack_exports__);
 
 var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _UpdateEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__["render"],
-  _UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  _UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
   null,
-  null,
+  "7fda77a6",
   null
   
 )
@@ -53124,19 +53147,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&":
-/*!***************************************************************************************!*\
-  !*** ./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6& ***!
-  \***************************************************************************************/
+/***/ "./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true& ***!
+  \***************************************************************************************************/
 /*! exports provided: render, staticRenderFns */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEagle.vue?vue&type=template&id=7fda77a6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&");
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/UpdateEagle.vue?vue&type=template&id=7fda77a6&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
 
-/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UpdateEagle_vue_vue_type_template_id_7fda77a6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
 
@@ -53597,13 +53620,11 @@ var authorizedHeader = {
           commit = _ref4.commit,
           state = _ref4.state;
       return new Promise(function (resolve, reject) {
-        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to sign up
+        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to create eagle
 
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles"), payload, authorizedHeader).then(function (response) {
           // success
-          dispatch('retrieveEagles').then(function (response) {
-            commit('updateEagles', response);
-          });
+          dispatch('retrieveEagles');
           resolve(response);
         }).catch(function (error) {
           // creation failed
@@ -53611,15 +53632,35 @@ var authorizedHeader = {
         });
       });
     },
-    retrieveEagles: function retrieveEagles(_ref5) {
-      var commit = _ref5.commit,
+    updateEagle: function updateEagle(_ref5, payload) {
+      var dispatch = _ref5.dispatch,
+          commit = _ref5.commit,
           state = _ref5.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update eagle
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(payload.id), payload.eagle, authorizedHeader).then(function (response) {
+          // success
+          dispatch('retrieveEagles');
+          resolve(response);
+        }).catch(function (error) {
+          // creation failed
+          reject(error);
+        });
+      });
+    },
+    retrieveEagles: function retrieveEagles(_ref6) {
+      var commit = _ref6.commit,
+          state = _ref6.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles"), authorizedHeader).then(function (response) {
           var successResponse = response.data["Success"];
-          resolve(successResponse.eagles.my_eagles);
+          var eagles = successResponse.eagles.my_eagles;
+          commit('updateEagles', eagles);
+          resolve(response);
         }).catch(function (error) {
           reject(error);
         });

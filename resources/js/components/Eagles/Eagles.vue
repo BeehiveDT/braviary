@@ -8,16 +8,23 @@
                 <!-- Add New Eagle -->
                 <add-eagle></add-eagle>
 
-                <div id="ShowEagles">
-                    <div v-for="(item, index) in eagles" :key="index">
-                        <div>
-                            <span>{{item.id}}</span>
-                            |
-                            <span>{{item.name}}</span>
-                            |
-                            <!-- <button class="btn btn-success" v-on:click="updateEagle(item.id)">Edit</button> -->
-                            <update-eagle :eagle="item"></update-eagle>
-                        </div>
+                <div class="row" id="ShowEagles">
+                    <div class="card col-lg-4 col-md-6 col-sm-12" v-for="(eagle, index) in eagles" :key="index">
+                        <!-- <div class="card col-lg-4"> -->
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <span>{{eagle.id}}</span>
+                                    |
+                                    <span>{{eagle.name}}</span>
+                                    <br>
+                                    <span>Frequency: {{eagle.frequency}}</span>
+                                    <br>
+                                    <span>Tolerance: {{eagle.tolerance}}</span>
+                                    <br>
+                                    <update-eagle :eagle="eagle"></update-eagle>
+                                </div>
+                            </div>
+                        <!-- </div> -->
                     </div>
                 </div>
             </div>

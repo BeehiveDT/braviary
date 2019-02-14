@@ -1,29 +1,27 @@
 <template>
     <div :id="`UpdateEagle${eagle.id}`">
-        <p>
-            <button v-on:click="toggleOpen" class="btn btn-success" type="button" data-toggle="collapse" :data-target="`#UpdateEagleForm-${eagle.id}`" aria-expanded="false" aria-controls="collapseExample">
-                {{eagle.name}}
-            </button>
-        </p>
-        <div v-bind:class="{show: isOpen}" class="collapse" :id="`UpdateEagleForm-${eagle.id}`">
-            <div class="card card-body">
-                <form @submit.prevent="submit">
-                    <div class="form-group">
-                        <label for="EagleName">Name</label>
-                        <input v-model="name" type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
-                    </div>
-                    <div class="form-group">
-                        <label for="EagleFrequency">Frequency</label>
-                        <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
-                    </div>
-                    <div class="form-group">
-                        <label for="EagleTolerance">Tolerance</label>
-                        <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
+        <button v-on:click="toggleOpen" class="btn btn-success" >Toggle</button>
+        <transition name="slide-fade">
+            <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
+                <div class="card card-body">
+                    <form @submit.prevent="updateEagle(eagle.id)">
+                        <div class="form-group">
+                            <label for="EagleName">Name</label>
+                            <input v-model="name"  type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="EagleFrequency">Frequency</label>
+                            <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
+                        </div>
+                        <div class="form-group">
+                            <label for="EagleTolerance">Tolerance</label>
+                            <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 
@@ -39,9 +37,9 @@ export default {
     data(){
         return{
             isOpen: false,
-            name: eagle.name,
-            frequency: 0,
-            tolerance: 0
+            name: this.eagle.name,
+            frequency: this.eagle.frequency,
+            tolerance: this.eagle.tolerance
         }
     },
     methods: {
@@ -53,25 +51,32 @@ export default {
             this.frequency = 0;
             this.tolerance = 0;
         },
-        submit(){
+        updateEagle(id){
             let name = this.name;
             let frequency = parseInt(this.frequency);
             let tolerance = parseInt(this.tolerance);
 
-            this.$store.dispatch('createEagle', { 
-                name,
-                frequency,
-                tolerance
+            let eagle = {name, frequency, tolerance}
+
+            this.$store.dispatch('updateEagle', {
+                id,
+                eagle
                 })
                 .then(response => { 
                     // clear and close form after successful eagle creation
-                    this.toggleShow();
-                    this.clearForm();
+                    this.toggleOpen();
+                    // this.clearForm();
                 })
                 .catch(error => {
                     // failed to create eagle
                 })
+            // console.log(this.name, this.frequency, this.tolerance)
         }
     },
 }
 </script>
+
+
+<style scoped>
+
+</style>
