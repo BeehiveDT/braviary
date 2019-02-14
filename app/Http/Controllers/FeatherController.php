@@ -12,12 +12,12 @@ class FeatherController extends Controller
      * 新增羽毛
      *
      * @param Request $request
-     * @param string $jobToken
+     * @param string $eagleId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $jobToken)
+    public function store(Request $request, $eagleId)
     {
-        $eagle = Eagle::where('job_token', $jobToken)->get()->first();
+        $eagle = Eagle::where('job_token', $eagleId)->get()->first();
         if (is_null($eagle)) {
             return response()->json([
                 'error' => [

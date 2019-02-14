@@ -51,7 +51,7 @@ Route::middleware('agriweather.api')->group(function () {
 });
 
 // 新增羽毛
-Route::post('/feathers/{jobToken}', 'FeatherController@store');
+Route::post('/eagles/{eagleId}/feather', 'FeatherController@store');
 
 Route::group(['prefix' => 'zookeeper',  'middleware' => 'isadmin.api'], function () {
     //列出所有使用者
