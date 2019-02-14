@@ -44,6 +44,8 @@ Route::middleware('agriweather.api')->group(function () {
     Route::delete('/eagles/{eagleId}', 'EagleController@delete');
     // 要最後數支羽毛，預設1支
     Route::get('/eagles/{eagleId}/feathers', 'EagleController@feathers');
+    // 列出觀察者
+    Route::get('/eagles/{eagleId}/viewers', 'UserEagleController@viewers');
     // 新增觀察者
     Route::post('/eagles/{eagleId}/link', 'UserEagleController@link');
     // 刪除觀察者

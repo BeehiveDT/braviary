@@ -128,7 +128,7 @@ class EagleController extends Controller
         }
 
         if ($user->is_admin) {
-            // 如果是zoo keeper，就可以修改所有老鷹
+            // 如果是zoo keeper，就可以修改任一隻老鷹
             $eagle = Eagle::where('id', $eagleId)->first();
         } else {
             // 不然只能修改自己的
@@ -155,6 +155,7 @@ class EagleController extends Controller
             ]
         ], 200);
     }
+
     /**
      * 刪除老鷹
      *
@@ -192,7 +193,7 @@ class EagleController extends Controller
         }
 
         if ($user->is_admin) {
-            // 如果是zoo keeper，就可以刪除所有老鷹
+            // 如果是zoo keeper，就可以刪除任一隻老鷹
             $eagle = Eagle::where('id', $eagleId)->first();
         } else {
             // 不然只能刪除自己的
@@ -215,7 +216,8 @@ class EagleController extends Controller
             ]
         ], 200);
     }
-   /**
+
+    /**
      * 給最後n根羽毛
      *
      * @param Request $request
@@ -246,7 +248,7 @@ class EagleController extends Controller
         }
 
         if ($user->is_admin) {
-            // 如果是zoo keeper，就可以觀測所有老鷹
+            // 如果是zoo keeper，就可以觀測任一隻老鷹
             $eagle = Eagle::where('id', $eagleId)->first();
         } else {
             // 如果是擁有者或是觀察者也可以看到
