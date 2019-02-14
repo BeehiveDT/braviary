@@ -1834,6 +1834,49 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'delete-eagle',
+  props: {
+    eagle: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function data() {
+    return {
+      name: this.eagle.name,
+      frequency: this.eagle.frequency,
+      tolerance: this.eagle.tolerance
+    };
+  },
+  methods: {
+    deleteEagle: function deleteEagle(id) {
+      this.$store.dispatch('deleteEagle', {
+        id: id
+      }).then(function (response) {// do nothing
+      }).catch(function (error) {// do nothing
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/Eagles.vue?vue&type=script&lang=js&":
 /*!************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/Eagles.vue?vue&type=script&lang=js& ***!
@@ -1845,6 +1888,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AddEagle_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AddEagle.vue */ "./resources/js/components/Eagles/AddEagle.vue");
 /* harmony import */ var _UpdateEagle_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./UpdateEagle.vue */ "./resources/js/components/Eagles/UpdateEagle.vue");
+/* harmony import */ var _DeleteEagle_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DeleteEagle.vue */ "./resources/js/components/Eagles/DeleteEagle.vue");
 //
 //
 //
@@ -1879,13 +1923,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'eagles',
   components: {
     AddEagle: _AddEagle_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
-    UpdateEagle: _UpdateEagle_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    UpdateEagle: _UpdateEagle_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
+    DeleteEagle: _DeleteEagle_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   },
   data: function data() {
     return {
@@ -37279,6 +37326,43 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "DeleteEagle-" + _vm.eagle.id } }, [
+    _c(
+      "button",
+      {
+        staticClass: "btn btn-danger",
+        on: {
+          click: function($event) {
+            _vm.deleteEagle(_vm.eagle.id)
+          }
+        }
+      },
+      [_vm._v("Delete")]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/Eagles.vue?vue&type=template&id=6691de54&":
 /*!****************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Eagles/Eagles.vue?vue&type=template&id=6691de54& ***!
@@ -37339,7 +37423,9 @@ var render = function() {
                             _vm._v(" "),
                             _c("br"),
                             _vm._v(" "),
-                            _c("update-eagle", { attrs: { eagle: eagle } })
+                            _c("update-eagle", { attrs: { eagle: eagle } }),
+                            _vm._v(" "),
+                            _c("delete-eagle", { attrs: { eagle: eagle } })
                           ],
                           1
                         )
@@ -53027,6 +53113,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Eagles/DeleteEagle.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Eagles/DeleteEagle.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteEagle.vue?vue&type=template&id=669f8904& */ "./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904&");
+/* harmony import */ var _DeleteEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteEagle.vue?vue&type=script&lang=js& */ "./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Eagles/DeleteEagle.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEagle.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEagle_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904&":
+/*!***************************************************************************************!*\
+  !*** ./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904& ***!
+  \***************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteEagle.vue?vue&type=template&id=669f8904& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Eagles/DeleteEagle.vue?vue&type=template&id=669f8904&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteEagle_vue_vue_type_template_id_669f8904___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/Eagles/Eagles.vue":
 /*!***************************************************!*\
   !*** ./resources/js/components/Eagles/Eagles.vue ***!
@@ -53650,9 +53805,27 @@ var authorizedHeader = {
         });
       });
     },
-    retrieveEagles: function retrieveEagles(_ref6) {
-      var commit = _ref6.commit,
+    deleteEagle: function deleteEagle(_ref6, payload) {
+      var dispatch = _ref6.dispatch,
+          commit = _ref6.commit,
           state = _ref6.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken; // {{BaseURL}}/eagles/26
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete("".concat(API, "/eagles/").concat(payload.id), authorizedHeader).then(function (response) {
+          // success
+          dispatch('retrieveEagles');
+          resolve(response);
+        }).catch(function (error) {
+          // creation failed
+          reject(error);
+        });
+      });
+    },
+    retrieveEagles: function retrieveEagles(_ref7) {
+      var commit = _ref7.commit,
+          state = _ref7.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
