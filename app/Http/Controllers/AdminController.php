@@ -35,9 +35,8 @@ class AdminController extends Controller
         ], 200);
     }
 
-
     /**
-     * 列出所有老鷹with最後一根羽毛
+     * 列出所有老鷹
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse

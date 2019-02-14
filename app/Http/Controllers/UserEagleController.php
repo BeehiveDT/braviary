@@ -11,6 +11,53 @@ use App\UserEagle;
 class UserEagleController extends Controller
 {
     /**
+     * 給老鷹的View List
+     *
+     * @param Request $request
+     * @param integer $eagleId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function viewers(Request $request, $eagleId)
+    {
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if (is_null($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'User Not Found'
+                ]
+            ], 404);
+        }
+
+        if ($user->is_admin) {
+            // 如果是zoo keeper，就可以觀測任一隻老鷹
+            $eagle = Eagle::where('id', $eagleId)->first();
+        } else {
+            // 不然只能列出自己的
+            $eagle = $user->myEagles->where('id', $eagleId)->first();
+        }
+
+        if (is_null($eagle)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'Eagle Not Found'
+                ]
+            ], 404);
+        }
+
+        $viewer = $eagle->users;
+
+        return response()->json([
+            'Success' => [
+                'status' => 200,
+                'viewers' => $viewer
+            ]
+        ], 200);
+    }
+
+    /**
      * 新增觀察者
      *
      * @param Request $request
