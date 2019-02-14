@@ -1808,10 +1808,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'eagles',
   data: function data() {
     return {
+      isShow: false,
       name: '',
       frequency: 0,
       tolerance: 0,
@@ -1827,6 +1832,10 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    toggleShow: function toggleShow() {
+      this.isShow = !this.isShow;
+      console.log(this.isShow);
+    },
     clearForm: function clearForm() {
       this.name = '';
       this.frequency = 0;
@@ -1843,10 +1852,15 @@ __webpack_require__.r(__webpack_exports__);
         frequency: frequency,
         tolerance: tolerance
       }).then(function (response) {
-        // clear form after successful eagle creation
+        // clear and close form after successful eagle creation
+        _this.toggleShow();
+
         _this.clearForm();
       }).catch(function (error) {// failed to create eagle
       });
+    },
+    updateEagle: function updateEagle(id) {
+      console.log(id);
     }
   }
 });
@@ -36958,11 +36972,35 @@ var render = function() {
       _vm.userNotLoggedIn
         ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.eaglePageMessage))])])
         : _c("div", [
-            _vm._m(0),
+            _c("p", [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "collapse",
+                    "data-target": "#addNewEagle",
+                    "aria-expanded": "false",
+                    "aria-controls": "collapseExample"
+                  },
+                  on: { click: _vm.toggleShow }
+                },
+                [
+                  _vm._v(
+                    "\n                    Add New Eagle\n                "
+                  )
+                ]
+              )
+            ]),
             _vm._v(" "),
             _c(
               "div",
-              { staticClass: "collapse", attrs: { id: "addNewEagle" } },
+              {
+                staticClass: "collapse",
+                class: { show: _vm.isShow },
+                attrs: { id: "addNewEagle" }
+              },
               [
                 _c("div", { staticClass: "card card-body" }, [
                   _c(
@@ -37091,13 +37129,28 @@ var render = function() {
               { attrs: { id: "ShowEagles" } },
               _vm._l(_vm.eagles, function(item, index) {
                 return _c("div", { key: index }, [
-                  _vm._v(
-                    "\n                    " +
-                      _vm._s(item.id) +
-                      "\n                    |\n                    " +
-                      _vm._s(item.name) +
-                      "\n                    "
-                  )
+                  _c("div", [
+                    _c("span", [_vm._v(_vm._s(item.id))]),
+                    _vm._v(
+                      "\n                        |\n                        "
+                    ),
+                    _c("span", [_vm._v(_vm._s(item.name))]),
+                    _vm._v(
+                      "\n                        |\n                        "
+                    ),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "btn btn-success",
+                        on: {
+                          click: function($event) {
+                            _vm.updateEagle(item.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Edit")]
+                    )
+                  ])
                 ])
               }),
               0
@@ -37106,29 +37159,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [
-      _c(
-        "button",
-        {
-          staticClass: "btn btn-primary",
-          attrs: {
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#addNewEagle",
-            "aria-expanded": "false",
-            "aria-controls": "collapseExample"
-          }
-        },
-        [_vm._v("\n                    Add New Eagle\n                ")]
-      )
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

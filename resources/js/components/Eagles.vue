@@ -7,11 +7,11 @@
             <div v-else>
                 <!-- Add New Eagle -->
                 <p>
-                    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
+                    <button v-on:click="toggleShow" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
                         Add New Eagle
                     </button>
                 </p>
-                <div class="collapse" id="addNewEagle">
+                <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
                     <div class="card card-body">
                         <form @submit.prevent="submit">
                             <div class="form-group">
@@ -32,11 +32,15 @@
                 </div>
 
                 <div id="ShowEagles">
-                    <div v-for="(item, index) in eagles" :key="index" >
-                        {{item.id}}
-                        |
-                        {{item.name}}
+                    <div v-for="(item, index) in eagles" :key="index">
+                        <div>
+                            <span>{{item.id}}</span>
+                            |
+                            <span>{{item.name}}</span>
+                            |
+                            <button class="btn btn-success" v-on:click="updateEagle(item.id)">Edit</button>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -48,6 +52,7 @@ export default {
     name: 'eagles',
     data(){
         return{
+            isShow: false,
             name: '',
             frequency: 0,
             tolerance: 0,
@@ -63,13 +68,16 @@ export default {
         }
     },
     methods: {
+        toggleShow(){
+            this.isShow = !this.isShow;
+            console.log(this.isShow);
+        },
         clearForm(){
             this.name = '';
             this.frequency = 0;
             this.tolerance = 0;
         },
         submit(){
-
             let name = this.name;
             let frequency = parseInt(this.frequency);
             let tolerance = parseInt(this.tolerance);
@@ -80,13 +88,17 @@ export default {
                 tolerance
                 })
                 .then(response => { 
-                    // clear form after successful eagle creation
+                    // clear and close form after successful eagle creation
+                    this.toggleShow();
                     this.clearForm();
                 })
                 .catch(error => {
                     // failed to create eagle
                 })
         },
+        updateEagle(id){
+            console.log(id)
+        }
     },
 }
 </script>
