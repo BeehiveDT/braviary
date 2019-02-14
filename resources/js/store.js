@@ -138,14 +138,11 @@ export default {
             return new Promise((resolve, reject) => {
                 authorizedHeader.headers['Authorization'] = state.userToken;
                 
-                // POST request to sign up
+                // POST request to create eagle
                 axios.post(`${API}/eagles`, payload, authorizedHeader)
                 .then(response=> {
                     // success
                     dispatch('retrieveEagles')
-                    .then(response=>{
-                        commit('updateEagles', response)
-                    })
                     resolve(response);
                 })
                 .catch(error=>{
@@ -154,6 +151,24 @@ export default {
                 })
             })
         },
+        updateEagle({dispatch, commit, state}, payload){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+               // POST request to update eagle
+               axios.post(`${API}/eagles/${payload.id}`, payload.eagle, authorizedHeader)
+               .then(response=> {
+                   // success
+                   dispatch('retrieveEagles')
+                   resolve(response);
+               })
+               .catch(error=>{
+                   // creation failed
+                   reject(error);
+               })
+            })
+        }, 
         retrieveEagles({commit, state}){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
@@ -162,7 +177,9 @@ export default {
                 axios.get(`${API}/eagles`, authorizedHeader)
                 .then(response => {
                     let successResponse = response.data["Success"]
-                    resolve(successResponse.eagles.my_eagles)
+                    let eagles = successResponse.eagles.my_eagles
+                    commit('updateEagles', eagles)
+                    resolve(response)
                 })
                 .catch((error) => {
                     reject(error)
