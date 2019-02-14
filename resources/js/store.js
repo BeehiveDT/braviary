@@ -168,7 +168,25 @@ export default {
                    reject(error);
                })
             })
-        }, 
+        },
+        deleteEagle({dispatch, commit, state}, payload){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                // {{BaseURL}}/eagles/26
+                axios.delete(`${API}/eagles/${payload.id}`, authorizedHeader)
+                .then(response=> {
+                    // success
+                    dispatch('retrieveEagles')
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // creation failed
+                    reject(error);
+                })
+            })
+        },
         retrieveEagles({commit, state}){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization

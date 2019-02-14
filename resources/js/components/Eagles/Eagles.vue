@@ -22,6 +22,7 @@
                                     <span>Tolerance: {{eagle.tolerance}}</span>
                                     <br>
                                     <update-eagle :eagle="eagle"></update-eagle>
+                                    <delete-eagle :eagle="eagle"></delete-eagle>
                                 </div>
                             </div>
                         <!-- </div> -->
@@ -35,12 +36,14 @@
 <script>
 import AddEagle from './AddEagle.vue'
 import UpdateEagle from './UpdateEagle.vue'
+import DeleteEagle from './DeleteEagle.vue'
 
 export default {
     name: 'eagles',
     components: {
         AddEagle,
-        UpdateEagle
+        UpdateEagle,
+        DeleteEagle
     },
     data(){
         return{
