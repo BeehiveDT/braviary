@@ -2221,6 +2221,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
   computed: {
@@ -37794,13 +37796,19 @@ var render = function() {
                         "div",
                         { staticClass: "navbar-nav ml-auto" },
                         [
+                          _c("router-link", { attrs: { to: "/" } }, [
+                            _vm._v("Home")
+                          ]),
+                          _vm._v(" "),
                           _vm.userNotLoggedIn
                             ? _c(
                                 "router-link",
                                 { attrs: { to: { name: "Sign Up" } } },
                                 [_vm._v("Sign Up")]
                               )
-                            : _vm._e(),
+                            : _c("router-link", { attrs: { to: "/eagles" } }, [
+                                _vm._v("Eagles")
+                              ]),
                           _vm._v(" "),
                           _vm.userNotLoggedIn
                             ? _c("router-link", { attrs: { to: "/log-in" } }, [
@@ -53708,9 +53716,7 @@ var authorizedHeader = {
           var token = response.data.access_token;
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
-          dispatch('retrieveEagles').then(function (response) {
-            commit('updateEagles', response);
-          });
+          dispatch('retrieveEagles');
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
           resolve(response);
         }).catch(function (error) {
