@@ -65,9 +65,6 @@ export default {
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
                     dispatch('retrieveEagles')
-                    .then(response=>{
-                        commit('updateEagles', response)
-                    })
                     router.push('/eagles');
                     resolve(response);
                 })

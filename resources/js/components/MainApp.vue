@@ -13,7 +13,9 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav ml-auto">
+                                <router-link to="/">Home</router-link>
                                 <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
+                                <router-link v-else to="/eagles">Eagles</router-link>
                                 <!-- <span class="navbar-item-divider">|</span> -->
                                 <router-link v-if="userNotLoggedIn" to="/log-in">Log In</router-link>
                                 <router-link v-else v-on:click.native="userLogOut" to="/">Log Out</router-link>
