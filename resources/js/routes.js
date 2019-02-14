@@ -2,7 +2,7 @@
 import Home from './components/Home.vue';
 import SignUp from './components/SignUp.vue';
 import LogIn from './components/LogIn.vue';
-import Eagles from './components/Eagles.vue';
+import Eagles from './components/Eagles/Eagles.vue';
 
 // Assign Page to paths
 export const routes = [

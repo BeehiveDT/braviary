@@ -6,30 +6,7 @@
             </div>
             <div v-else>
                 <!-- Add New Eagle -->
-                <p>
-                    <button v-on:click="toggleShow" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
-                        Add New Eagle
-                    </button>
-                </p>
-                <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
-                    <div class="card card-body">
-                        <form @submit.prevent="submit">
-                            <div class="form-group">
-                                <label for="EagleName">Name</label>
-                                <input v-model="name" type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
-                            </div>
-                            <div class="form-group">
-                                <label for="EagleFrequency">Frequency</label>
-                                <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
-                            </div>
-                            <div class="form-group">
-                                <label for="EagleTolerance">Tolerance</label>
-                                <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Submit</button>
-                        </form>
-                    </div>
-                </div>
+                <add-eagle></add-eagle>
 
                 <div id="ShowEagles">
                     <div v-for="(item, index) in eagles" :key="index">
@@ -38,7 +15,8 @@
                             |
                             <span>{{item.name}}</span>
                             |
-                            <button class="btn btn-success" v-on:click="updateEagle(item.id)">Edit</button>
+                            <!-- <button class="btn btn-success" v-on:click="updateEagle(item.id)">Edit</button> -->
+                            <update-eagle :eagle="item"></update-eagle>
                         </div>
                     </div>
                 </div>
@@ -48,8 +26,15 @@
 </template>
 
 <script>
+import AddEagle from './AddEagle.vue'
+import UpdateEagle from './UpdateEagle.vue'
+
 export default {
     name: 'eagles',
+    components: {
+        AddEagle,
+        UpdateEagle
+    },
     data(){
         return{
             isShow: false,
