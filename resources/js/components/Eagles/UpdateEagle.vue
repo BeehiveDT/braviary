@@ -1,24 +1,41 @@
 <template>
     <div :id="`UpdateEagle${eagle.id}`">
-        <button v-on:click="toggleOpen" class="btn btn-success" >Toggle</button>
+        <button v-on:click="toggleOpen" class="btn btn-success" >Edit</button>
+        <delete-eagle :eagle="eagle"></delete-eagle>
         <transition name="slide-fade">
             <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
-                <div class="card card-body">
-                    <form @submit.prevent="updateEagle(eagle.id)">
-                        <div class="form-group">
-                            <label for="EagleName">Name</label>
-                            <input v-model="name"  type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
+                <br>
+                <div class="row">
+                    <div class="col-6 inline-div">
+                        <div class="card card-body">
+                            <form @submit.prevent="updateEagle(eagle.id)">
+                                <div class="form-group">
+                                    <label for="EagleName">Name</label>
+                                    <input v-model="name"  type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="EagleFrequency">Frequency</label>
+                                    <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
+                                </div>
+                                <div class="form-group">
+                                    <label for="EagleTolerance">Tolerance</label>
+                                    <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="EagleFrequency">Frequency</label>
-                            <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
+                    </div>
+                    <div class="col-6 inline-div">
+                        <div class="card card-body">
+                            <form @submit.prevent="addEagleViewer(eagle.id)">
+                                <div class="form-group">
+                                    <label for="EagleName">Email</label>
+                                    <input v-model="email"  type="email" class="form-control" id="EagleName" placeholder="Viewer Email">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="EagleTolerance">Tolerance</label>
-                            <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    </div>
                 </div>
             </div>
         </transition>
@@ -26,8 +43,13 @@
 </template>
 
 <script>
+import DeleteEagle from './DeleteEagle.vue';
+
 export default {
     name: 'update-eagle',
+    components: {
+        DeleteEagle
+    },
     props: {
         eagle: {
             type: Object,
@@ -39,7 +61,8 @@ export default {
             isOpen: false,
             name: this.eagle.name,
             frequency: this.eagle.frequency,
-            tolerance: this.eagle.tolerance
+            tolerance: this.eagle.tolerance,
+            email: ''
         }
     },
     methods: {
@@ -55,7 +78,7 @@ export default {
             let name = this.name;
             let frequency = parseInt(this.frequency);
             let tolerance = parseInt(this.tolerance);
-
+            // eagle object
             let eagle = {name, frequency, tolerance}
 
             this.$store.dispatch('updateEagle', {
@@ -63,14 +86,28 @@ export default {
                 eagle
                 })
                 .then(response => { 
-                    // clear and close form after successful eagle creation
+                    // close form after updating eagle
                     this.toggleOpen();
-                    // this.clearForm();
                 })
                 .catch(error => {
                     // failed to create eagle
                 })
             // console.log(this.name, this.frequency, this.tolerance)
+        },
+        addEagleViewer(id){
+            // email object
+            let email = {target_mail: this.email}
+
+            this.$store.dispatch('addEagleViewer', {
+                id,
+                email
+            })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
         }
     },
 }

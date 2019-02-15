@@ -35,3 +35,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    div[id^='DeleteEagle-']{
+        display: inline;
+    }
+</style>

@@ -9,23 +9,20 @@
                 <add-eagle></add-eagle>
 
                 <div class="row" id="ShowEagles">
-                    <div class="card col-lg-4 col-md-6 col-sm-12" v-for="(eagle, index) in eagles" :key="index">
-                        <!-- <div class="card col-lg-4"> -->
-                            <div class="card-body">
-                                <div class="card-text">
-                                    <span>{{eagle.id}}</span>
-                                    |
-                                    <span>{{eagle.name}}</span>
-                                    <br>
-                                    <span>Frequency: {{eagle.frequency}}</span>
-                                    <br>
-                                    <span>Tolerance: {{eagle.tolerance}}</span>
-                                    <br>
-                                    <update-eagle :eagle="eagle"></update-eagle>
-                                    <delete-eagle :eagle="eagle"></delete-eagle>
-                                </div>
+                    <div class="card col-lg-6 col-md-12" v-for="(eagle, index) in eagles" :key="index">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <span>{{eagle.id}}</span>
+                                |
+                                <span>{{eagle.name}}</span>
+                                <br>
+                                <span>Frequency: {{eagle.frequency}}</span>
+                                <br>
+                                <span>Tolerance: {{eagle.tolerance}}</span>
+                                <br>
+                                <update-eagle :eagle="eagle"></update-eagle>
                             </div>
-                        <!-- </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -36,14 +33,12 @@
 <script>
 import AddEagle from './AddEagle.vue'
 import UpdateEagle from './UpdateEagle.vue'
-import DeleteEagle from './DeleteEagle.vue'
 
 export default {
     name: 'eagles',
     components: {
         AddEagle,
-        UpdateEagle,
-        DeleteEagle
+        UpdateEagle
     },
     data(){
         return{
