@@ -31,7 +31,11 @@ export default {
                 state.eagles = JSON.parse(localStorage.getItem('eagles'));
                 state.userLoggedIn = true;
 			}
-		},
+        },
+        resetStore(state){
+            state.userToken='';
+            state.eagles=[];
+        },
         updateUserToken(state, token){
             state.userToken = token;
             // store token in localStorage
@@ -107,6 +111,7 @@ export default {
                 .then( response => {
                     commit('updateUserLoggedIn');
                     localStorage.clear();
+                    commit('resetStore');
                     router.push('/');
                     resolve(response);
                 })
@@ -166,6 +171,7 @@ export default {
                })
             })
         },
+
         deleteEagle({dispatch, commit, state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
@@ -184,6 +190,9 @@ export default {
                 })
             })
         },
+        // **
+        // show eagles
+        // **
         retrieveEagles({commit, state}){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
