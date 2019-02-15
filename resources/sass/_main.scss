@@ -12,6 +12,10 @@
         }
     }
 
+    .inline-div {
+        display:inline;
+    }
+
     .slide-fade-enter-active {
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }

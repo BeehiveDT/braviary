@@ -209,6 +209,27 @@ export default {
                     reject(error)
                 });
             })
+        },
+        // **
+        // add eagle viewer
+        // **
+        addEagleViewer({commit, state}, payload){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+                let id = payload.id;
+                let email = payload.email;
+
+                axios.post(`${API}/eagles/${id}/link`, email, authorizedHeader)
+                .then(response => {
+                    console.log(response)
+                    resolve(response)
+                })
+                .catch((error) => {
+                    console.log(error)
+                    reject(error)
+                });
+            })
         }
     }
 };
