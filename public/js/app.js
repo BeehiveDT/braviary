@@ -53685,6 +53685,10 @@ var authorizedHeader = {
         state.userLoggedIn = true;
       }
     },
+    resetStore: function resetStore(state) {
+      state.userToken = '';
+      state.eagles = [];
+    },
     updateUserToken: function updateUserToken(state, token) {
       state.userToken = token; // store token in localStorage
 
@@ -53755,6 +53759,7 @@ var authorizedHeader = {
         axios__WEBPACK_IMPORTED_MODULE_0___default()(config).then(function (response) {
           commit('updateUserLoggedIn');
           localStorage.clear();
+          commit('resetStore');
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
           resolve(response);
         }).catch(function (error) {
@@ -53829,6 +53834,9 @@ var authorizedHeader = {
         });
       });
     },
+    // **
+    // show eagles
+    // **
     retrieveEagles: function retrieveEagles(_ref7) {
       var commit = _ref7.commit,
           state = _ref7.state;
