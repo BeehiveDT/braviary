@@ -51,14 +51,12 @@
 
 <script>
 import DeleteEagle from './DeleteEagle.vue';
-import ShowEagleViewers from './ShowEagleViewers.vue';
 
 
 export default {
     name: 'update-eagle',
     components: {
-        DeleteEagle,
-        ShowEagleViewers
+        DeleteEagle
     },
     props: {
         eagle: {
