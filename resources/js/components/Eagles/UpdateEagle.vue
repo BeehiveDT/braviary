@@ -1,6 +1,7 @@
 <template>
     <div :id="`UpdateEagle${eagle.id}`">
-        <button v-on:click="toggleOpen" class="btn btn-success" >Edit</button>
+        <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success" >Edit</button>
+
         <delete-eagle :eagle="eagle"></delete-eagle>
         <transition name="slide-fade">
             <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
@@ -26,7 +27,7 @@
                         </div>
                     </div>
                     <div class="col-6 inline-div">
-                        <div class="card card-body">
+                        <div class="card card-body viewer">
                             <form @submit.prevent="addEagleViewer(eagle.id)">
                                 <div class="form-group">
                                     <label for="EagleName">Email</label>
@@ -34,6 +35,12 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add</button>
                             </form>
+                            <!-- <eagle-viewers :eagle="eagle"></eagle-viewers> -->
+                            <ul class="scrollable" id="example-1">
+                                <li v-for="(viewer, index) in viewers" :key="index">
+                                    {{ viewer.email }}
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -44,11 +51,14 @@
 
 <script>
 import DeleteEagle from './DeleteEagle.vue';
+import ShowEagleViewers from './ShowEagleViewers.vue';
+
 
 export default {
     name: 'update-eagle',
     components: {
-        DeleteEagle
+        DeleteEagle,
+        ShowEagleViewers
     },
     props: {
         eagle: {
@@ -62,7 +72,8 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            email: ''
+            email: '',
+            viewers: []
         }
     },
     methods: {
@@ -108,12 +119,36 @@ export default {
             .catch(error => {
                 console.log(error)
             })
-        }
+        },
+        getEagleViewers(id){
+
+            this.$store.dispatch('getEagleViewers', {
+                id
+            })
+            .then(response => {
+                this.viewers = response;
+                console.log(response)
+            })
+            .catch(error => {
+                console.log(error)
+            })
+        },
     },
+    // created(){
+
+    // }
 }
 </script>
 
 
 <style scoped>
 
+    .viewer {
+        height: 100%;
+    }
+
+    .scrollable {
+        height: 50%;
+        overflow: scroll;
+    }
 </style>

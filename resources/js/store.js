@@ -1,7 +1,10 @@
 import axios from "axios";
 import {router} from "./app.js"
 
-const API="http://braviary.test/api";
+// const API="http://braviary.test/api";
+
+const BASEURL = window.location.origin;
+const API = BASEURL + '/api';
 const headers = {
     headers: {
         'Content-Type': 'application/json'
@@ -95,6 +98,7 @@ export default {
         },
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
+                console.log(API)
                 const logOutHeader = {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -230,6 +234,24 @@ export default {
                     reject(error)
                 });
             })
-        }
+        },
+        // **
+        // retrieve Eagle's list of viewers
+        // **
+        getEagleViewers({commit, state}, payload){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.get(`${API}/eagles/${payload.id}/viewers`, authorizedHeader)
+                .then(response => {
+                    let emails = response.data['Success']['viewers']
+                    resolve(emails)
+                })
+                .catch((error) => {
+                    reject(error)
+                });
+            })
+        },
     }
 };
