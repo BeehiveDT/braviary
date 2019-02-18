@@ -1849,6 +1849,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'delete-eagle',
   props: {
@@ -1865,6 +1898,7 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    deleteEagleConfirmation: function deleteEagleConfirmation(id) {},
     deleteEagle: function deleteEagle(id) {
       this.$store.dispatch('deleteEagle', {
         id: id
@@ -38095,17 +38129,92 @@ var render = function() {
       "button",
       {
         staticClass: "btn btn-danger",
+        attrs: {
+          type: "button",
+          "data-toggle": "modal",
+          "data-target": "#DeleteEagleModal-" + _vm.eagle.id
+        },
         on: {
           click: function($event) {
-            _vm.deleteEagle(_vm.eagle.id)
+            _vm.deleteEagleConfirmation(_vm.eagle.id)
           }
         }
       },
-      [_vm._v("Delete")]
+      [_vm._v("\n        Delete\n    ")]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        staticClass: "modal fade",
+        attrs: { id: "DeleteEagleModal-" + _vm.eagle.id }
+      },
+      [
+        _c("div", { staticClass: "modal-dialog" }, [
+          _c("div", { staticClass: "modal-content" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-body" }, [
+              _c("img", {
+                staticStyle: { width: "100%" },
+                attrs: { src: "/img/upset_eagle.jpg" }
+              }),
+              _vm._v(
+                "\n                Are you sure you want to delete " +
+                  _vm._s(_vm.eagle.name) +
+                  "?\n                "
+              )
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "modal-footer" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-danger",
+                  attrs: { "data-dismiss": "modal" },
+                  on: {
+                    click: function($event) {
+                      _vm.deleteEagle(_vm.eagle.id)
+                    }
+                  }
+                },
+                [_vm._v("Killing it. Goodbye ;(")]
+              ),
+              _vm._v(" "),
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  attrs: { type: "button", "data-dismiss": "modal" }
+                },
+                [_vm._v("It's Okay, maybe next time.")]
+              )
+            ])
+          ])
+        ])
+      ]
     )
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "modal-header" }, [
+      _c("h4", { staticClass: "modal-title" }, [_vm._v("Delete Confirmation")]),
+      _vm._v(" "),
+      _c(
+        "button",
+        {
+          staticClass: "close",
+          attrs: { type: "button", "data-dismiss": "modal" }
+        },
+        [_vm._v("×")]
+      )
+    ])
+  }
+]
 render._withStripped = true
 
 
