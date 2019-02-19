@@ -1,6 +1,14 @@
 <template>
     <div :id="`UpdateEagle${eagle.id}`">
-        <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success" >Edit</button>
+        
+        <button v-clipboard="copyEagleJobToken" class="btn btn-primary">
+            <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
+            Copy
+        </button>
+        <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success" >
+            <font-awesome-icon :icon="['fas', 'edit']"></font-awesome-icon>
+            Edit
+        </button>
 
         <delete-eagle :eagle="eagle"></delete-eagle>
         <transition name="slide-fade">
@@ -70,6 +78,7 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
+            job_token: this.eagle.job_token,
             email: '',
             viewers: []
         }
@@ -131,6 +140,11 @@ export default {
                 console.log(error)
             })
         },
+        copyEagleJobToken() {
+
+            return this.job_token;
+
+        }
     },
     // created(){
 

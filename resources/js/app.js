@@ -9,14 +9,25 @@ require('./bootstrap');
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
+import VueClipboards from 'vue-clipboards';
 import {routes} from './routes';    // {routes} because importing a const.
 import StoreData from './store';
 import MainApp from './components/MainApp.vue';
+
+// font awesome
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faClipboard, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+// import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faClipboard, faEdit, faTrashAlt);
+Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // window.Vue = require('vue');
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
+Vue.use(VueClipboards);
 
 const store = new Vuex.Store(StoreData);
 

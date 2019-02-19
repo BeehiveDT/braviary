@@ -20,6 +20,8 @@
                                 <br>
                                 <span>Tolerance: {{eagle.tolerance}}</span>
                                 <br>
+                                <span>Job Token: {{eagle.job_token}}</span>
+                                <br>
                                 <update-eagle :eagle="eagle"></update-eagle>
                             </div>
                         </div>
@@ -88,7 +90,7 @@ export default {
         },
         updateEagle(id){
             console.log(id)
-        }
+        },
     },
 }
 </script>

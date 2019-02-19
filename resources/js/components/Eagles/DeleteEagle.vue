@@ -3,6 +3,7 @@
 
         <!-- Button to Open the Modal -->
         <button v-on:click="deleteEagleConfirmation(eagle.id)" type="button" class="btn btn-danger" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
+            <font-awesome-icon :icon="['fas', 'trash-alt']"></font-awesome-icon>
             Delete
         </button>
 
