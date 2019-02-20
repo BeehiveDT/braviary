@@ -1,9 +1,9 @@
 <template>
-    <div id="log-in">
-        <div class="container">
-            <div class="alert alert-warning" v-if="logInFailed">
-                <span>Please try again</span>
-            </div>
+    <div class="container" id="log-in">
+        <div class="alert alert-warning" v-if="logInFailed">
+            <span>Please try again</span>
+        </div>
+        <div class="mx-auto col-lg-6 offset-lg-3 col-md-12">
             <form @submit.prevent="submit">
                 <div class="form-group">
                     <label for="logInEmail">Email</label>
@@ -13,7 +13,9 @@
                     <label for="logInPassword">Password</label>
                     <input v-model="password" type="password" class="form-control" id="logInPassword" placeholder="Password">
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-primary">Log In</button>
+                <a class="float-right" href="">Forgot Password?</a>
+                <!-- <href type="button" class="btn btn-primary">Forgot Password?</button> -->
             </form>
         </div>
     </div>
@@ -58,3 +60,10 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    #log-in {
+        height: 80vh;
+        padding-top: 20vh;
+    }
+</style>
