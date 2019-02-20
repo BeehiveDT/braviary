@@ -1,35 +1,37 @@
 <template>
-    <div id="sign-up">
-        <div class="container">
+    <!-- <div id="sign-up"> -->
+        <div class="container" id="sign-up">
             <div class="alert alert-warning" v-if="signUpFailed">
                 <span>Please try again</span>
             </div>
-            <form @submit.prevent="submit">
-                <div class="form-group">
-                    <label for="SignUpName">Name</label>
-                    <input v-model="userName" type="text" class="form-control" id="SignUpName" placeholder="Name">
-                    <span> {{ userName }} </span>
-                </div>
-                <div class="form-group">
-                    <label for="SignUpEmail">Email</label>
-                    <input v-model="email" type="email" class="form-control" id="SignUpEmail" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label for="SignUpPassword1">Password</label>
-                    <input v-model="password1" type="password" class="form-control" id="SignUpPassword1" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <label for="SignUpPassword2">Re-enter Password</label>
-                    <input v-model="password2" type="password" class="form-control" id="SignUpPassword2" placeholder="Re-enter Password">
-                </div>
-                <!-- <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Show Password</label>
-                </div> -->
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
+            <div class="mx-auto col-lg-6 offset-lg-3 col-md-12">
+                <form @submit.prevent="submit">
+                    <div class="form-group">
+                        <label for="SignUpName">Name</label>
+                        <input v-model="userName" type="text" class="form-control" id="SignUpName" placeholder="Name">
+                        <span> {{ userName }} </span>
+                    </div>
+                    <div class="form-group">
+                        <label for="SignUpEmail">Email</label>
+                        <input v-model="email" type="email" class="form-control" id="SignUpEmail" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="SignUpPassword1">Password</label>
+                        <input v-model="password1" type="password" class="form-control" id="SignUpPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                        <label for="SignUpPassword2">Re-enter Password</label>
+                        <input v-model="password2" type="password" class="form-control" id="SignUpPassword2" placeholder="Re-enter Password">
+                    </div>
+                    <!-- <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Show Password</label>
+                    </div> -->
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-    </div>
+    <!-- </div> -->
 </template>
 
 <script>
@@ -77,3 +79,10 @@ export default {
     // }
 }
 </script>
+
+<style scoped>
+    #sign-up {
+        height: 90vh;
+        padding-top: 10vh;
+    }
+</style>
