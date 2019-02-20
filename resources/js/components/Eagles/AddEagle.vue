@@ -1,11 +1,11 @@
 <template>
-    <div id="add-eagle">
+    <div class="row" id="add-eagle">
         <p>
             <button v-on:click="toggleShow" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
                 Add New Eagle
             </button>
         </p>
-        <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
+        <div v-bind:class="{show: isShow}" class="col-12 mb-3" id="addNewEagle">
             <div class="card card-body">
                 <form @submit.prevent="submit">
                     <div class="form-group">

@@ -10506,6 +10506,11 @@ a.text-dark:focus {
   display: inline;
 }
 
+#main div[class^=col-] {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
 #main .slide-fade-enter-active {
   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }

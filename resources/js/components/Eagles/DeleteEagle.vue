@@ -2,8 +2,9 @@
     <div :id="`DeleteEagle-${eagle.id}`">
 
         <!-- Button to Open the Modal -->
-        <button v-on:click="deleteEagleConfirmation(eagle.id)" type="button" class="btn btn-danger" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
-            Delete
+        <button ype="button" class="btn btn-danger" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
+            <font-awesome-icon :icon="['fas', 'trash-alt']"></font-awesome-icon>
+            <span>Delete</span>
         </button>
 
         <!-- The Modal -->
@@ -19,9 +20,9 @@
                     
                     <!-- Modal body -->
                     <div class="modal-body">
-                    <!-- Photo by Andreas Barth from Pexels -->
-                    <img style="width: 100%;" :src="'/img/upset_eagle.jpg'">
-                    Are you sure you want to delete {{ eagle.name }}?
+                        <!-- Photo by Andreas Barth from Pexels -->
+                        <img style="width: 100%;" :src="'/img/upset_eagle.jpg'">
+                        <span>Are you sure you want to delete {{ eagle.name }}?</span>
                     </div>
                     
                     <!-- Modal footer -->
@@ -54,9 +55,6 @@ export default {
         }
     },
     methods: {
-        deleteEagleConfirmation(id){
-
-        },
         deleteEagle(id){
             this.$store.dispatch('deleteEagle', {
                 id
