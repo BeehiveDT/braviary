@@ -9,20 +9,10 @@
                 <add-eagle></add-eagle>
 
                 <div class="row" id="ShowEagles">
-                    <div class="card col-lg-6 col-md-12" v-for="(eagle, index) in eagles" :key="index">
+                    <div class="eagle-card card col-lg-4 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
                         <div class="card-body">
                             <div class="card-text">
-                                <span>{{eagle.id}}</span>
-                                |
-                                <span>{{eagle.name}}</span>
-                                <br>
-                                <span>Frequency: {{eagle.frequency}}</span>
-                                <br>
-                                <span>Tolerance: {{eagle.tolerance}}</span>
-                                <br>
-                                <span>Job Token: {{eagle.job_token}}</span>
-                                <br>
-                                <update-eagle :eagle="eagle"></update-eagle>
+                                <eagle :eagle="eagle"></eagle>
                             </div>
                         </div>
                     </div>
@@ -34,13 +24,13 @@
 
 <script>
 import AddEagle from './AddEagle.vue'
-import UpdateEagle from './UpdateEagle.vue'
+import Eagle from './Eagle.vue'
 
 export default {
     name: 'eagles',
     components: {
         AddEagle,
-        UpdateEagle
+        Eagle
     },
     data(){
         return{
@@ -94,3 +84,9 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    /* .eagle-card{
+        margin: 5px;
+    } */
+</style>

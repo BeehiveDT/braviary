@@ -3,11 +3,11 @@
         
         <button v-clipboard="copyEagleJobToken" class="btn btn-primary">
             <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-            Copy
+            <span>Copy</span>
         </button>
         <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success" >
             <font-awesome-icon :icon="['fas', 'edit']"></font-awesome-icon>
-            Edit
+            <span>Edit</span>
         </button>
 
         <delete-eagle :eagle="eagle"></delete-eagle>
@@ -15,7 +15,7 @@
             <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
                 <br>
                 <div class="row">
-                    <div class="col-6 inline-div">
+                    <div class="col-lg-12 col-6 inline-div">
                         <div class="card card-body">
                             <form @submit.prevent="updateEagle(eagle.id)">
                                 <div class="form-group">
@@ -34,7 +34,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-6 inline-div">
+                    <div class="col-lg-12 col-6 inline-div">
                         <div class="card card-body viewer">
                             <form @submit.prevent="addEagleViewer(eagle.id)">
                                 <div class="form-group">
