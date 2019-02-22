@@ -85,6 +85,13 @@ export default {
 
                 // POST request to sign up
                 axios.post(`${API}/auth/register`, payload, headers)
+                // .then(response => { 
+                //     // do nothing
+                //     console.log(response)
+                // })
+                // .catch(error => {
+                //         console.log(error.response.data.error.message)
+                // })
                 .then(response=> {
                     // success
                     router.push('/log-in');
@@ -92,7 +99,8 @@ export default {
                 })
                 .catch(error=>{
                     // signup failed
-                    reject(error);
+                    let _errorMessage = error.response.data.error.message;
+                    reject(_errorMessage);
                 })
             })
         },

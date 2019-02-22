@@ -11912,8 +11912,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 var API = "http://braviary.test/api";
+var errorResponse = {
+  'name': {
+    failed: false,
+    errorMessage: ''
+  },
+  'email': {
+    failed: false,
+    errorMessage: ''
+  },
+  'password': {
+    failed: false,
+    errorMessage: ''
+  }
+};
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'sign-up',
   data: function data() {
@@ -11922,7 +11948,14 @@ var API = "http://braviary.test/api";
       email: '',
       password1: '',
       password2: '',
-      signUpFailed: false
+      errorResponse: errorResponse,
+      // from API
+      invalidPassword: false,
+      // password doesn't meet requirement
+      passwordCheck: '',
+      // 
+      areMatched: true,
+      disableSubmit: true
     };
   },
   computed: {
@@ -11943,8 +11976,67 @@ var API = "http://braviary.test/api";
         name: name
       }).then(function (response) {// do nothing
       }).catch(function (error) {
-        _this.signUpFailed = true;
+        var properties = ['email', 'name', 'password'];
+
+        for (var _i = 0; _i < properties.length; _i++) {
+          var property = properties[_i];
+
+          if (error.hasOwnProperty(property)) {
+            var current = _this.errorResponse[property];
+            current.failed = true;
+            current.errorMessage = error[property][0];
+          }
+        }
       });
+    },
+    checkNoneEmptyString: function checkNoneEmptyString(str) {
+      return !(str === '');
+    },
+    checkName: function checkName() {
+      return this.checkNoneEmptyString(this.name);
+    },
+    checkEmail: function checkEmail() {
+      return this.checkNoneEmptyString(this.email);
+    },
+    checkPassword: function checkPassword() {
+      this.invalidPassword = false;
+      var password = this.password1;
+      var lowerCaseLetters = /[a-z]/g;
+      var upperCaseLetters = /[A-Z]/g;
+      var numbers = /[0-9]/g;
+
+      if (password.length < 7) {
+        this.invalidPassword = true;
+        this.passwordCheck = "Need at least six characters";
+      } else if (!password.match(upperCaseLetters)) {
+        this.invalidPassword = true;
+        this.passwordCheck = "Need at least one uppercase letter";
+      } else if (!password.match(lowerCaseLetters)) {
+        this.invalidPassword = true;
+        this.passwordCheck = "Need at least one lowercase  letter";
+      } else if (!password.match(numbers)) {
+        this.invalidPassword = true;
+        this.passwordCheck = "Need at least one number";
+      }
+
+      if (this.password2.length > 0) {
+        this.checkPasswords();
+      }
+    },
+    checkPasswords: function checkPasswords() {
+      if (this.checkNoneEmptyString(this.password1) && this.checkNoneEmptyString(this.password2)) {
+        this.areMatched = this.password1 === this.password2;
+        return this.areMatched;
+      } else {
+        return false;
+      }
+    },
+    checkForm: function checkForm() {
+      if (this.checkPasswords() && this.checkName() && this.checkEmail()) {
+        this.disableSubmit = false;
+      } else {
+        this.disableSubmit = true;
+      }
     }
   } // created: function () {
   //     console.log("UserToken")
@@ -49509,12 +49601,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container", attrs: { id: "sign-up" } }, [
-    _vm.signUpFailed
-      ? _c("div", { staticClass: "alert alert-warning" }, [
-          _c("span", [_vm._v("Please try again")])
-        ])
-      : _vm._e(),
-    _vm._v(" "),
     _c("div", { staticClass: "mx-auto col-lg-6 offset-lg-3 col-md-12" }, [
       _c(
         "form",
@@ -49543,17 +49629,30 @@ var render = function() {
               attrs: { type: "text", id: "SignUpName", placeholder: "Name" },
               domProps: { value: _vm.userName },
               on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.userName = $event.target.value
+                  },
+                  function($event) {
+                    _vm.checkForm()
                   }
-                  _vm.userName = $event.target.value
-                }
+                ]
               }
-            }),
-            _vm._v(" "),
-            _c("span", [_vm._v(" " + _vm._s(_vm.userName) + " ")])
+            })
           ]),
+          _vm._v(" "),
+          _vm.errorResponse.name.failed
+            ? _c("div", { staticClass: "alert alert-warning" }, [
+                _c("span", [
+                  _vm._v(
+                    " " + _vm._s(_vm.errorResponse.name.errorMessage) + " "
+                  )
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "SignUpEmail" } }, [_vm._v("Email")]),
@@ -49571,15 +49670,30 @@ var render = function() {
               attrs: { type: "email", id: "SignUpEmail", placeholder: "Email" },
               domProps: { value: _vm.email },
               on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.email = $event.target.value
+                  },
+                  function($event) {
+                    _vm.checkForm()
                   }
-                  _vm.email = $event.target.value
-                }
+                ]
               }
             })
           ]),
+          _vm._v(" "),
+          _vm.errorResponse.email.failed
+            ? _c("div", { staticClass: "alert alert-warning" }, [
+                _c("span", [
+                  _vm._v(
+                    " " + _vm._s(_vm.errorResponse.email.errorMessage) + " "
+                  )
+                ])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "SignUpPassword1" } }, [
@@ -49603,15 +49717,36 @@ var render = function() {
               },
               domProps: { value: _vm.password1 },
               on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password1 = $event.target.value
+                  },
+                  function($event) {
+                    _vm.checkPassword()
                   }
-                  _vm.password1 = $event.target.value
-                }
+                ]
               }
             })
           ]),
+          _vm._v(" "),
+          _vm.errorResponse.password.failed
+            ? _c("div", { staticClass: "alert alert-warning" }, [
+                _c("span", [
+                  _vm._v(
+                    " " + _vm._s(_vm.errorResponse.password.errorMessage) + " "
+                  )
+                ])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.invalidPassword
+            ? _c("div", { staticClass: "alert alert-warning" }, [
+                _c("span", [_vm._v(" " + _vm._s(_vm.passwordCheck) + " ")])
+              ])
+            : _vm._e(),
           _vm._v(" "),
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "SignUpPassword2" } }, [
@@ -49635,19 +49770,33 @@ var render = function() {
               },
               domProps: { value: _vm.password2 },
               on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+                input: [
+                  function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.password2 = $event.target.value
+                  },
+                  function($event) {
+                    _vm.checkForm()
                   }
-                  _vm.password2 = $event.target.value
-                }
+                ]
               }
             })
           ]),
           _vm._v(" "),
+          !_vm.areMatched
+            ? _c("div", { staticClass: "alert alert-warning" }, [
+                _c("span", [_vm._v(" Passwords must be the same ")])
+              ])
+            : _vm._e(),
+          _vm._v(" "),
           _c(
             "button",
-            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            {
+              staticClass: "btn btn-primary",
+              attrs: { type: "submit", disabled: _vm.disableSubmit }
+            },
             [_vm._v("Submit")]
           )
         ]
@@ -65505,13 +65654,21 @@ var authorizedHeader = {
       var commit = _ref2.commit;
       return new Promise(function (resolve, reject) {
         // POST request to sign up
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers) // .then(response => { 
+        //     // do nothing
+        //     console.log(response)
+        // })
+        // .catch(error => {
+        //         console.log(error.response.data.error.message)
+        // })
+        .then(function (response) {
           // success
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
           resolve(response);
         }).catch(function (error) {
           // signup failed
-          reject(error);
+          var _errorMessage = error.response.data.error.message;
+          reject(_errorMessage);
         });
       });
     },
