@@ -1,21 +1,21 @@
 <template>
     <div :id="`UpdateEagle${eagle.id}`">
         
-        <button v-clipboard="copyEagleJobToken" class="btn btn-primary">
+        <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
             <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-            <span>Copy</span>
+            <!-- <span>Copy</span> -->
         </button>
-        <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success" >
+        <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success round-button" >
             <font-awesome-icon :icon="['fas', 'edit']"></font-awesome-icon>
-            <span>Edit</span>
+            <!-- <span>Edit</span> -->
         </button>
 
         <delete-eagle :eagle="eagle"></delete-eagle>
         <transition name="slide-fade">
             <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
                 <br>
-                <div class="row">
-                    <div class="col-lg-12 col-6 inline-div">
+                <div class="row .row-eq-height">
+                    <div class="col-lg-12 col-md-6 col-12 inline-div">
                         <div class="card card-body">
                             <form @submit.prevent="updateEagle(eagle.id)">
                                 <div class="form-group">
@@ -34,24 +34,36 @@
                             </form>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-6 inline-div">
+                    <div class="col-lg-12 col-md-6 col-12 add-delete-viewers">
                         <div class="card card-body viewer">
                             <form @submit.prevent="addEagleViewer(eagle.id)">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label for="EagleName">Email</label>
                                     <input v-model="email"  type="email" class="form-control" id="EagleName" placeholder="Viewer Email">
                                 </div>
-                                <button type="submit" class="btn btn-primary">Add</button>
+                                <button type="submit" class="btn btn-primary">Add</button> -->
+                                <div class="input-group mb-3">
+                                    <input v-model="email" type="email" class="form-control" id="ViewerEmail" placeholder="Add Viewer by Email" aria-describedby="add-viewer" aria-label="Add viewer to eagle">
+                                    <div class="input-group-append">
+                                        <button v-on:click="addEagleViewer(eagle.id)" class="btn btn-primary input-group-text" id="add-viewer" type="submit" >
+                                            <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
+
                             <!-- <eagle-viewers :eagle="eagle"></eagle-viewers> -->
-                            <ul class="scrollable" id="example-1">
-                                <li v-for="(viewer, index) in viewers" :key="index">
-                                    {{ viewer.email }}
-                                </li>
-                            </ul>
+                            <div class="scrollable" id="example-1">
+                                <div v-for="(viewer, index) in viewers" :key="index">
+                                    <font-awesome-icon class="red" :icon="['far', 'times-circle']"></font-awesome-icon>
+                                    <!-- <button class="btn btn-outline-danger delete-viewer" type="button">x</button> -->
+                                    <span>{{ viewer.email }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
             </div>
         </transition>
     </div>
@@ -134,10 +146,9 @@ export default {
             })
             .then(response => {
                 this.viewers = response;
-                console.log(response)
             })
             .catch(error => {
-                console.log(error)
+                // do nothing
             })
         },
         copyEagleJobToken() {
@@ -155,12 +166,12 @@ export default {
 
 <style scoped>
 
-    .viewer {
-        height: 100%;
+    .add-delete-viewers {
+        display: flex;
     }
 
     .scrollable {
-        height: 50%;
-        overflow: scroll;
+        overflow-y: auto;
     }
+
 </style>

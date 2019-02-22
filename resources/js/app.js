@@ -16,11 +16,12 @@ import MainApp from './components/MainApp.vue';
 
 // font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faClipboard, faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
+import { faClipboard, faEdit, faTrashAlt, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 // import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faClipboard, faEdit, faTrashAlt);
+library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // window.Vue = require('vue');

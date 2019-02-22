@@ -10502,8 +10502,16 @@ a.text-dark:focus {
   color: white;
 }
 
+#main div {
+  border-radius: 0 !important;
+}
+
 #main .inline-div {
   display: inline;
+}
+
+#main .round-button {
+  border-radius: 50%;
 }
 
 #main div[class^=col-] {
@@ -10524,6 +10532,10 @@ a.text-dark:focus {
   -webkit-transform: translateX(10px);
           transform: translateX(10px);
   opacity: 0;
+}
+
+#main .red {
+  color: red;
 }
 
 #main .footer {

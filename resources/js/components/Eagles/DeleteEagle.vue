@@ -2,9 +2,9 @@
     <div :id="`DeleteEagle-${eagle.id}`">
 
         <!-- Button to Open the Modal -->
-        <button ype="button" class="btn btn-danger" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
+        <button ype="button" class="btn btn-danger round-button" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
             <font-awesome-icon :icon="['fas', 'trash-alt']"></font-awesome-icon>
-            <span>Delete</span>
+            <!-- <span>Delete</span> -->
         </button>
 
         <!-- The Modal -->

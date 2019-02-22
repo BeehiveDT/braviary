@@ -20,7 +20,9 @@
                         <label for="EagleTolerance">Tolerance</label>
                         <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
                     </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary round-button">
+                        <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                    </button>
                 </form>
             </div>
         </div>
