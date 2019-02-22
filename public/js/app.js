@@ -11756,6 +11756,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'logIn',
   data: function data() {
@@ -49424,15 +49428,24 @@ var render = function() {
             [_vm._v("Log In")]
           ),
           _vm._v(" "),
-          _c("a", { staticClass: "float-right", attrs: { href: "" } }, [
-            _vm._v("Forgot Password?")
-          ])
+          _vm._m(0)
         ]
       )
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inline-div float-right" }, [
+      _c("a", { attrs: { href: "/sign-up" } }, [_vm._v("Sign Up")]),
+      _vm._v("\n                |\n                "),
+      _c("a", { attrs: { href: "" } }, [_vm._v("Forgot Password?")])
+    ])
+  }
+]
 render._withStripped = true
 
 

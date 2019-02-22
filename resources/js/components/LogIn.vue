@@ -14,7 +14,11 @@
                     <input v-model="password" type="password" class="form-control" id="logInPassword" placeholder="Password">
                 </div>
                 <button type="submit" class="btn btn-primary">Log In</button>
-                <a class="float-right" href="">Forgot Password?</a>
+                <div class="inline-div float-right">
+                    <a href="/sign-up">Sign Up</a>
+                    |
+                    <a href="">Forgot Password?</a>
+                </div>
                 <!-- <href type="button" class="btn btn-primary">Forgot Password?</button> -->
             </form>
         </div>
