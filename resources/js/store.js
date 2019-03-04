@@ -85,13 +85,6 @@ export default {
 
                 // POST request to sign up
                 axios.post(`${API}/auth/register`, payload, headers)
-                // .then(response => { 
-                //     // do nothing
-                //     console.log(response)
-                // })
-                // .catch(error => {
-                //         console.log(error.response.data.error.message)
-                // })
                 .then(response=> {
                     // success
                     router.push('/log-in');
@@ -103,7 +96,7 @@ export default {
                     reject(_errorMessage);
                 })
             })
-        },
+        },  
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
                 console.log(API)
@@ -127,25 +120,9 @@ export default {
                     router.push('/');
                     resolve(response);
                 })
-                .catch( error => {
+              .catch( error => {
                     reject(error);
                 })
-
-                // CANNOT USE CUZ NO BODY -.-
-                // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
-                // axios.post(`${API}/auth/logout`)
-                // .then(response=> {
-                //     console.log("logged out")
-                //     commit('updateUserLoggedIn')
-                //     router.push('/');
-                //     resolve(response);
-                // })
-                // .catch(error=>{
-                //     // logout failed
-                //     console.log("why...")
-                //     console.log(error);
-                //     reject(error);
-                // })
             })
         },
         createEagle({ dispatch, commit, state }, payload) {
@@ -215,6 +192,7 @@ export default {
                     let successResponse = response.data["Success"]
                     let eagles = successResponse.eagles.my_eagles
                     commit('updateEagles', eagles)
+                    console.log('eagles updated')
                     resolve(response)
                 })
                 .catch((error) => {
@@ -261,5 +239,31 @@ export default {
                 });
             })
         },
+        // payload.limit is the number of feathres to retrieve
+        // payload.limit  = 1 retrieves last feather
+        retrieveEagleFeathers ({ commit, state }, payload) {
+            return new Promise((resolve, reject) => {
+                let header = authorizedHeader;
+                header.headers['Authorization'] = state.userToken;
+                header.params = {'limit': payload.limit}
+
+                let lastFeather = '';
+
+                axios.get(`${API}/eagles/${payload.id}/feathers`, header)
+                .then(response => {
+                    let feathersArr = response.data['Success']['feathers']
+                    if (feathersArr[0]){
+                        lastFeather = feathersArr[0]
+                    }else{
+                        lastFeather = "None Found"
+                    }
+                    resolve(lastFeather);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+            })
+        },  
     }
 };

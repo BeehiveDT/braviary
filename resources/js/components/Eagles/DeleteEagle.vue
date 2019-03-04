@@ -1,8 +1,8 @@
 <template>
-    <div :id="`DeleteEagle-${eagle.id}`">
+    <div class="inline-div" :id="`DeleteEagle-${eagle.id}`">
 
         <!-- Button to Open the Modal -->
-        <button ype="button" class="btn btn-danger round-button" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
+        <button type="button" class="btn btn-danger round-button" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
             <font-awesome-icon :icon="['fas', 'trash-alt']"></font-awesome-icon>
             <!-- <span>Delete</span> -->
         </button>
@@ -71,7 +71,5 @@ export default {
 </script>
 
 <style scoped>
-    div[id^='DeleteEagle-']{
-        display: inline;
-    }
+
 </style>

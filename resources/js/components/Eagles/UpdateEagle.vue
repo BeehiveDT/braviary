@@ -1,20 +1,16 @@
 <template>
-    <div :id="`UpdateEagle${eagle.id}`">
+    <div class="inline-div" :id="`UpdateEagle${eagle.id}`">
         
-        <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
-            <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-            <!-- <span>Copy</span> -->
-        </button>
         <button v-on:click="toggleOpen(); getEagleViewers(eagle.id);" class="btn btn-success round-button" >
             <font-awesome-icon :icon="['fas', 'edit']"></font-awesome-icon>
-            <!-- <span>Edit</span> -->
         </button>
 
-        <delete-eagle :eagle="eagle"></delete-eagle>
         <transition name="slide-fade">
             <div v-if="isOpen" :id="`UpdateEagleForm-${eagle.id}`">
                 <br>
-                <div class="row .row-eq-height">
+                <div class="row row-eq-height">
+
+                    <!-- update eagle -->
                     <div class="col-lg-12 col-md-6 col-12 inline-div">
                         <div class="card card-body">
                             <form @submit.prevent="updateEagle(eagle.id)">
@@ -34,14 +30,11 @@
                             </form>
                         </div>
                     </div>
+
+                    <!-- eagle viewers -->
                     <div class="col-lg-12 col-md-6 col-12 add-delete-viewers">
                         <div class="card card-body viewer">
                             <form @submit.prevent="addEagleViewer(eagle.id)">
-                                <!-- <div class="form-group">
-                                    <label for="EagleName">Email</label>
-                                    <input v-model="email"  type="email" class="form-control" id="EagleName" placeholder="Viewer Email">
-                                </div>
-                                <button type="submit" class="btn btn-primary">Add</button> -->
                                 <div class="input-group mb-3">
                                     <input v-model="email" type="email" class="form-control" id="ViewerEmail" placeholder="Add Viewer by Email" aria-describedby="add-viewer" aria-label="Add viewer to eagle">
                                     <div class="input-group-append">
@@ -52,16 +45,15 @@
                                 </div>
                             </form>
 
-                            <!-- <eagle-viewers :eagle="eagle"></eagle-viewers> -->
                             <div class="scrollable" id="example-1">
                                 <div v-for="(viewer, index) in viewers" :key="index">
                                     <font-awesome-icon class="red" :icon="['far', 'times-circle']"></font-awesome-icon>
-                                    <!-- <button class="btn btn-outline-danger delete-viewer" type="button">x</button> -->
                                     <span>{{ viewer.email }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
+
                 </div>
 
             </div>
@@ -70,13 +62,10 @@
 </template>
 
 <script>
-import DeleteEagle from './DeleteEagle.vue';
-
 
 export default {
     name: 'update-eagle',
     components: {
-        DeleteEagle
     },
     props: {
         eagle: {
@@ -151,11 +140,6 @@ export default {
                 // do nothing
             })
         },
-        copyEagleJobToken() {
-
-            return this.job_token;
-
-        }
     },
     // created(){
 
@@ -171,6 +155,7 @@ export default {
     }
 
     .scrollable {
+        /* height: 200px; */
         overflow-y: auto;
     }
 

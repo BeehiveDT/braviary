@@ -10514,9 +10514,8 @@ a.text-dark:focus {
   border-radius: 50%;
 }
 
-#main div[class^=col-] {
-  padding-right: 0px;
-  padding-left: 0px;
+#main .eagles-btn {
+  margin-right: 3px;
 }
 
 #main .slide-fade-enter-active {

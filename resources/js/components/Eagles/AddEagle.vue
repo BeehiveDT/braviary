@@ -1,11 +1,12 @@
 <template>
     <div class="row" id="add-eagle">
-        <p>
-            <button v-on:click="toggleShow" class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
-                Add New Eagle
+        <div class="inline-div">
+            <button v-on:click="toggleShow" class="btn btn-dark round-button eagles-btn" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
+                <font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon>
+                <span>Add Eagle</span>
             </button>
-        </p>
-        <div v-bind:class="{show: isShow}" class="col-12 mb-3" id="addNewEagle">
+        </div>
+        <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
             <div class="card card-body">
                 <form @submit.prevent="submit">
                     <div class="form-group">
@@ -22,6 +23,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary round-button">
                         <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                        <span>Send</span>
                     </button>
                 </form>
             </div>
@@ -71,3 +73,10 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    #addNewEagle {
+        width: 100%;
+        margin-top: 15px;
+    }
+</style>

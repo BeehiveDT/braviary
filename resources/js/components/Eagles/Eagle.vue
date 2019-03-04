@@ -11,16 +11,29 @@
         <span>Job Token: {{eagle.job_token}}</span>
         <br>
         <span>Last Feather: {{ lastFeather }}</span>
-        <update-eagle :eagle="eagle"></update-eagle>
+        
+
+        <div>
+            <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
+                <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
+                <!-- <span>Copy</span> -->
+            </button>
+            <delete-eagle :eagle="eagle"></delete-eagle>
+            <update-eagle :eagle="eagle"></update-eagle>
+        </div>
     </div>
 </template>
 
 <script>
-import UpdateEagle from './UpdateEagle.vue'
+import UpdateEagle from './UpdateEagle.vue';
+import DeleteEagle from './DeleteEagle.vue';
+
+
 export default {
     name: 'eagle',
     components: {
-        UpdateEagle
+        UpdateEagle,
+        DeleteEagle
     },
     props: {
         eagle: {
@@ -34,36 +47,26 @@ export default {
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
             lastFeather: ''
-
         }
     },
     methods: {
-
+        // num is the number of feathres to retrieve
+        // num = 1 retrieves last feather
+        copyEagleJobToken() {
+            return this.eagle.job_token;
+        }
     },
     mounted(){
-        // retrieve last feather
-        let config = {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'Authorization': this.$store.state.userToken
-            },
-            params: {
-                'limit': 1
-            }
-        }
-        
-        axios.get(`${window.location.origin + '/api'}/eagles/${this.eagle.id}/feathers`, config)
-        .then(response => {
-            let feathersArr = response.data['Success']['feathers']
-            if (feathersArr[0]){
-                this.lastFeather = feathersArr[0]
-            }else{
-                this.lastFeather = "None Found"
-            }
-        })
-        .catch((error) => {
-        });
+        this.$store.dispatch('retrieveEagleFeathers', { 
+            limit: 1,
+            id: this.eagle.id
+            })
+            .then(response => { 
+                this.lastFeather = response;
+            })
+            .catch(error => {
+                // do nothing
+            })
     }
 }
 </script>
