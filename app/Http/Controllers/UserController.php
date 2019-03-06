@@ -83,7 +83,9 @@ class UserController extends Controller
         }
 
         $user->name = $request->name ?? $user->name;
-        $user->password = bcrypt($request->password) ?? $user->password;
+        if (!is_null($request->password)) {
+            $user->password = bcrypt($request->password);
+        }
         $user->save();
         return response()->json([
             'Success' => [

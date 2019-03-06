@@ -60,4 +60,6 @@ Route::group(['prefix' => 'zookeeper',  'middleware' => 'isadmin.api'], function
     Route::get('/users', 'AdminController@users');
     //列出所有老鷹
     Route::get('/eagles', 'AdminController@eagles');
+    //更改使用者權限
+    Route::put('/users', 'AdminController@upgrade');
 });
