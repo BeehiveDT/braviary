@@ -44,13 +44,33 @@
                                     </div>
                                 </div>
                             </form>
-
                             <div class="scrollable" id="example-1">
                                 <div v-for="(viewer, index) in viewers" :key="index">
-                                    <font-awesome-icon class="red" :icon="['far', 'times-circle']"></font-awesome-icon>
+                                    <font-awesome-icon v-on:click="deleteViewerConfirmation(viewer)" class="red" :icon="['far', 'times-circle']" data-toggle="modal" data-target="#deleteViewerConfirmation"></font-awesome-icon>
                                     <span>{{ viewer.email }}</span>
                                 </div>
                             </div>
+
+                            <!-- The Modal -->
+                            <div class="modal fade" id="deleteViewerConfirmation">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        
+                                        <!-- Modal body -->
+                                        <div class="modal-body">
+                                            <span>Are you sure you want to delete {{viewerName}} with email: {{ viewerEmail }}?</span>
+                                        </div>
+                                        
+                                        <!-- Modal footer -->
+                                        <div class="modal-footer">
+                                            <button type="button" v-on:click="deleteViewer(viewerEmail)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
@@ -81,8 +101,13 @@ export default {
             tolerance: this.eagle.tolerance,
             job_token: this.eagle.job_token,
             email: '',
+            viewerName: '',
+            viewerEmail: '',
             viewers: []
         }
+    },
+    computed: {
+
     },
     methods: {
         toggleOpen(){
@@ -111,7 +136,6 @@ export default {
                 .catch(error => {
                     // failed to create eagle
                 })
-            // console.log(this.name, this.frequency, this.tolerance)
         },
         addEagleViewer(id){
             // email object
@@ -122,28 +146,46 @@ export default {
                 email
             })
             .then(response => {
-                console.log(response)
-            })
-            .catch(error => {
-                console.log(error)
-            })
-        },
-        getEagleViewers(id){
-
-            this.$store.dispatch('getEagleViewers', {
-                id
-            })
-            .then(response => {
-                this.viewers = response;
+                this.getEagleViewers(id);
             })
             .catch(error => {
                 // do nothing
             })
         },
-    },
-    // created(){
+        getEagleViewers(id){
+            this.$store.dispatch('getEagleViewers', {
+                id
+            })
+            .then(response => {
+                console.log(response);
+                this.viewers = response;
+                console.log(this.viewers);
+            })
+            .catch(error => {
+                // do nothing
+            })
+        },
+        deleteViewerConfirmation(viewer){
+            this.viewerName = viewer.name;
+            this.viewerEmail = viewer.email;
+        },
+        deleteViewer(email){
+            
+            let body = {target_mail: email}
+            let id = this.eagle.id;
 
-    // }
+            this.$store.dispatch('deleteEagleViewer', { 
+                    id,
+                    body
+                })
+                .then(response => {
+                    this.getEagleViewers(id);
+                })
+                .catch(error => {
+                    // do nothing
+                })
+        }
+    }
 }
 </script>
 
