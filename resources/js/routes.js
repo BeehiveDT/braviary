@@ -3,6 +3,7 @@ import Home from './components/Home.vue';
 import SignUp from './components/SignUp.vue';
 import LogIn from './components/LogIn.vue';
 import Eagles from './components/Eagles/Eagles.vue';
+import UserProfile from './components/User/UserProfile.vue';
 
 // Assign Page to paths
 export const routes = [
@@ -22,5 +23,9 @@ export const routes = [
     {
         path: '/eagles',
         component: Eagles
+    },
+    {
+        path: '/me',
+        component: UserProfile
     }
 ];

@@ -153,6 +153,24 @@ export default {
                 })
             })
         },
+        updateUser({state, commit}, payload){
+            return new Promise((resolve, reject) => {
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                // POST request to update user
+                axios.post(`${API}/me`, payload, authorizedHeader)
+                .then(response=> {
+                    // update user succeeded
+                    commit('updateUserName', payload.name);
+                    resolve(response);
+                })
+                .catch(error=>{
+                    // update user failed
+                    let errorMessage = error.response.data.error.message;
+                    reject(errorMessage);
+                })
+            })
+        },
         createEagle({ dispatch, commit, state }, payload) {
             return new Promise((resolve, reject) => {
                 authorizedHeader.headers['Authorization'] = state.userToken;
@@ -188,7 +206,6 @@ export default {
                })
             })
         },
-
         deleteEagle({dispatch, commit, state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization

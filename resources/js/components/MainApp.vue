@@ -38,8 +38,10 @@
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Welcome, {{ userName }}
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">  
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
                                         <router-link to="/eagles" class="black-text">Eagles</router-link>
+                                        <div class="dropdown-divider"></div>
+                                        <router-link to="/me" class="black-text">Profile</router-link>
                                         <div class="dropdown-divider"></div>
                                         <router-link v-on:click.native="userLogOut" to="/" class="black-text">Log Out</router-link>
                                     </div>
@@ -77,7 +79,6 @@
                 return !this.$store.state.userLoggedIn;
             },
             userName(){
-                console.log(this.$store.state.userName);
                 return this.$store.state.userName;
             }
         },
