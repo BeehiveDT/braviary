@@ -161,7 +161,9 @@ export default {
                 axios.post(`${API}/me`, payload, authorizedHeader)
                 .then(response=> {
                     // update user succeeded
-                    commit('updateUserName', payload.name);
+                    if(payload.name){
+                        commit('updateUserName', payload.name);
+                    }
                     resolve(response);
                 })
                 .catch(error=>{

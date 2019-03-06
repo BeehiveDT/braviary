@@ -13261,6 +13261,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 var errorResponse = {
   'name': {
     failed: false,
@@ -13287,16 +13292,24 @@ var errorResponse = {
   },
   computed: {},
   methods: {
-    submit: function submit() {
+    submitName: function submitName() {
+      var name = {
+        name: this.userName
+      };
+      this.updateUser(name);
+    },
+    submitPassword: function submitPassword() {
+      var password = {
+        password: this.password1
+      }; // "name": "老鷹訓練師",
+
+      this.updateUser(password);
+    },
+    updateUser: function updateUser(data) {
       var _this = this;
 
-      var name = this.userName;
-      var password = this.password1;
-      this.$store.dispatch('updateUser', {
-        name: name,
-        password: password
-      }).then(function (response) {
-        // clear password fields
+      this.$store.dispatch('updateUser', data).then(function (response) {
+        // clear password fields on both name/password updates
         _this.password1 = '';
         _this.password2 = '';
       }).catch(function (error) {
@@ -51336,7 +51349,7 @@ var render = function() {
           on: {
             submit: function($event) {
               $event.preventDefault()
-              return _vm.submit($event)
+              return _vm.submitName($event)
             }
           }
         },
@@ -51354,11 +51367,7 @@ var render = function() {
                 }
               ],
               staticClass: "form-control",
-              attrs: {
-                type: "text",
-                id: "logInPassword",
-                placeholder: "Password"
-              },
+              attrs: { type: "text", id: "logInPassword", placeholder: "name" },
               domProps: { value: _vm.userName },
               on: {
                 input: [
@@ -51386,6 +51395,25 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", attrs: { type: "submit" } },
+            [_vm._v("Save")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "form",
+        {
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.submitPassword($event)
+            }
+          }
+        },
+        [
           _c("div", { staticClass: "form-group" }, [
             _c("label", { attrs: { for: "SignUpPassword1" } }, [
               _vm._v("Password")
@@ -67494,7 +67522,10 @@ var authorizedHeader = {
 
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/me"), payload, authorizedHeader).then(function (response) {
           // update user succeeded
-          commit('updateUserName', payload.name);
+          if (payload.name) {
+            commit('updateUserName', payload.name);
+          }
+
           resolve(response);
         }).catch(function (error) {
           // update user failed
