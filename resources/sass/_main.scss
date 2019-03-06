@@ -8,18 +8,31 @@
             a {
                 padding-left: 10px;
                 color: white;
+                &.black-text {
+                    color: black;
+                }
             }
         }
     }
 
+    div {
+        border-radius: 0 !important;
+    }
     .inline-div {
-        display:inline;
+        display: inline;
+    }
+    .round-button {
+        border-radius: 50%;
     }
 
-    div[class^=col-] {
-        padding-right: 0px;
-        padding-left: 0px;
+    .eagles-btn {
+        margin-right: 3px;
     }
+
+    // div[class^=col-] {
+    //     padding-right: 0px;
+    //     padding-left: 0px;
+    // }
 
     .slide-fade-enter-active {
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
@@ -31,6 +44,10 @@
     /* .slide-fade-leave-active below version 2.1.8 */ {
         transform: translateX(10px);
         opacity: 0;
+    }
+
+    .red {
+        color: red;
     }
 
     .footer {

@@ -20,6 +20,7 @@ const authorizedHeader = {
 
 export default {
     state: {
+        userName: '',
         userToken: '',
         userLoggedIn: false,
         eagles: [],
@@ -31,11 +32,13 @@ export default {
 			// if token exists, replace userToken in state
 			if(localStorage.getItem('token')) {
                 state.userToken = localStorage.getItem('token');
+                state.userName = localStorage.getItem('name');
                 state.eagles = JSON.parse(localStorage.getItem('eagles'));
                 state.userLoggedIn = true;
 			}
         },
         resetStore(state){
+            state.userName='';
             state.userToken='';
             state.eagles=[];
         },
@@ -43,6 +46,10 @@ export default {
             state.userToken = token;
             // store token in localStorage
             localStorage.setItem('token', token);
+        },
+        updateUserName(state, name){
+            state.userName = name;
+            localStorage.setItem('name', name);
         },
         updateUserLoggedIn(state){
             state.userLoggedIn = !state.userLoggedIn;
@@ -59,6 +66,26 @@ export default {
     },
     // async
     actions: {
+        retrieveUserName({ state, commit }){
+            return new Promise((resolve, reject) => {
+
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                // 
+                axios.get(`${API}/me`, authorizedHeader)
+                .then(response => {
+                    let _successResponse = response.data['Success'];
+                    let _userName = _successResponse.name;
+                    console.log(_userName);
+                    commit('updateUserName', _userName);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                });
+            })    
+        },
         logInSubmit({ dispatch, commit }, payload){
             return new Promise((resolve, reject) => {
 
@@ -71,7 +98,8 @@ export default {
                     let token = response.data.access_token;
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
-                    dispatch('retrieveEagles')
+                    dispatch('retrieveUserName');
+                    dispatch('retrieveEagles');
                     router.push('/eagles');
                     resolve(response);
                 })
@@ -85,13 +113,6 @@ export default {
 
                 // POST request to sign up
                 axios.post(`${API}/auth/register`, payload, headers)
-                // .then(response => { 
-                //     // do nothing
-                //     console.log(response)
-                // })
-                // .catch(error => {
-                //         console.log(error.response.data.error.message)
-                // })
                 .then(response=> {
                     // success
                     router.push('/log-in');
@@ -103,7 +124,7 @@ export default {
                     reject(_errorMessage);
                 })
             })
-        },
+        },  
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
                 console.log(API)
@@ -127,25 +148,9 @@ export default {
                     router.push('/');
                     resolve(response);
                 })
-                .catch( error => {
+              .catch( error => {
                     reject(error);
                 })
-
-                // CANNOT USE CUZ NO BODY -.-
-                // axios.post(`${API}/auth/logout`, "{}", logOutHeader)
-                // axios.post(`${API}/auth/logout`)
-                // .then(response=> {
-                //     console.log("logged out")
-                //     commit('updateUserLoggedIn')
-                //     router.push('/');
-                //     resolve(response);
-                // })
-                // .catch(error=>{
-                //     // logout failed
-                //     console.log("why...")
-                //     console.log(error);
-                //     reject(error);
-                // })
             })
         },
         createEagle({ dispatch, commit, state }, payload) {
@@ -215,6 +220,7 @@ export default {
                     let successResponse = response.data["Success"]
                     let eagles = successResponse.eagles.my_eagles
                     commit('updateEagles', eagles)
+                    console.log('eagles updated')
                     resolve(response)
                 })
                 .catch((error) => {
@@ -261,5 +267,31 @@ export default {
                 });
             })
         },
+        // payload.limit is the number of feathres to retrieve
+        // payload.limit  = 1 retrieves last feather
+        retrieveEagleFeathers ({ commit, state }, payload) {
+            return new Promise((resolve, reject) => {
+                let header = authorizedHeader;
+                header.headers['Authorization'] = state.userToken;
+                header.params = {'limit': payload.limit}
+
+                let lastFeather = '';
+
+                axios.get(`${API}/eagles/${payload.id}/feathers`, header)
+                .then(response => {
+                    let feathersArr = response.data['Success']['feathers']
+                    if (feathersArr[0]){
+                        lastFeather = feathersArr[0]
+                    }else{
+                        lastFeather = "None Found"
+                    }
+                    resolve(lastFeather);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+            })
+        },  
     }
 };

@@ -5,11 +5,16 @@
                 <h2>{{ eaglePageMessage }}</h2>
             </div>
             <div v-else>
-                <!-- Add New Eagle -->
-                <add-eagle></add-eagle>
+                <!-- Add New Eagle -->        
+                <add-eagle class="mb-4"></add-eagle>
+
+                <!-- <button v-on:click="refreshEagles" class="btn btn-dark round-button" type="button">
+                    <font-awesome-icon :icon="['fas', 'redo']"></font-awesome-icon>
+                    <span>Refresh</span>
+                </button> -->
 
                 <div class="row" id="ShowEagles">
-                    <div class="eagle-card card col-lg-4 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
+                    <div class="eagle-card card col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
                         <div class="card-body">
                             <div class="card-text">
                                 <eagle :eagle="eagle"></eagle>
@@ -23,6 +28,7 @@
 </template>
 
 <script>
+
 import AddEagle from './AddEagle.vue'
 import Eagle from './Eagle.vue'
 
@@ -46,6 +52,7 @@ export default {
             return !this.$store.state.userLoggedIn;
         },
         eagles(){
+            console.log('going to rerender eagles');
             return this.$store.state.eagles;
         }
     },
@@ -78,15 +85,13 @@ export default {
                     // failed to create eagle
                 })
         },
-        updateEagle(id){
-            console.log(id)
-        },
+        // refreshEagles(){
+        //     // this.$forceUpdate();
+        // }
     },
 }
 </script>
 
 <style scoped>
-    /* .eagle-card{
-        margin: 5px;
-    } */
+    
 </style>

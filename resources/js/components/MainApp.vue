@@ -11,15 +11,40 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <!-- <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav ml-auto">
                                 <router-link to="/">Home</router-link>
                                 <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
                                 <router-link v-else to="/eagles">Eagles</router-link>
-                                <!-- <span class="navbar-item-divider">|</span> -->
+                                <span class="navbar-item-divider">|</span>
                                 <router-link v-if="userNotLoggedIn" to="/log-in">Log In</router-link>
                                 <router-link v-else v-on:click.native="userLogOut" to="/">Log Out</router-link>
                             </div>
+                        </div> -->
+
+                        <div class="collapse navbar-collapse" id="userLoggedInDropDown">
+                            <ul class="navbar-nav ml-auto">
+                                <!-- <li class="nav-item active">
+                                    <router-link to="/">Home</router-link>
+                                </li> -->
+                                <li class="nav-item">
+                                    <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
+                                    <!-- <router-link v-else to="/eagles">Eagles</router-link> -->
+                                </li>
+                                <li v-if="userNotLoggedIn" class="nav-item">
+                                    <router-link to="/log-in">Log In</router-link>
+                                </li>
+                                <li v-else class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Welcome, {{ userName }}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">  
+                                        <router-link to="/eagles" class="black-text">Eagles</router-link>
+                                        <div class="dropdown-divider"></div>
+                                        <router-link v-on:click.native="userLogOut" to="/" class="black-text">Log Out</router-link>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </nav>
@@ -50,6 +75,10 @@
         computed: {
             userNotLoggedIn(){
                 return !this.$store.state.userLoggedIn;
+            },
+            userName(){
+                console.log(this.$store.state.userName);
+                return this.$store.state.userName;
             }
         },
         methods: {

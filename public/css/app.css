@@ -10502,13 +10502,24 @@ a.text-dark:focus {
   color: white;
 }
 
+#main .wrapper .navbar-nav a.black-text {
+  color: black;
+}
+
+#main div {
+  border-radius: 0 !important;
+}
+
 #main .inline-div {
   display: inline;
 }
 
-#main div[class^=col-] {
-  padding-right: 0px;
-  padding-left: 0px;
+#main .round-button {
+  border-radius: 50%;
+}
+
+#main .eagles-btn {
+  margin-right: 3px;
 }
 
 #main .slide-fade-enter-active {
@@ -10524,6 +10535,10 @@ a.text-dark:focus {
   -webkit-transform: translateX(10px);
           transform: translateX(10px);
   opacity: 0;
+}
+
+#main .red {
+  color: red;
 }
 
 #main .footer {
