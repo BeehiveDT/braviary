@@ -8,6 +8,9 @@
             a {
                 padding-left: 10px;
                 color: white;
+                &.black-text {
+                    color: black;
+                }
             }
         }
     }
@@ -21,6 +24,7 @@
     .round-button {
         border-radius: 50%;
     }
+
     .eagles-btn {
         margin-right: 3px;
     }

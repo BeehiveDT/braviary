@@ -10502,6 +10502,10 @@ a.text-dark:focus {
   color: white;
 }
 
+#main .wrapper .navbar-nav a.black-text {
+  color: black;
+}
+
 #main div {
   border-radius: 0 !important;
 }

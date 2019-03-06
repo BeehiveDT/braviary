@@ -12628,8 +12628,6 @@ __webpack_require__.r(__webpack_exports__);
         _this.clearForm();
       }).catch(function (error) {// failed to create eagle
       });
-    },
-    refreshEagles: function refreshEagles() {// this.$forceUpdate();
     }
   }
 });
@@ -12944,11 +12942,40 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
   computed: {
     userNotLoggedIn: function userNotLoggedIn() {
       return !this.$store.state.userLoggedIn;
+    },
+    userName: function userName() {
+      console.log(this.$store.state.userName);
+      return this.$store.state.userName;
     }
   },
   methods: {
@@ -50069,21 +50096,6 @@ var render = function() {
               _c("add-eagle", { staticClass: "mb-4" }),
               _vm._v(" "),
               _c(
-                "button",
-                {
-                  staticClass: "btn btn-dark round-button",
-                  attrs: { type: "button" },
-                  on: { click: _vm.refreshEagles }
-                },
-                [
-                  _c("font-awesome-icon", { attrs: { icon: ["fas", "redo"] } }),
-                  _vm._v(" "),
-                  _c("span", [_vm._v("Refresh")])
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
                 "div",
                 { staticClass: "row", attrs: { id: "ShowEagles" } },
                 _vm._l(_vm.eagles, function(eagle, index) {
@@ -50590,46 +50602,99 @@ var render = function() {
                     "div",
                     {
                       staticClass: "collapse navbar-collapse",
-                      attrs: { id: "navbarNavAltMarkup" }
+                      attrs: { id: "userLoggedInDropDown" }
                     },
                     [
-                      _c(
-                        "div",
-                        { staticClass: "navbar-nav ml-auto" },
-                        [
-                          _c("router-link", { attrs: { to: "/" } }, [
-                            _vm._v("Home")
-                          ]),
-                          _vm._v(" "),
-                          _vm.userNotLoggedIn
-                            ? _c(
-                                "router-link",
-                                { attrs: { to: { name: "Sign Up" } } },
-                                [_vm._v("Sign Up")]
-                              )
-                            : _c("router-link", { attrs: { to: "/eagles" } }, [
-                                _vm._v("Eagles")
-                              ]),
-                          _vm._v(" "),
-                          _vm.userNotLoggedIn
-                            ? _c("router-link", { attrs: { to: "/log-in" } }, [
-                                _vm._v("Log In")
-                              ])
-                            : _c(
-                                "router-link",
+                      _c("ul", { staticClass: "navbar-nav ml-auto" }, [
+                        _c(
+                          "li",
+                          { staticClass: "nav-item" },
+                          [
+                            _vm.userNotLoggedIn
+                              ? _c(
+                                  "router-link",
+                                  { attrs: { to: { name: "Sign Up" } } },
+                                  [_vm._v("Sign Up")]
+                                )
+                              : _vm._e()
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm.userNotLoggedIn
+                          ? _c(
+                              "li",
+                              { staticClass: "nav-item" },
+                              [
+                                _c(
+                                  "router-link",
+                                  { attrs: { to: "/log-in" } },
+                                  [_vm._v("Log In")]
+                                )
+                              ],
+                              1
+                            )
+                          : _c("li", { staticClass: "nav-item dropdown" }, [
+                              _c(
+                                "a",
                                 {
-                                  attrs: { to: "/" },
-                                  nativeOn: {
-                                    click: function($event) {
-                                      return _vm.userLogOut($event)
-                                    }
+                                  staticClass: "nav-link dropdown-toggle",
+                                  attrs: {
+                                    href: "#",
+                                    id: "navbarDropdown",
+                                    role: "button",
+                                    "data-toggle": "dropdown",
+                                    "aria-haspopup": "true",
+                                    "aria-expanded": "false"
                                   }
                                 },
-                                [_vm._v("Log Out")]
+                                [
+                                  _vm._v(
+                                    "\n                                Welcome, " +
+                                      _vm._s(_vm.userName) +
+                                      "\n                                "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "dropdown-menu",
+                                  attrs: { "aria-labelledby": "navbarDropdown" }
+                                },
+                                [
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticClass: "black-text",
+                                      attrs: { to: "/eagles" }
+                                    },
+                                    [_vm._v("Eagles")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c("div", {
+                                    staticClass: "dropdown-divider"
+                                  }),
+                                  _vm._v(" "),
+                                  _c(
+                                    "router-link",
+                                    {
+                                      staticClass: "black-text",
+                                      attrs: { to: "/" },
+                                      nativeOn: {
+                                        click: function($event) {
+                                          return _vm.userLogOut($event)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Log Out")]
+                                  )
+                                ],
+                                1
                               )
-                        ],
-                        1
-                      )
+                            ])
+                      ])
                     ]
                   )
                 ],
@@ -66687,6 +66752,7 @@ var authorizedHeader = {
 };
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
+    userName: '',
     userToken: '',
     userLoggedIn: false,
     eagles: [],
@@ -66698,11 +66764,13 @@ var authorizedHeader = {
       // if token exists, replace userToken in state
       if (localStorage.getItem('token')) {
         state.userToken = localStorage.getItem('token');
+        state.userName = localStorage.getItem('name');
         state.eagles = JSON.parse(localStorage.getItem('eagles'));
         state.userLoggedIn = true;
       }
     },
     resetStore: function resetStore(state) {
+      state.userName = '';
       state.userToken = '';
       state.eagles = [];
     },
@@ -66710,6 +66778,10 @@ var authorizedHeader = {
       state.userToken = token; // store token in localStorage
 
       localStorage.setItem('token', token);
+    },
+    updateUserName: function updateUserName(state, name) {
+      state.userName = name;
+      localStorage.setItem('name', name);
     },
     updateUserLoggedIn: function updateUserLoggedIn(state) {
       state.userLoggedIn = !state.userLoggedIn;
@@ -66726,9 +66798,27 @@ var authorizedHeader = {
   },
   // async
   actions: {
-    logInSubmit: function logInSubmit(_ref, payload) {
-      var dispatch = _ref.dispatch,
+    retrieveUserName: function retrieveUserName(_ref) {
+      var state = _ref.state,
           commit = _ref.commit;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken; // 
+
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/me"), authorizedHeader).then(function (response) {
+          var _successResponse = response.data['Success'];
+          var _userName = _successResponse.name;
+          console.log(_userName);
+          commit('updateUserName', _userName);
+          resolve(response);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    },
+    logInSubmit: function logInSubmit(_ref2, payload) {
+      var dispatch = _ref2.dispatch,
+          commit = _ref2.commit;
       return new Promise(function (resolve, reject) {
         var data = JSON.stringify(payload); // POST request to log in
 
@@ -66737,6 +66827,7 @@ var authorizedHeader = {
           var token = response.data.access_token;
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
+          dispatch('retrieveUserName');
           dispatch('retrieveEagles');
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
           resolve(response);
@@ -66745,8 +66836,8 @@ var authorizedHeader = {
         });
       });
     },
-    signUpSubmit: function signUpSubmit(_ref2, payload) {
-      var commit = _ref2.commit;
+    signUpSubmit: function signUpSubmit(_ref3, payload) {
+      var commit = _ref3.commit;
       return new Promise(function (resolve, reject) {
         // POST request to sign up
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers).then(function (response) {
@@ -66760,9 +66851,9 @@ var authorizedHeader = {
         });
       });
     },
-    userLogOut: function userLogOut(_ref3) {
-      var commit = _ref3.commit,
-          state = _ref3.state;
+    userLogOut: function userLogOut(_ref4) {
+      var commit = _ref4.commit,
+          state = _ref4.state;
       return new Promise(function (resolve, reject) {
         console.log(API);
         var logOutHeader = {
@@ -66786,10 +66877,10 @@ var authorizedHeader = {
         });
       });
     },
-    createEagle: function createEagle(_ref4, payload) {
-      var dispatch = _ref4.dispatch,
-          commit = _ref4.commit,
-          state = _ref4.state;
+    createEagle: function createEagle(_ref5, payload) {
+      var dispatch = _ref5.dispatch,
+          commit = _ref5.commit,
+          state = _ref5.state;
       return new Promise(function (resolve, reject) {
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to create eagle
 
@@ -66803,10 +66894,10 @@ var authorizedHeader = {
         });
       });
     },
-    updateEagle: function updateEagle(_ref5, payload) {
-      var dispatch = _ref5.dispatch,
-          commit = _ref5.commit,
-          state = _ref5.state;
+    updateEagle: function updateEagle(_ref6, payload) {
+      var dispatch = _ref6.dispatch,
+          commit = _ref6.commit,
+          state = _ref6.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update eagle
@@ -66821,10 +66912,10 @@ var authorizedHeader = {
         });
       });
     },
-    deleteEagle: function deleteEagle(_ref6, payload) {
-      var dispatch = _ref6.dispatch,
-          commit = _ref6.commit,
-          state = _ref6.state;
+    deleteEagle: function deleteEagle(_ref7, payload) {
+      var dispatch = _ref7.dispatch,
+          commit = _ref7.commit,
+          state = _ref7.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken; // {{BaseURL}}/eagles/26
@@ -66842,9 +66933,9 @@ var authorizedHeader = {
     // **
     // show eagles
     // **
-    retrieveEagles: function retrieveEagles(_ref7) {
-      var commit = _ref7.commit,
-          state = _ref7.state;
+    retrieveEagles: function retrieveEagles(_ref8) {
+      var commit = _ref8.commit,
+          state = _ref8.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -66862,9 +66953,9 @@ var authorizedHeader = {
     // **
     // add eagle viewer
     // **
-    addEagleViewer: function addEagleViewer(_ref8, payload) {
-      var commit = _ref8.commit,
-          state = _ref8.state;
+    addEagleViewer: function addEagleViewer(_ref9, payload) {
+      var commit = _ref9.commit,
+          state = _ref9.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -66882,9 +66973,9 @@ var authorizedHeader = {
     // **
     // retrieve Eagle's list of viewers
     // **
-    getEagleViewers: function getEagleViewers(_ref9, payload) {
-      var commit = _ref9.commit,
-          state = _ref9.state;
+    getEagleViewers: function getEagleViewers(_ref10, payload) {
+      var commit = _ref10.commit,
+          state = _ref10.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -66898,9 +66989,9 @@ var authorizedHeader = {
     },
     // payload.limit is the number of feathres to retrieve
     // payload.limit  = 1 retrieves last feather
-    retrieveEagleFeathers: function retrieveEagleFeathers(_ref10, payload) {
-      var commit = _ref10.commit,
-          state = _ref10.state;
+    retrieveEagleFeathers: function retrieveEagleFeathers(_ref11, payload) {
+      var commit = _ref11.commit,
+          state = _ref11.state;
       return new Promise(function (resolve, reject) {
         var header = authorizedHeader;
         header.headers['Authorization'] = state.userToken;

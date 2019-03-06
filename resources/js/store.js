@@ -20,6 +20,7 @@ const authorizedHeader = {
 
 export default {
     state: {
+        userName: '',
         userToken: '',
         userLoggedIn: false,
         eagles: [],
@@ -31,11 +32,13 @@ export default {
 			// if token exists, replace userToken in state
 			if(localStorage.getItem('token')) {
                 state.userToken = localStorage.getItem('token');
+                state.userName = localStorage.getItem('name');
                 state.eagles = JSON.parse(localStorage.getItem('eagles'));
                 state.userLoggedIn = true;
 			}
         },
         resetStore(state){
+            state.userName='';
             state.userToken='';
             state.eagles=[];
         },
@@ -43,6 +46,10 @@ export default {
             state.userToken = token;
             // store token in localStorage
             localStorage.setItem('token', token);
+        },
+        updateUserName(state, name){
+            state.userName = name;
+            localStorage.setItem('name', name);
         },
         updateUserLoggedIn(state){
             state.userLoggedIn = !state.userLoggedIn;
@@ -59,6 +66,26 @@ export default {
     },
     // async
     actions: {
+        retrieveUserName({ state, commit }){
+            return new Promise((resolve, reject) => {
+
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                // 
+                axios.get(`${API}/me`, authorizedHeader)
+                .then(response => {
+                    let _successResponse = response.data['Success'];
+                    let _userName = _successResponse.name;
+                    console.log(_userName);
+                    commit('updateUserName', _userName);
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                });
+            })    
+        },
         logInSubmit({ dispatch, commit }, payload){
             return new Promise((resolve, reject) => {
 
@@ -71,7 +98,8 @@ export default {
                     let token = response.data.access_token;
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
-                    dispatch('retrieveEagles')
+                    dispatch('retrieveUserName');
+                    dispatch('retrieveEagles');
                     router.push('/eagles');
                     resolve(response);
                 })

@@ -8,10 +8,10 @@
                 <!-- Add New Eagle -->        
                 <add-eagle class="mb-4"></add-eagle>
 
-                <button v-on:click="refreshEagles" class="btn btn-dark round-button" type="button">
+                <!-- <button v-on:click="refreshEagles" class="btn btn-dark round-button" type="button">
                     <font-awesome-icon :icon="['fas', 'redo']"></font-awesome-icon>
                     <span>Refresh</span>
-                </button>
+                </button> -->
 
                 <div class="row" id="ShowEagles">
                     <div class="eagle-card card col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
@@ -85,9 +85,9 @@ export default {
                     // failed to create eagle
                 })
         },
-        refreshEagles(){
-            // this.$forceUpdate();
-        }
+        // refreshEagles(){
+        //     // this.$forceUpdate();
+        // }
     },
 }
 </script>
