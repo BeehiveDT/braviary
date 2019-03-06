@@ -1,14 +1,19 @@
 <template>
     <div class="container" id="log-in">
         <div class="mx-auto col-lg-6 offset-lg-3 col-md-12">
-            <form @submit.prevent="submit">
+            <!-- change username -->
+            <form @submit.prevent="submitName">
                 <div class="form-group">
                     <label for="userName">User Name</label>
-                    <input v-model="userName" @input="checkForm()" type="text" class="form-control" id="logInPassword" placeholder="Password">
+                    <input v-model="userName" @input="checkForm()" type="text" class="form-control" id="logInPassword" placeholder="name">
                 </div>
                 <div class="alert alert-warning" v-if="errorResponse.name.failed">
                     <span> {{ errorResponse.name.errorMessage }} </span>
                 </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+            <!-- change password -->
+            <form @submit.prevent="submitPassword">
                 <div class="form-group">
                     <label for="SignUpPassword1" >Password</label>
                     <input v-model="password1" @input="checkPassword()" type="password" class="form-control" id="SignUpPassword1" placeholder="Password">
@@ -63,16 +68,19 @@ export default {
     computed: {
     },
     methods: {
-        submit(){
-            let name = this.userName;
-            let password = this.password1;
-
-            this.$store.dispatch('updateUser', {
-                name,
-                password
-            })
+        submitName(){
+            let name = { name: this.userName };
+            this.updateUser(name);
+        },
+        submitPassword(){
+            let password = { password: this.password1 };
+            // "name": "老鷹訓練師",
+            this.updateUser(password);
+        },
+        updateUser(data){
+            this.$store.dispatch('updateUser', data)
             .then(response => {
-                // clear password fields
+                // clear password fields on both name/password updates
                 this.password1 = '';
                 this.password2 = '';
             })
@@ -88,7 +96,6 @@ export default {
                     }
                 }
             })
-
         },
         checkNoneEmptyString(str){
             return !(str === '')
