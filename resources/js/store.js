@@ -89,7 +89,7 @@ export default {
         logInSubmit({ dispatch, commit }, payload){
             return new Promise((resolve, reject) => {
 
-                let data = JSON.stringify(payload)
+                // let data = JSON.stringify(payload)
 
                 // POST request to log in
                 axios.post(`${API}/auth/login`, payload, headers)
@@ -171,7 +171,7 @@ export default {
                 })
             })
         },
-        createEagle({ dispatch, commit, state }, payload) {
+        createEagle({ dispatch, state }, payload) {
             return new Promise((resolve, reject) => {
                 authorizedHeader.headers['Authorization'] = state.userToken;
                 
@@ -188,7 +188,7 @@ export default {
                 })
             })
         },
-        updateEagle({dispatch, commit, state}, payload){
+        updateEagle({dispatch, state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
                 authorizedHeader.headers['Authorization'] = state.userToken;
@@ -206,7 +206,7 @@ export default {
                })
             })
         },
-        deleteEagle({dispatch, commit, state}, payload){
+        deleteEagle({dispatch, state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
                 authorizedHeader.headers['Authorization'] = state.userToken;
@@ -248,7 +248,7 @@ export default {
         // **
         // add eagle viewer
         // **
-        addEagleViewer({commit, state}, payload){
+        addEagleViewer({state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
                 authorizedHeader.headers['Authorization'] = state.userToken;
@@ -269,7 +269,7 @@ export default {
         // **
         // retrieve Eagle's list of viewers
         // **
-        getEagleViewers({commit, state}, payload){
+        getEagleViewers({state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
                 authorizedHeader.headers['Authorization'] = state.userToken;
@@ -284,9 +284,23 @@ export default {
                 });
             })
         },
+        deleteEagleViewer({state}, payload){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.post(`${API}/eagles/${payload.id}/unlink`, payload.body, authorizedHeader)
+                .then(response => {
+                    resolve(response)
+                })
+                .catch((error) => {
+                    reject(error)
+                });
+            })
+        },
         // payload.limit is the number of feathres to retrieve
         // payload.limit  = 1 retrieves last feather
-        retrieveEagleFeathers ({ commit, state }, payload) {
+        retrieveEagleFeathers ({ state }, payload) {
             return new Promise((resolve, reject) => {
                 let header = authorizedHeader;
                 header.headers['Authorization'] = state.userToken;

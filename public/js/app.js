@@ -12706,6 +12706,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'update-eagle',
   components: {},
@@ -12723,9 +12743,12 @@ __webpack_require__.r(__webpack_exports__);
       tolerance: this.eagle.tolerance,
       job_token: this.eagle.job_token,
       email: '',
+      viewerName: '',
+      viewerEmail: '',
       viewers: []
     };
   },
+  computed: {},
   methods: {
     toggleOpen: function toggleOpen() {
       this.isOpen = !this.isOpen;
@@ -12754,9 +12777,11 @@ __webpack_require__.r(__webpack_exports__);
         // close form after updating eagle
         _this.toggleOpen();
       }).catch(function (error) {// failed to create eagle
-      }); // console.log(this.name, this.frequency, this.tolerance)
+      });
     },
     addEagleViewer: function addEagleViewer(id) {
+      var _this2 = this;
+
       // email object
       var email = {
         target_mail: this.email
@@ -12765,24 +12790,42 @@ __webpack_require__.r(__webpack_exports__);
         id: id,
         email: email
       }).then(function (response) {
-        console.log(response);
-      }).catch(function (error) {
-        console.log(error);
+        _this2.getEagleViewers(id);
+      }).catch(function (error) {// do nothing
       });
     },
     getEagleViewers: function getEagleViewers(id) {
-      var _this2 = this;
+      var _this3 = this;
 
       this.$store.dispatch('getEagleViewers', {
         id: id
       }).then(function (response) {
-        _this2.viewers = response;
+        console.log(response);
+        _this3.viewers = response;
+        console.log(_this3.viewers);
+      }).catch(function (error) {// do nothing
+      });
+    },
+    deleteViewerConfirmation: function deleteViewerConfirmation(viewer) {
+      this.viewerName = viewer.name;
+      this.viewerEmail = viewer.email;
+    },
+    deleteViewer: function deleteViewer(email) {
+      var _this4 = this;
+
+      var body = {
+        target_mail: email
+      };
+      var id = this.eagle.id;
+      this.$store.dispatch('deleteEagleViewer', {
+        id: id,
+        body: body
+      }).then(function (response) {
+        _this4.getEagleViewers(id);
       }).catch(function (error) {// do nothing
       });
     }
-  } // created(){
-  // }
-
+  }
 });
 
 /***/ }),
@@ -50583,7 +50626,16 @@ var render = function() {
                             [
                               _c("font-awesome-icon", {
                                 staticClass: "red",
-                                attrs: { icon: ["far", "times-circle"] }
+                                attrs: {
+                                  icon: ["far", "times-circle"],
+                                  "data-toggle": "modal",
+                                  "data-target": "#deleteViewerConfirmation"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleteViewerConfirmation(viewer)
+                                  }
+                                }
                               }),
                               _vm._v(" "),
                               _c("span", [_vm._v(_vm._s(viewer.email))])
@@ -50592,6 +50644,68 @@ var render = function() {
                           )
                         }),
                         0
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          staticClass: "modal fade",
+                          attrs: { id: "deleteViewerConfirmation" }
+                        },
+                        [
+                          _c(
+                            "div",
+                            {
+                              staticClass: "modal-dialog modal-dialog-centered"
+                            },
+                            [
+                              _c("div", { staticClass: "modal-content" }, [
+                                _c("div", { staticClass: "modal-body" }, [
+                                  _c("span", [
+                                    _vm._v(
+                                      "Are you sure you want to delete " +
+                                        _vm._s(_vm.viewerName) +
+                                        " with email: " +
+                                        _vm._s(_vm.viewerEmail) +
+                                        "?"
+                                    )
+                                  ])
+                                ]),
+                                _vm._v(" "),
+                                _c("div", { staticClass: "modal-footer" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-danger",
+                                      attrs: {
+                                        type: "button",
+                                        "data-dismiss": "modal"
+                                      },
+                                      on: {
+                                        click: function($event) {
+                                          _vm.deleteViewer(_vm.viewerEmail)
+                                        }
+                                      }
+                                    },
+                                    [_vm._v("Yes")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-secondary",
+                                      attrs: {
+                                        type: "button",
+                                        "data-dismiss": "modal"
+                                      }
+                                    },
+                                    [_vm._v("No")]
+                                  )
+                                ])
+                              ])
+                            ]
+                          )
+                        ]
                       )
                     ])
                   ]
@@ -67315,8 +67429,8 @@ var authorizedHeader = {
       var dispatch = _ref2.dispatch,
           commit = _ref2.commit;
       return new Promise(function (resolve, reject) {
-        var data = JSON.stringify(payload); // POST request to log in
-
+        // let data = JSON.stringify(payload)
+        // POST request to log in
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
           // success
           var token = response.data.access_token;
@@ -67391,7 +67505,6 @@ var authorizedHeader = {
     },
     createEagle: function createEagle(_ref6, payload) {
       var dispatch = _ref6.dispatch,
-          commit = _ref6.commit,
           state = _ref6.state;
       return new Promise(function (resolve, reject) {
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to create eagle
@@ -67408,7 +67521,6 @@ var authorizedHeader = {
     },
     updateEagle: function updateEagle(_ref7, payload) {
       var dispatch = _ref7.dispatch,
-          commit = _ref7.commit,
           state = _ref7.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
@@ -67426,7 +67538,6 @@ var authorizedHeader = {
     },
     deleteEagle: function deleteEagle(_ref8, payload) {
       var dispatch = _ref8.dispatch,
-          commit = _ref8.commit,
           state = _ref8.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
@@ -67466,8 +67577,7 @@ var authorizedHeader = {
     // add eagle viewer
     // **
     addEagleViewer: function addEagleViewer(_ref10, payload) {
-      var commit = _ref10.commit,
-          state = _ref10.state;
+      var state = _ref10.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67486,8 +67596,7 @@ var authorizedHeader = {
     // retrieve Eagle's list of viewers
     // **
     getEagleViewers: function getEagleViewers(_ref11, payload) {
-      var commit = _ref11.commit,
-          state = _ref11.state;
+      var state = _ref11.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67499,11 +67608,22 @@ var authorizedHeader = {
         });
       });
     },
+    deleteEagleViewer: function deleteEagleViewer(_ref12, payload) {
+      var state = _ref12.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(payload.id, "/unlink"), payload.body, authorizedHeader).then(function (response) {
+          resolve(response);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    },
     // payload.limit is the number of feathres to retrieve
     // payload.limit  = 1 retrieves last feather
-    retrieveEagleFeathers: function retrieveEagleFeathers(_ref12, payload) {
-      var commit = _ref12.commit,
-          state = _ref12.state;
+    retrieveEagleFeathers: function retrieveEagleFeathers(_ref13, payload) {
+      var state = _ref13.state;
       return new Promise(function (resolve, reject) {
         var header = authorizedHeader;
         header.headers['Authorization'] = state.userToken;
