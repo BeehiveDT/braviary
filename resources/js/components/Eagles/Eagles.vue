@@ -44,7 +44,7 @@ export default {
             name: '',
             frequency: 0,
             tolerance: 0,
-            eaglePageMessage: 'Hey hey, You need to log-in first.'
+            eaglePageMessage: 'Hey hey, You need to log in first.'
         }
     },
     computed: {

@@ -22,7 +22,7 @@ export default {
     state: {
         userName: '',
         userToken: '',
-        is_admin: 0,
+        is_admin: false,
         userLoggedIn: false,
         eagles: [],
         homeMessage: `Home Page`,
@@ -56,7 +56,9 @@ export default {
             state.userLoggedIn = !state.userLoggedIn;
         },
         updateUserStatus(state, is_admin){
-            state.is_admin = is_admin;
+            if(is_admin === '1'){
+                state.is_admin = true;
+            }
         },
         updateEagles(state, eagles){
             state.eagles = eagles;
@@ -330,6 +332,24 @@ export default {
                 });
 
             })
-        },  
+        },
+        retrieveAllEagles({state}){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.get(`${API}/zookeeper/eagles`, authorizedHeader)
+                .then(response => {
+                    let successResponse = response.data['Success']
+                    resolve(successResponse.eagles);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+            })
+
+        }
+
     }
 };

@@ -4,6 +4,7 @@ import SignUp from './components/SignUp.vue';
 import LogIn from './components/LogIn.vue';
 import Eagles from './components/Eagles/Eagles.vue';
 import UserProfile from './components/User/UserProfile.vue';
+import AllEagles from './components/Zookeeper/AllEagles.vue';
 
 // Assign Page to paths
 export const routes = [
@@ -27,5 +28,9 @@ export const routes = [
     {
         path: '/me',
         component: UserProfile
+    },
+    {
+        path: '/zookeeper/eagles',
+        component: AllEagles
     }
 ];

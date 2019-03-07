@@ -39,6 +39,8 @@
                                     Welcome, {{ userName }}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+                                        <router-link v-if="isAdmin" to="/zookeeper/eagles" class="black-text">All Eagles</router-link>
+                                        <div v-if="isAdmin" class="dropdown-divider"></div>
                                         <router-link to="/eagles" class="black-text">Eagles</router-link>
                                         <div class="dropdown-divider"></div>
                                         <router-link to="/me" class="black-text">Profile</router-link>
@@ -80,6 +82,9 @@
             },
             userName(){
                 return this.$store.state.userName;
+            },
+            isAdmin(){
+                return this.$store.state.is_admin
             }
         },
         methods: {
