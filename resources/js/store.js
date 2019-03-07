@@ -22,6 +22,7 @@ export default {
     state: {
         userName: '',
         userToken: '',
+        is_admin: 0,
         userLoggedIn: false,
         eagles: [],
         homeMessage: `Home Page`,
@@ -53,6 +54,9 @@ export default {
         },
         updateUserLoggedIn(state){
             state.userLoggedIn = !state.userLoggedIn;
+        },
+        updateUserStatus(state, is_admin){
+            state.is_admin = is_admin;
         },
         updateEagles(state, eagles){
             state.eagles = eagles;
@@ -89,15 +93,16 @@ export default {
         logInSubmit({ dispatch, commit }, payload){
             return new Promise((resolve, reject) => {
 
-                // let data = JSON.stringify(payload)
-
                 // POST request to log in
                 axios.post(`${API}/auth/login`, payload, headers)
                 .then(response=> {
                     // success
                     let token = response.data.access_token;
+                    let is_admin = response.data.is_admin;
+
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
+                    commit('updateUserStatus', is_admin);
                     dispatch('retrieveUserName');
                     dispatch('retrieveEagles');
                     router.push('/eagles');

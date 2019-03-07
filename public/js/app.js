@@ -67394,6 +67394,7 @@ var authorizedHeader = {
   state: {
     userName: '',
     userToken: '',
+    is_admin: 0,
     userLoggedIn: false,
     eagles: [],
     homeMessage: "Home Page"
@@ -67425,6 +67426,9 @@ var authorizedHeader = {
     },
     updateUserLoggedIn: function updateUserLoggedIn(state) {
       state.userLoggedIn = !state.userLoggedIn;
+    },
+    updateUserStatus: function updateUserStatus(state, is_admin) {
+      state.is_admin = is_admin;
     },
     updateEagles: function updateEagles(state, eagles) {
       state.eagles = eagles;
@@ -67460,13 +67464,14 @@ var authorizedHeader = {
       var dispatch = _ref2.dispatch,
           commit = _ref2.commit;
       return new Promise(function (resolve, reject) {
-        // let data = JSON.stringify(payload)
         // POST request to log in
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
           // success
           var token = response.data.access_token;
+          var is_admin = response.data.is_admin;
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
+          commit('updateUserStatus', is_admin);
           dispatch('retrieveUserName');
           dispatch('retrieveEagles');
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
