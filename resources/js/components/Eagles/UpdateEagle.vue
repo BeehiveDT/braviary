@@ -20,11 +20,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="EagleFrequency">Frequency</label>
-                                    <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency">
+                                    <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency" min="0">
                                 </div>
                                 <div class="form-group">
                                     <label for="EagleTolerance">Tolerance</label>
-                                    <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance">
+                                    <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance" min="0">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Submit</button>
                             </form>
