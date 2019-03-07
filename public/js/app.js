@@ -12589,7 +12589,7 @@ __webpack_require__.r(__webpack_exports__);
       name: '',
       frequency: 0,
       tolerance: 0,
-      eaglePageMessage: 'Hey hey, You need to log-in first.'
+      eaglePageMessage: 'Hey hey, You need to log in first.'
     };
   },
   computed: {
@@ -13012,14 +13012,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
+  // data(){
+  //     return{
+  //     }
+  // },
   computed: {
     userNotLoggedIn: function userNotLoggedIn() {
       return !this.$store.state.userLoggedIn;
     },
     userName: function userName() {
       return this.$store.state.userName;
+    },
+    isAdmin: function isAdmin() {
+      return this.$store.state.is_admin;
     }
   },
   methods: {
@@ -13028,6 +13039,11 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (error) {// do nothing
       });
     }
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('showUser').then(function (response) {// do nothing
+    }).catch(function (error) {// do nothing
+    });
   }
 });
 
@@ -13373,6 +13389,117 @@ var errorResponse = {
         this.disableSubmit = true;
       }
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'all-eagles',
+  components: {},
+  data: function data() {
+    return {
+      allEagles: [],
+      zookeeperMessage: "Hey hey, you shouldn't be here!"
+    };
+  },
+  computed: {
+    userCanZooKeep: function userCanZooKeep() {
+      return !this.$store.state.userLoggedIn || !this.$store.state.is_admin;
+    }
+  },
+  methods: {},
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.dispatch('retrieveAllEagles').then(function (response) {
+      _this.allEagles = response;
+    }).catch(function (error) {// do nothing
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'all-users',
+  components: {},
+  data: function data() {
+    return {
+      allUsers: [],
+      zookeeperMessage: "Hey hey, you shouldn't be here!"
+    };
+  },
+  computed: {
+    userCanZooKeep: function userCanZooKeep() {
+      return !this.$store.state.userLoggedIn || !this.$store.state.is_admin;
+    }
+  },
+  methods: {},
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.dispatch('retrieveAllUsers').then(function (response) {
+      console.log(response);
+      _this.allUsers = response;
+    }).catch(function (error) {// do nothing
+    });
   }
 });
 
@@ -50995,6 +51122,40 @@ var render = function() {
                                   attrs: { "aria-labelledby": "navbarDropdown" }
                                 },
                                 [
+                                  _vm.isAdmin
+                                    ? _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "black-text",
+                                          attrs: { to: "/zookeeper/eagles" }
+                                        },
+                                        [_vm._v("All Eagles")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.isAdmin
+                                    ? _c("div", {
+                                        staticClass: "dropdown-divider"
+                                      })
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.isAdmin
+                                    ? _c(
+                                        "router-link",
+                                        {
+                                          staticClass: "black-text",
+                                          attrs: { to: "/zookeeper/users" }
+                                        },
+                                        [_vm._v("All Users")]
+                                      )
+                                    : _vm._e(),
+                                  _vm._v(" "),
+                                  _vm.isAdmin
+                                    ? _c("div", {
+                                        staticClass: "dropdown-divider"
+                                      })
+                                    : _vm._e(),
+                                  _vm._v(" "),
                                   _c(
                                     "router-link",
                                     {
@@ -51524,6 +51685,88 @@ var render = function() {
           )
         ]
       )
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "all-eagles" } }, [
+    _c("div", { staticClass: "container" }, [
+      _vm.userCanZooKeep
+        ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.zookeeperMessage))])])
+        : _c("div", [
+            _c(
+              "div",
+              { staticClass: "row", attrs: { id: "AllEagles" } },
+              _vm._l(_vm.allEagles, function(eagle, index) {
+                return _c("ul", { key: index, staticClass: "col-12" }, [
+                  _c("li", [_c("span", [_vm._v(_vm._s(eagle.name))])])
+                ])
+              }),
+              0
+            )
+          ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { attrs: { id: "all-users" } }, [
+    _c("div", { staticClass: "container" }, [
+      _vm.userCanZooKeep
+        ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.zookeeperMessage))])])
+        : _c("div", [
+            _c(
+              "div",
+              { staticClass: "row", attrs: { id: "AllEagles" } },
+              _vm._l(_vm.allUsers, function(user, index) {
+                return _c("ul", { key: index, staticClass: "col-12" }, [
+                  _c("li", [_c("span", [_vm._v(_vm._s(user.name))])])
+                ])
+              }),
+              0
+            )
+          ])
     ])
   ])
 }
@@ -67319,6 +67562,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Zookeeper/AllEagles.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllEagles.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllEagles.vue?vue&type=template&id=370b9832&scoped=true& */ "./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true&");
+/* harmony import */ var _AllEagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AllEagles.vue?vue&type=script&lang=js& */ "./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AllEagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "370b9832",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Zookeeper/AllEagles.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllEagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AllEagles.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllEagles_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AllEagles.vue?vue&type=template&id=370b9832&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllEagles.vue?vue&type=template&id=370b9832&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllEagles_vue_vue_type_template_id_370b9832_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Zookeeper/AllUsers.vue":
+/*!********************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllUsers.vue ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true& */ "./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true&");
+/* harmony import */ var _AllUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AllUsers.vue?vue&type=script&lang=js& */ "./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AllUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "6cc12dd6",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Zookeeper/AllUsers.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib??ref--4-0!../../../../node_modules/vue-loader/lib??vue-loader-options!./AllUsers.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AllUsers_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true& ***!
+  \***************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib??vue-loader-options!./AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Zookeeper/AllUsers.vue?vue&type=template&id=6cc12dd6&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AllUsers_vue_vue_type_template_id_6cc12dd6_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -67334,7 +67715,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_LogIn_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/LogIn.vue */ "./resources/js/components/LogIn.vue");
 /* harmony import */ var _components_Eagles_Eagles_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Eagles/Eagles.vue */ "./resources/js/components/Eagles/Eagles.vue");
 /* harmony import */ var _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/User/UserProfile.vue */ "./resources/js/components/User/UserProfile.vue");
+/* harmony import */ var _components_Zookeeper_AllEagles_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Zookeeper/AllEagles.vue */ "./resources/js/components/Zookeeper/AllEagles.vue");
+/* harmony import */ var _components_Zookeeper_AllUsers_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Zookeeper/AllUsers.vue */ "./resources/js/components/Zookeeper/AllUsers.vue");
 // Load Component Page
+
+
 
 
 
@@ -67357,6 +67742,12 @@ var routes = [{
 }, {
   path: '/me',
   component: _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+}, {
+  path: '/zookeeper/eagles',
+  component: _components_Zookeeper_AllEagles_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+}, {
+  path: '/zookeeper/users',
+  component: _components_Zookeeper_AllUsers_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }];
 
 /***/ }),
@@ -67394,7 +67785,7 @@ var authorizedHeader = {
   state: {
     userName: '',
     userToken: '',
-    is_admin: 0,
+    is_admin: false,
     userLoggedIn: false,
     eagles: [],
     homeMessage: "Home Page"
@@ -67427,8 +67818,10 @@ var authorizedHeader = {
     updateUserLoggedIn: function updateUserLoggedIn(state) {
       state.userLoggedIn = !state.userLoggedIn;
     },
-    updateUserStatus: function updateUserStatus(state, is_admin) {
-      state.is_admin = is_admin;
+    updateAdminStatus: function updateAdminStatus(state, is_admin) {
+      if (is_admin === '1') {
+        state.is_admin = true;
+      }
     },
     updateEagles: function updateEagles(state, eagles) {
       state.eagles = eagles;
@@ -67471,7 +67864,7 @@ var authorizedHeader = {
           var is_admin = response.data.is_admin;
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
-          commit('updateUserStatus', is_admin);
+          commit('updateAdminStatus', is_admin);
           dispatch('retrieveUserName');
           dispatch('retrieveEagles');
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
@@ -67522,9 +67915,25 @@ var authorizedHeader = {
         });
       });
     },
-    updateUser: function updateUser(_ref5, payload) {
-      var state = _ref5.state,
-          commit = _ref5.commit;
+    showUser: function showUser(_ref5) {
+      var commit = _ref5.commit,
+          state = _ref5.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/me"), authorizedHeader).then(function (response) {
+          var successResponse = response.data['Success'];
+          var is_admin = successResponse.is_admin;
+          commit('updateAdminStatus', is_admin);
+          resolve(state.is_admin);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    },
+    updateUser: function updateUser(_ref6, payload) {
+      var state = _ref6.state,
+          commit = _ref6.commit;
       return new Promise(function (resolve, reject) {
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update user
 
@@ -67542,9 +67951,9 @@ var authorizedHeader = {
         });
       });
     },
-    createEagle: function createEagle(_ref6, payload) {
-      var dispatch = _ref6.dispatch,
-          state = _ref6.state;
+    createEagle: function createEagle(_ref7, payload) {
+      var dispatch = _ref7.dispatch,
+          state = _ref7.state;
       return new Promise(function (resolve, reject) {
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to create eagle
 
@@ -67558,9 +67967,9 @@ var authorizedHeader = {
         });
       });
     },
-    updateEagle: function updateEagle(_ref7, payload) {
-      var dispatch = _ref7.dispatch,
-          state = _ref7.state;
+    updateEagle: function updateEagle(_ref8, payload) {
+      var dispatch = _ref8.dispatch,
+          state = _ref8.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update eagle
@@ -67575,9 +67984,9 @@ var authorizedHeader = {
         });
       });
     },
-    deleteEagle: function deleteEagle(_ref8, payload) {
-      var dispatch = _ref8.dispatch,
-          state = _ref8.state;
+    deleteEagle: function deleteEagle(_ref9, payload) {
+      var dispatch = _ref9.dispatch,
+          state = _ref9.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken; // {{BaseURL}}/eagles/26
@@ -67595,9 +68004,9 @@ var authorizedHeader = {
     // **
     // show eagles
     // **
-    retrieveEagles: function retrieveEagles(_ref9) {
-      var commit = _ref9.commit,
-          state = _ref9.state;
+    retrieveEagles: function retrieveEagles(_ref10) {
+      var commit = _ref10.commit,
+          state = _ref10.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67615,8 +68024,8 @@ var authorizedHeader = {
     // **
     // add eagle viewer
     // **
-    addEagleViewer: function addEagleViewer(_ref10, payload) {
-      var state = _ref10.state;
+    addEagleViewer: function addEagleViewer(_ref11, payload) {
+      var state = _ref11.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67634,8 +68043,8 @@ var authorizedHeader = {
     // **
     // retrieve Eagle's list of viewers
     // **
-    getEagleViewers: function getEagleViewers(_ref11, payload) {
-      var state = _ref11.state;
+    getEagleViewers: function getEagleViewers(_ref12, payload) {
+      var state = _ref12.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67647,8 +68056,8 @@ var authorizedHeader = {
         });
       });
     },
-    deleteEagleViewer: function deleteEagleViewer(_ref12, payload) {
-      var state = _ref12.state;
+    deleteEagleViewer: function deleteEagleViewer(_ref13, payload) {
+      var state = _ref13.state;
       return new Promise(function (resolve, reject) {
         // Set user token for authorization
         authorizedHeader.headers['Authorization'] = state.userToken;
@@ -67661,8 +68070,8 @@ var authorizedHeader = {
     },
     // payload.limit is the number of feathres to retrieve
     // payload.limit  = 1 retrieves last feather
-    retrieveEagleFeathers: function retrieveEagleFeathers(_ref13, payload) {
-      var state = _ref13.state;
+    retrieveEagleFeathers: function retrieveEagleFeathers(_ref14, payload) {
+      var state = _ref14.state;
       return new Promise(function (resolve, reject) {
         var header = authorizedHeader;
         header.headers['Authorization'] = state.userToken;
@@ -67680,6 +68089,32 @@ var authorizedHeader = {
           }
 
           resolve(lastFeather);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    },
+    retrieveAllEagles: function retrieveAllEagles(_ref15) {
+      var state = _ref15.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/zookeeper/eagles"), authorizedHeader).then(function (response) {
+          var successResponse = response.data['Success'];
+          resolve(successResponse.eagles);
+        }).catch(function (error) {
+          reject(error);
+        });
+      });
+    },
+    retrieveAllUsers: function retrieveAllUsers(_ref16) {
+      var state = _ref16.state;
+      return new Promise(function (resolve, reject) {
+        // Set user token for authorization
+        authorizedHeader.headers['Authorization'] = state.userToken;
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/zookeeper/users"), authorizedHeader).then(function (response) {
+          var successResponse = response.data['Success'];
+          resolve(successResponse.users);
         }).catch(function (error) {
           reject(error);
         });

@@ -39,6 +39,10 @@
                                     Welcome, {{ userName }}
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
+                                        <router-link v-if="isAdmin" to="/zookeeper/eagles" class="black-text">All Eagles</router-link>
+                                        <div v-if="isAdmin" class="dropdown-divider"></div>
+                                        <router-link v-if="isAdmin" to="/zookeeper/users" class="black-text">All Users</router-link>
+                                        <div v-if="isAdmin" class="dropdown-divider"></div>
                                         <router-link to="/eagles" class="black-text">Eagles</router-link>
                                         <div class="dropdown-divider"></div>
                                         <router-link to="/me" class="black-text">Profile</router-link>
@@ -74,12 +78,19 @@
 <script>
     export default {
         name: 'main-app',
+        // data(){
+        //     return{
+        //     }
+        // },
         computed: {
             userNotLoggedIn(){
                 return !this.$store.state.userLoggedIn;
             },
             userName(){
                 return this.$store.state.userName;
+            },
+            isAdmin(){
+                return this.$store.state.is_admin
             }
         },
         methods: {
@@ -92,6 +103,15 @@
                         // do nothing
                     })
             }
+        },
+        mounted(){
+            this.$store.dispatch('showUser')
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
         }
     }
 </script>
