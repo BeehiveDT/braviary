@@ -80,6 +80,7 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Successfully logged in',
                 'access_token' => $user->api_token,
+                'is_admin' => $user->is_admin
             ], 200);
         } else {
             return response()->json([

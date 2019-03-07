@@ -44,7 +44,8 @@ class UserController extends Controller
         return response()->json([
             'Success' => [
                 'status' => 200,
-                'name' => $user->name
+                'name' => $user->name,
+                'is_admin' => $user->is_admin
             ]
         ], 200);
     }
