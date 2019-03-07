@@ -55,7 +55,7 @@ export default {
         updateUserLoggedIn(state){
             state.userLoggedIn = !state.userLoggedIn;
         },
-        updateUserStatus(state, is_admin){
+        updateAdminStatus(state, is_admin){
             if(is_admin === '1'){
                 state.is_admin = true;
             }
@@ -104,7 +104,7 @@ export default {
 
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
-                    commit('updateUserStatus', is_admin);
+                    commit('updateAdminStatus', is_admin);
                     dispatch('retrieveUserName');
                     dispatch('retrieveEagles');
                     router.push('/eagles');
@@ -158,6 +158,23 @@ export default {
               .catch( error => {
                     reject(error);
                 })
+            })
+        },
+        showUser({commit, state}){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.get(`${API}/me`, authorizedHeader)
+                .then(response => {
+                    let successResponse = response.data['Success'];
+                    let is_admin = successResponse.is_admin;
+                    commit('updateAdminStatus', is_admin);
+                    resolve(state.is_admin)
+                })
+                .catch((error) => {
+                    reject(error);
+                });
             })
         },
         updateUser({state, commit}, payload){
@@ -342,6 +359,23 @@ export default {
                 .then(response => {
                     let successResponse = response.data['Success']
                     resolve(successResponse.eagles);
+                })
+                .catch((error) => {
+                    reject(error);
+                });
+
+            })
+
+        },
+        retrieveAllUsers({state}){
+            return new Promise((resolve, reject) => {
+                // Set user token for authorization
+                authorizedHeader.headers['Authorization'] = state.userToken;
+
+                axios.get(`${API}/zookeeper/users`, authorizedHeader)
+                .then(response => {
+                    let successResponse = response.data['Success']
+                    resolve(successResponse.users);
                 })
                 .catch((error) => {
                     reject(error);

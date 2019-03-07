@@ -1,15 +1,16 @@
 <template>
-    <div id="eagles">
+    <div id="all-eagles">
         <div class="container">
             <div v-if="userCanZooKeep">
                 <h2>{{ zookeeperMessage }}</h2>
             </div>
             <div v-else>
-                <span>HI</span>
                 <div class="row" id="AllEagles">
-                    <div v-for="(eagle, index) in allEagles" :key="index">
-                        <div>{{eagle.name}}</div>
-                    </div>
+                    <ul class="col-12" v-for="(eagle, index) in allEagles" :key="index">
+                        <li>
+                            <span>{{ eagle.name }}</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -31,7 +32,6 @@ export default {
     },
     computed: {
         userCanZooKeep(){
-            console.log(this.$store.state.is_admin)
             return !this.$store.state.userLoggedIn || !this.$store.state.is_admin;
         }
     },
@@ -42,7 +42,6 @@ export default {
         this.$store.dispatch('retrieveAllEagles')
             .then(response => {
                 this.allEagles = response;
-                console.log(this.allEagles)
             })
             .catch(error => {
                 // do nothing
