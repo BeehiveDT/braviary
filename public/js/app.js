@@ -13020,6 +13020,7 @@ __webpack_require__.r(__webpack_exports__);
   name: 'main-app',
   // data(){
   //     return{
+  //         isAdmin: false
   //     }
   // },
   computed: {
@@ -13031,7 +13032,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     isAdmin: function isAdmin() {
       return this.$store.state.is_admin;
-    }
+    } // isAdmin(){
+    //     return this.$store.state.is_admin
+    // }
+
   },
   methods: {
     userLogOut: function userLogOut() {
@@ -13041,7 +13045,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('showUser').then(function (response) {// do nothing
+    var _this = this;
+
+    this.$store.dispatch('showUser').then(function (response) {
+      // do nothing
+      console.log(response);
+      _this.isAdmin = response;
     }).catch(function (error) {// do nothing
     });
   }
@@ -51064,20 +51073,20 @@ var render = function() {
                     },
                     [
                       _c("ul", { staticClass: "navbar-nav ml-auto" }, [
-                        _c(
-                          "li",
-                          { staticClass: "nav-item" },
-                          [
-                            _vm.userNotLoggedIn
-                              ? _c(
+                        _vm.userNotLoggedIn
+                          ? _c(
+                              "li",
+                              { staticClass: "nav-item" },
+                              [
+                                _c(
                                   "router-link",
                                   { attrs: { to: { name: "Sign Up" } } },
                                   [_vm._v("Sign Up")]
                                 )
-                              : _vm._e()
-                          ],
-                          1
-                        ),
+                              ],
+                              1
+                            )
+                          : _vm._e(),
                         _vm._v(" "),
                         _vm.userNotLoggedIn
                           ? _c(
@@ -66667,6 +66676,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_clipboards__WEBPACK_IMPORTED_
 var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
+  base: '/braviary',
   routes: _routes__WEBPACK_IMPORTED_MODULE_4__["routes"],
   // short for `routes: routes`
   linkActiveClass: 'active'
@@ -67767,7 +67777,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // const API="http://braviary.test/api";
 
-var BASEURL = window.location.origin;
+var BASEURL = setBaseURL();
 var API = BASEURL + '/api';
 var headers = {
   headers: {
@@ -67781,6 +67791,33 @@ var authorizedHeader = {
     'Authorization': ''
   }
 };
+
+function setBaseURL() {
+  var origin = window.location.origin;
+  var baseURL = origin;
+
+  switch (window.location.hostname) {
+    case 'localhost':
+      baseURL = origin;
+      break;
+
+    case 'braviary.test':
+      baseURL = origin;
+      break;
+
+    case 'xlab.agriweather.online':
+      baseURL = 'https://xlab.agriweather.online/braviary/';
+      break;
+
+    default:
+      baseURL = 'https://xlab.agriweather.online/braviary/';
+      break;
+  }
+
+  console.log(baseURL);
+  return baseURL;
+}
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   state: {
     userName: '',
@@ -67793,7 +67830,7 @@ var authorizedHeader = {
   // sync
   mutations: {
     initializeStore: function initializeStore(state) {
-      // if token exists, replace userToken in state
+      // if token exists, set state
       if (localStorage.getItem('token')) {
         state.userToken = localStorage.getItem('token');
         state.userName = localStorage.getItem('name');
@@ -67804,11 +67841,11 @@ var authorizedHeader = {
     resetStore: function resetStore(state) {
       state.userName = '';
       state.userToken = '';
+      state.is_admin = false;
       state.eagles = [];
     },
     updateUserToken: function updateUserToken(state, token) {
-      state.userToken = token; // store token in localStorage
-
+      state.userToken = token;
       localStorage.setItem('token', token);
     },
     updateUserName: function updateUserName(state, name) {
@@ -67822,6 +67859,8 @@ var authorizedHeader = {
       if (is_admin === '1') {
         state.is_admin = true;
       }
+
+      console.log(state.is_admin);
     },
     updateEagles: function updateEagles(state, eagles) {
       state.eagles = eagles;
@@ -67862,6 +67901,7 @@ var authorizedHeader = {
           // success
           var token = response.data.access_token;
           var is_admin = response.data.is_admin;
+          console.log(is_admin);
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
           commit('updateAdminStatus', is_admin);

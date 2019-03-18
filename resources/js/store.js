@@ -3,7 +3,7 @@ import {router} from "./app.js"
 
 // const API="http://braviary.test/api";
 
-const BASEURL = window.location.origin;
+const BASEURL = setBaseURL();
 const API = BASEURL + '/api';
 const headers = {
     headers: {
@@ -18,6 +18,24 @@ const authorizedHeader = {
     }
 }
 
+function setBaseURL() {
+    let origin = window.location.origin;
+    let baseURL = origin;
+    switch (window.location.hostname)
+    {
+        case 'localhost':               baseURL = origin;
+                                        break;
+        case 'braviary.test':           baseURL = origin;
+                                        break;
+        case 'xlab.agriweather.online': baseURL = 'https://xlab.agriweather.online/braviary/';
+                                        break;
+        default:                        baseURL = 'https://xlab.agriweather.online/braviary/';
+                                        break;
+    }
+    console.log(baseURL)
+    return baseURL
+}
+
 export default {
     state: {
         userName: '',
@@ -30,7 +48,7 @@ export default {
     // sync
     mutations: {
 		initializeStore(state) {
-			// if token exists, replace userToken in state
+			// if token exists, set state
 			if(localStorage.getItem('token')) {
                 state.userToken = localStorage.getItem('token');
                 state.userName = localStorage.getItem('name');
@@ -41,11 +59,11 @@ export default {
         resetStore(state){
             state.userName='';
             state.userToken='';
+            state.is_admin=false;
             state.eagles=[];
         },
         updateUserToken(state, token){
             state.userToken = token;
-            // store token in localStorage
             localStorage.setItem('token', token);
         },
         updateUserName(state, name){
@@ -59,6 +77,7 @@ export default {
             if(is_admin === '1'){
                 state.is_admin = true;
             }
+            console.log(state.is_admin);
         },
         updateEagles(state, eagles){
             state.eagles = eagles;
@@ -101,6 +120,7 @@ export default {
                     // success
                     let token = response.data.access_token;
                     let is_admin = response.data.is_admin;
+                    console.log(is_admin)
 
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');

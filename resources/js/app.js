@@ -35,6 +35,7 @@ const store = new Vuex.Store(StoreData);
 
 export const router = new VueRouter({
     mode: 'history',
+    base: '/braviary', 
     routes,                         // short for `routes: routes`
     linkActiveClass: 'active'
 });

@@ -27,8 +27,8 @@
                                 <!-- <li class="nav-item active">
                                     <router-link to="/">Home</router-link>
                                 </li> -->
-                                <li class="nav-item">
-                                    <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
+                                <li v-if="userNotLoggedIn" class="nav-item">
+                                    <router-link :to="{name:'Sign Up'}">Sign Up</router-link>
                                     <!-- <router-link v-else to="/eagles">Eagles</router-link> -->
                                 </li>
                                 <li v-if="userNotLoggedIn" class="nav-item">
@@ -80,6 +80,7 @@
         name: 'main-app',
         // data(){
         //     return{
+        //         isAdmin: false
         //     }
         // },
         computed: {
@@ -90,8 +91,11 @@
                 return this.$store.state.userName;
             },
             isAdmin(){
-                return this.$store.state.is_admin
+                return this.$store.state.is_admin;
             }
+            // isAdmin(){
+            //     return this.$store.state.is_admin
+            // }
         },
         methods: {
             userLogOut(){
@@ -108,6 +112,8 @@
             this.$store.dispatch('showUser')
                 .then(response => {
                     // do nothing
+                    console.log(response);
+                    this.isAdmin = response;
                 })
                 .catch(error => {
                     // do nothing
