@@ -23,16 +23,15 @@ function setBaseURL() {
     let baseURL = origin;
     switch (window.location.hostname)
     {
-        case 'localhost':               baseURL = origin;
+        case 'localhost':               baseURL = origin + '/';
                                         break;
-        case 'braviary.test':           baseURL = origin;
+        case 'braviary.test':           baseURL = origin + '/';
                                         break;
         case 'xlab.agriweather.online': baseURL = 'https://xlab.agriweather.online/braviary/';
                                         break;
         default:                        baseURL = 'https://xlab.agriweather.online/braviary/';
                                         break;
     }
-    console.log(baseURL)
     return baseURL
 }
 
@@ -77,7 +76,6 @@ export default {
             if(is_admin === '1'){
                 state.is_admin = true;
             }
-            console.log(state.is_admin);
         },
         updateEagles(state, eagles){
             state.eagles = eagles;
@@ -102,7 +100,6 @@ export default {
                 .then(response => {
                     let _successResponse = response.data['Success'];
                     let _userName = _successResponse.name;
-                    console.log(_userName);
                     commit('updateUserName', _userName);
                     resolve(response)
                 })
@@ -120,7 +117,6 @@ export default {
                     // success
                     let token = response.data.access_token;
                     let is_admin = response.data.is_admin;
-                    console.log(is_admin)
 
                     commit('updateUserToken', token);
                     commit('updateUserLoggedIn');
@@ -154,7 +150,6 @@ export default {
         },  
         userLogOut({commit, state}){
             return new Promise((resolve, reject) => {
-                console.log(API)
                 const logOutHeader = {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
@@ -282,8 +277,7 @@ export default {
                 .then(response => {
                     let successResponse = response.data["Success"]
                     let eagles = successResponse.eagles.my_eagles
-                    commit('updateEagles', eagles)
-                    console.log('eagles updated')
+                    commit('updateEagles', eagles);
                     resolve(response)
                 })
                 .catch((error) => {
@@ -303,11 +297,9 @@ export default {
 
                 axios.post(`${API}/eagles/${id}/link`, email, authorizedHeader)
                 .then(response => {
-                    console.log(response)
                     resolve(response)
                 })
                 .catch((error) => {
-                    console.log(error)
                     reject(error)
                 });
             })

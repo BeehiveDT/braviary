@@ -12597,7 +12597,6 @@ __webpack_require__.r(__webpack_exports__);
       return !this.$store.state.userLoggedIn;
     },
     eagles: function eagles() {
-      console.log('going to rerender eagles');
       return this.$store.state.eagles;
     }
   },
@@ -13030,12 +13029,18 @@ __webpack_require__.r(__webpack_exports__);
     userName: function userName() {
       return this.$store.state.userName;
     },
-    isAdmin: function isAdmin() {
-      return this.$store.state.is_admin;
-    } // isAdmin(){
-    //     return this.$store.state.is_admin
-    // }
+    isAdmin: {
+      // return this.$store.state.is_admin;
+      get: function get() {
+        return this.$store.state.is_admin;
+      },
+      set: function set(newValue) {
+        this.isAdmin = newValue;
+      } // isAdmin(){
+      //     return this.$store.state.is_admin
+      // }
 
+    }
   },
   methods: {
     userLogOut: function userLogOut() {
@@ -13049,7 +13054,6 @@ __webpack_require__.r(__webpack_exports__);
 
     this.$store.dispatch('showUser').then(function (response) {
       // do nothing
-      console.log(response);
       _this.isAdmin = response;
     }).catch(function (error) {// do nothing
     });
@@ -67798,11 +67802,11 @@ function setBaseURL() {
 
   switch (window.location.hostname) {
     case 'localhost':
-      baseURL = origin;
+      baseURL = origin + '/';
       break;
 
     case 'braviary.test':
-      baseURL = origin;
+      baseURL = origin + '/';
       break;
 
     case 'xlab.agriweather.online':
@@ -67814,7 +67818,6 @@ function setBaseURL() {
       break;
   }
 
-  console.log(baseURL);
   return baseURL;
 }
 
@@ -67859,8 +67862,6 @@ function setBaseURL() {
       if (is_admin === '1') {
         state.is_admin = true;
       }
-
-      console.log(state.is_admin);
     },
     updateEagles: function updateEagles(state, eagles) {
       state.eagles = eagles;
@@ -67884,7 +67885,6 @@ function setBaseURL() {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/me"), authorizedHeader).then(function (response) {
           var _successResponse = response.data['Success'];
           var _userName = _successResponse.name;
-          console.log(_userName);
           commit('updateUserName', _userName);
           resolve(response);
         }).catch(function (error) {
@@ -67901,7 +67901,6 @@ function setBaseURL() {
           // success
           var token = response.data.access_token;
           var is_admin = response.data.is_admin;
-          console.log(is_admin);
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
           commit('updateAdminStatus', is_admin);
@@ -67933,7 +67932,6 @@ function setBaseURL() {
       var commit = _ref4.commit,
           state = _ref4.state;
       return new Promise(function (resolve, reject) {
-        console.log(API);
         var logOutHeader = {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -68054,7 +68052,6 @@ function setBaseURL() {
           var successResponse = response.data["Success"];
           var eagles = successResponse.eagles.my_eagles;
           commit('updateEagles', eagles);
-          console.log('eagles updated');
           resolve(response);
         }).catch(function (error) {
           reject(error);
@@ -68072,10 +68069,8 @@ function setBaseURL() {
         var id = payload.id;
         var email = payload.email;
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(id, "/link"), email, authorizedHeader).then(function (response) {
-          console.log(response);
           resolve(response);
         }).catch(function (error) {
-          console.log(error);
           reject(error);
         });
       });
