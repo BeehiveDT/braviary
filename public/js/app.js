@@ -12628,6 +12628,11 @@ __webpack_require__.r(__webpack_exports__);
       }).catch(function (error) {// failed to create eagle
       });
     }
+  },
+  mounted: function mounted() {
+    this.$store.dispatch('retrieveEagles').then(function (response) {// do nothing
+    }).catch(function (error) {// do nothing
+    });
   }
 });
 
@@ -67837,7 +67842,6 @@ function setBaseURL() {
       if (localStorage.getItem('token')) {
         state.userToken = localStorage.getItem('token');
         state.userName = localStorage.getItem('name');
-        state.eagles = JSON.parse(localStorage.getItem('eagles'));
         state.userLoggedIn = true;
       }
     },
@@ -67864,14 +67868,11 @@ function setBaseURL() {
       }
     },
     updateEagles: function updateEagles(state, eagles) {
-      console.log("updating");
       eagles.sort(function (eagle1, eagle2) {
         // Descending order
         return eagle2.id - eagle1.id;
       });
-      console.log(eagles);
       state.eagles = eagles;
-      localStorage.setItem('eagles', JSON.stringify(eagles));
     }
   },
   getters: {
@@ -67910,8 +67911,8 @@ function setBaseURL() {
           commit('updateUserToken', token);
           commit('updateUserLoggedIn');
           commit('updateAdminStatus', is_admin);
-          dispatch('retrieveUserName');
-          dispatch('retrieveEagles');
+          dispatch('retrieveUserName'); // dispatch('retrieveEagles');
+
           _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
           resolve(response);
         }).catch(function (error) {

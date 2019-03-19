@@ -88,6 +88,15 @@ export default {
         //     // this.$forceUpdate();
         // }
     },
+    mounted: function () {
+        this.$store.dispatch('retrieveEagles')
+            .then(response => { 
+                // do nothing
+            })
+            .catch(error => {
+                // do nothing
+            })
+    }
 }
 </script>
 
