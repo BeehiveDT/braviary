@@ -90,8 +90,14 @@
             userName(){
                 return this.$store.state.userName;
             },
-            isAdmin(){
-                return this.$store.state.is_admin;
+            isAdmin: {
+                // return this.$store.state.is_admin;
+                get: function () {
+                    return this.$store.state.is_admin;
+                },
+                set: function (newValue) {
+                    this.isAdmin = newValue;
+                }
             }
             // isAdmin(){
             //     return this.$store.state.is_admin
@@ -112,7 +118,6 @@
             this.$store.dispatch('showUser')
                 .then(response => {
                     // do nothing
-                    console.log(response);
                     this.isAdmin = response;
                 })
                 .catch(error => {

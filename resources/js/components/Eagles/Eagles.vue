@@ -52,7 +52,6 @@ export default {
             return !this.$store.state.userLoggedIn;
         },
         eagles(){
-            console.log('going to rerender eagles');
             return this.$store.state.eagles;
         }
     },
