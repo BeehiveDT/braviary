@@ -67778,7 +67778,7 @@ __webpack_require__.r(__webpack_exports__);
  // const API="http://braviary.test/api";
 
 var BASEURL = setBaseURL();
-var API = BASEURL + '/api';
+var API = BASEURL + 'api';
 var headers = {
   headers: {
     'Content-Type': 'application/json'

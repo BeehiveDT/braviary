@@ -4,7 +4,7 @@ import {router} from "./app.js"
 // const API="http://braviary.test/api";
 
 const BASEURL = setBaseURL();
-const API = BASEURL + '/api';
+const API = BASEURL + 'api';
 const headers = {
     headers: {
         'Content-Type': 'application/json'
