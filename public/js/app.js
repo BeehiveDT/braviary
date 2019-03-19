@@ -67864,6 +67864,12 @@ function setBaseURL() {
       }
     },
     updateEagles: function updateEagles(state, eagles) {
+      console.log("updating");
+      eagles.sort(function (eagle1, eagle2) {
+        // Descending order
+        return eagle2.id - eagle1.id;
+      });
+      console.log(eagles);
       state.eagles = eagles;
       localStorage.setItem('eagles', JSON.stringify(eagles));
     }
@@ -68050,7 +68056,11 @@ function setBaseURL() {
         authorizedHeader.headers['Authorization'] = state.userToken;
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles"), authorizedHeader).then(function (response) {
           var successResponse = response.data["Success"];
-          var eagles = successResponse.eagles.my_eagles;
+          var _linkEagles = successResponse.eagles.link_eagles;
+          var _myEagles = successResponse.eagles.my_eagles;
+
+          var eagles = _linkEagles.concat(_myEagles);
+
           commit('updateEagles', eagles);
           resolve(response);
         }).catch(function (error) {

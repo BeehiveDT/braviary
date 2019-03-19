@@ -78,6 +78,12 @@ export default {
             }
         },
         updateEagles(state, eagles){
+            console.log(`updating`)
+            eagles.sort(function(eagle1, eagle2) {
+                // Descending order
+                return eagle2.id - eagle1.id;
+            });
+            console.log(eagles)
             state.eagles = eagles;
             localStorage.setItem('eagles', JSON.stringify(eagles));
         }
@@ -276,7 +282,9 @@ export default {
                 axios.get(`${API}/eagles`, authorizedHeader)
                 .then(response => {
                     let successResponse = response.data["Success"]
-                    let eagles = successResponse.eagles.my_eagles
+                    let _linkEagles = successResponse.eagles.link_eagles;
+                    let _myEagles = successResponse.eagles.my_eagles;
+                    let eagles = _linkEagles.concat(_myEagles);
                     commit('updateEagles', eagles);
                     resolve(response)
                 })
