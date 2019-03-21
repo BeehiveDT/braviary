@@ -1,5 +1,5 @@
 <template>
-    <div id="eagles">
+    <div id="eagle-list">
         <div class="container">
             <div v-if="userNotLoggedIn">
                 <h2>{{ eaglePageMessage }}</h2>
@@ -7,11 +7,6 @@
             <div v-else>
                 <!-- Add New Eagle -->        
                 <add-eagle class="mb-4"></add-eagle>
-
-                <!-- <button v-on:click="refreshEagles" class="btn btn-dark round-button" type="button">
-                    <font-awesome-icon :icon="['fas', 'redo']"></font-awesome-icon>
-                    <span>Refresh</span>
-                </button> -->
 
                 <div class="row" id="ShowEagles">
                     <div class="eagle-card card col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
@@ -33,7 +28,7 @@ import AddEagle from './AddEagle.vue'
 import Eagle from './Eagle.vue'
 
 export default {
-    name: 'eagles',
+    name: 'eagle-list',
     components: {
         AddEagle,
         Eagle
@@ -49,16 +44,15 @@ export default {
     },
     computed: {
         userNotLoggedIn(){
-            return !this.$store.state.userLoggedIn;
+            return !this.$store.state.user.userLoggedIn;
         },
         eagles(){
-            return this.$store.state.eagles;
+            return this.$store.state.eagle.eagleList;
         }
     },
     methods: {
         toggleShow(){
             this.isShow = !this.isShow;
-            console.log(this.isShow);
         },
         clearForm(){
             this.name = '';
@@ -84,12 +78,9 @@ export default {
                     // failed to create eagle
                 })
         },
-        // refreshEagles(){
-        //     // this.$forceUpdate();
-        // }
     },
     mounted: function () {
-        this.$store.dispatch('retrieveEagles')
+        this.$store.dispatch('eagle/retrieveEagleList')
             .then(response => { 
                 // do nothing
             })

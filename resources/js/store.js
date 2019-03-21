@@ -46,14 +46,6 @@ export default {
     },
     // sync
     mutations: {
-		initializeStore(state) {
-			// if token exists, set state
-			if(localStorage.getItem('token')) {
-                state.userToken = localStorage.getItem('token');
-                state.userName = localStorage.getItem('name');
-                state.userLoggedIn = true;
-			}
-        },
         resetStore(state){
             state.userName='';
             state.userToken='';

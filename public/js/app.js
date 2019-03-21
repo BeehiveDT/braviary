@@ -12520,16 +12520,16 @@ __webpack_require__.r(__webpack_exports__);
       return this.eagle.job_token;
     }
   },
-  mounted: function mounted() {
-    var _this = this;
-
-    this.$store.dispatch('retrieveEagleFeathers', {
-      limit: 1,
-      id: this.eagle.id
-    }).then(function (response) {
-      _this.lastFeather = response;
-    }).catch(function (error) {// do nothing
-    });
+  mounted: function mounted() {// this.$store.dispatch('retrieveEagleFeathers', { 
+    //     limit: 1,
+    //     id: this.eagle.id
+    //     })
+    //     .then(response => { 
+    //         this.lastFeather = response;
+    //     })
+    //     .catch(error => {
+    //         // do nothing
+    //     })
   }
 });
 
@@ -12570,15 +12570,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'eagles',
+  name: 'eagle-list',
   components: {
     AddEagle: _AddEagle_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     Eagle: _Eagle_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -12594,16 +12589,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     userNotLoggedIn: function userNotLoggedIn() {
-      return !this.$store.state.userLoggedIn;
+      return !this.$store.state.user.userLoggedIn;
     },
     eagles: function eagles() {
-      return this.$store.state.eagles;
+      return this.$store.state.eagle.eagleList;
     }
   },
   methods: {
     toggleShow: function toggleShow() {
       this.isShow = !this.isShow;
-      console.log(this.isShow);
     },
     clearForm: function clearForm() {
       this.name = '';
@@ -12630,7 +12624,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('retrieveEagles').then(function (response) {// do nothing
+    this.$store.dispatch('eagle/retrieveEagleList').then(function (response) {// do nothing
     }).catch(function (error) {// do nothing
     });
   }
@@ -12915,13 +12909,14 @@ __webpack_require__.r(__webpack_exports__);
 
       var email = this.email;
       var password = this.password;
-      this.$store.dispatch('logInSubmit', {
+      this.$store.dispatch('user/logInUser', {
         email: email,
         password: password
       }).then(function (response) {// do nothing
       }).catch(function (error) {
-        // console.log(`signup failed RAWR`);
+        console.log(error); // console.log(`signup failed RAWR`);
         // console.log(error.message.email);
+
         _this.email = '';
         _this.password = '';
         _this.logInFailed = true;
@@ -13006,20 +13001,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'main-app',
   // data(){
@@ -13029,39 +13010,32 @@ __webpack_require__.r(__webpack_exports__);
   // },
   computed: {
     userNotLoggedIn: function userNotLoggedIn() {
-      return !this.$store.state.userLoggedIn;
+      return !this.$store.state.user.userLoggedIn;
     },
     userName: function userName() {
-      return this.$store.state.userName;
+      return this.$store.state.user.userName;
     },
     isAdmin: {
-      // return this.$store.state.is_admin;
       get: function get() {
-        return this.$store.state.is_admin;
+        return this.$store.state.user.isAdmin;
       },
       set: function set(newValue) {
         this.isAdmin = newValue;
-      } // isAdmin(){
-      //     return this.$store.state.is_admin
-      // }
-
+      }
     }
   },
-  methods: {
-    userLogOut: function userLogOut() {
-      this.$store.dispatch('userLogOut').then(function (response) {// do nothing
-      }).catch(function (error) {// do nothing
-      });
-    }
+  methods: {// userLogOut(){
+    //     this.$store.dispatch('userLogOut')
+    //         .then(response => { 
+    //             // do nothing
+    //         })
+    //         .catch(error => {
+    //             // do nothing
+    //         })
+    // }
   },
   mounted: function mounted() {
-    var _this = this;
-
-    this.$store.dispatch('showUser').then(function (response) {
-      // do nothing
-      _this.isAdmin = response;
-    }).catch(function (error) {// do nothing
-    });
+    this.$store.commit('user/initializeStore');
   }
 });
 
@@ -50489,7 +50463,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { attrs: { id: "eagles" } }, [
+  return _c("div", { attrs: { id: "eagle-list" } }, [
     _c("div", { staticClass: "container" }, [
       _vm.userNotLoggedIn
         ? _c("div", [_c("h2", [_vm._v(_vm._s(_vm.eaglePageMessage))])])
@@ -66648,12 +66622,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var vue_clipboards__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-clipboards */ "./node_modules/vue-clipboards/dist/vue-clipboards.es.js");
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/js/store.js");
+/* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store/store */ "./resources/js/store/store.js");
 /* harmony import */ var _components_MainApp_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/MainApp.vue */ "./resources/js/components/MainApp.vue");
-/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
-/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
-/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
-/* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./config */ "./resources/js/config.js");
+/* harmony import */ var _fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @fortawesome/fontawesome-svg-core */ "./node_modules/@fortawesome/fontawesome-svg-core/index.es.js");
+/* harmony import */ var _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @fortawesome/free-regular-svg-icons */ "./node_modules/@fortawesome/free-regular-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @fortawesome/free-solid-svg-icons */ "./node_modules/@fortawesome/free-solid-svg-icons/index.es.js");
+/* harmony import */ var _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @fortawesome/vue-fontawesome */ "./node_modules/@fortawesome/vue-fontawesome/index.es.js");
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -66668,6 +66643,7 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  // {routes} because importing a const.
 
 
+
  // font awesome
 
 
@@ -66675,14 +66651,15 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
  // import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 
 
-_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_7__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faClipboard"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faEdit"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faTrashAlt"], _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_8__["faTimesCircle"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faPaperPlane"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faPlus"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faFeatherAlt"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faRedo"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('font-awesome-icon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_10__["FontAwesomeIcon"]); // window.Vue = require('vue');
+_fortawesome_fontawesome_svg_core__WEBPACK_IMPORTED_MODULE_8__["library"].add(_fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faClipboard"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faEdit"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faTrashAlt"], _fortawesome_free_regular_svg_icons__WEBPACK_IMPORTED_MODULE_9__["faTimesCircle"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faPaperPlane"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faPlus"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faFeatherAlt"], _fortawesome_free_solid_svg_icons__WEBPACK_IMPORTED_MODULE_10__["faRedo"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('font-awesome-icon', _fortawesome_vue_fontawesome__WEBPACK_IMPORTED_MODULE_11__["FontAwesomeIcon"]); // window.Vue = require('vue');
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_clipboards__WEBPACK_IMPORTED_MODULE_3__["default"]); // Vue.forceUpdate();
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_clipboards__WEBPACK_IMPORTED_MODULE_3__["default"]); // 設定 config
 
-var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.prototype.$config = _config__WEBPACK_IMPORTED_MODULE_7__["config"];
+var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store(_store_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
   mode: 'history',
   base: '/braviary',
@@ -66715,11 +66692,13 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     MainApp: _components_MainApp_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   beforeCreate: function beforeCreate() {
-    this.$store.commit('initializeStore');
     console.log("before create");
+    this.$store.commit('user/initializeStore');
   },
   created: function created() {
-    console.log("created");
+    console.log("created"); // 設定 API URL
+
+    this.$config.setAPI_BaseURL();
   },
   beforeMount: function beforeMount() {
     console.log("before mount");
@@ -67719,6 +67698,87 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/config.js":
+/*!********************************!*\
+  !*** ./resources/js/config.js ***!
+  \********************************/
+/*! exports provided: config */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "config", function() { return config; });
+var config = {
+  // ------------------------------------------------------------------
+  // parameters
+  // ------------------------------------------------------------------
+  BASE_URL: window.location.origin,
+  API_BASE_URL: window.location.origin,
+  HEADER: {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  },
+  AUTHORIZED_HEADER: {
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': ''
+    }
+  },
+  // ------------------------------------------------------------------
+  // tool function
+  // ------------------------------------------------------------------
+  setAPI_BaseURL: function setAPI_BaseURL() {
+    switch (window.location.hostname) {
+      case 'localhost':
+        this.BASE_URL = this.BASE_URL + '/';
+        break;
+
+      case 'braviary.test':
+        this.BASE_URL = this.BASE_URL + '/';
+        break;
+
+      case 'xlab.agriweather.online':
+        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
+        break;
+
+      default:
+        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
+        break;
+    }
+
+    this.API_BASE_URL = this.BASE_URL + 'api/';
+    return this.API_BASE_URL;
+  },
+  getAPI_URL: function getAPI_URL(action) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
+    switch (action) {
+      // API USER
+      case 'Log_In_User':
+        return this.API_BASE_URL + 'auth/login';
+
+      case 'Show_User_Profile':
+        return this.API_BASE_URL + 'me';
+      // API EAGLE
+
+      case 'Get_Eagle_List':
+        return this.API_BASE_URL + 'eagles';
+
+      default:
+        return this.API_BASE_URL;
+    }
+  },
+  getAuthorized_Header: function getAuthorized_Header(token) {
+    this.AUTHORIZED_HEADER.headers['Authorization'] = token;
+    return this.AUTHORIZED_HEADER;
+  }
+};
+
+
+/***/ }),
+
 /***/ "./resources/js/routes.js":
 /*!********************************!*\
   !*** ./resources/js/routes.js ***!
@@ -67771,10 +67831,10 @@ var routes = [{
 
 /***/ }),
 
-/***/ "./resources/js/store.js":
-/*!*******************************!*\
-  !*** ./resources/js/store.js ***!
-  \*******************************/
+/***/ "./resources/js/store/modules/eagle.js":
+/*!*********************************************!*\
+  !*** ./resources/js/store/modules/eagle.js ***!
+  \*********************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -67782,391 +67842,197 @@ var routes = [{
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./app.js */ "./resources/js/app.js");
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config */ "./resources/js/config.js");
 
- // const API="http://braviary.test/api";
+ // initial state
 
-var BASEURL = setBaseURL();
-var API = BASEURL + 'api';
-var headers = {
-  headers: {
-    'Content-Type': 'application/json'
+var state = {
+  eagleList: [] // getters
+
+};
+var getters = {}; // actions
+
+var actions = {
+  // ------------------------------------------------------------------
+  // Eagles
+  // ------------------------------------------------------------------
+  retrieveEagleList: function retrieveEagleList(_ref) {
+    var commit = _ref.commit,
+        state = _ref.state,
+        rootState = _ref.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Get_Eagle_List');
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
+        var _successResponse = response.data["Success"];
+        var _linkEagles = _successResponse.eagles.link_eagles;
+        var _myEagles = _successResponse.eagles.my_eagles;
+
+        var _eagleList = _linkEagles.concat(_myEagles);
+
+        commit('updateEagleList', _eagleList);
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
   }
 };
-var authorizedHeader = {
-  headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Authorization': ''
+// mutations
+var mutations = {
+  updateEagleList: function updateEagleList(state, eagleList) {
+    eagleList.sort(function (eagle1, eagle2) {
+      // Descending order
+      return eagle2.id - eagle1.id;
+    });
+    state.eagleList = eagleList;
   }
 };
-
-function setBaseURL() {
-  var origin = window.location.origin;
-  var baseURL = origin;
-
-  switch (window.location.hostname) {
-    case 'localhost':
-      baseURL = origin + '/';
-      break;
-
-    case 'braviary.test':
-      baseURL = origin + '/';
-      break;
-
-    case 'xlab.agriweather.online':
-      baseURL = 'https://xlab.agriweather.online/braviary/';
-      break;
-
-    default:
-      baseURL = 'https://xlab.agriweather.online/braviary/';
-      break;
-  }
-
-  return baseURL;
-}
-
 /* harmony default export */ __webpack_exports__["default"] = ({
-  state: {
-    userName: '',
-    userToken: '',
-    is_admin: false,
-    userLoggedIn: false,
-    eagles: [],
-    homeMessage: "Home Page"
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/modules/user.js":
+/*!********************************************!*\
+  !*** ./resources/js/store/modules/user.js ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _config__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../config */ "./resources/js/config.js");
+/* harmony import */ var _app_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../app.js */ "./resources/js/app.js");
+
+
+ // initial state
+
+var state = {
+  userToken: undefined,
+  userLoggedIn: false,
+  userIsAdmin: false,
+  userName: undefined // getters
+
+};
+var getters = {}; // actions
+
+var actions = {
+  logInUser: function logInUser(_ref, payload) {
+    var dispatch = _ref.dispatch,
+        commit = _ref.commit;
+    return new Promise(function (resolve, reject) {
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Log_In_User');
+
+      var _header = _config__WEBPACK_IMPORTED_MODULE_1__["config"].HEADER;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, payload, _header).then(function (response) {
+        // success
+        var _token = response.data.access_token;
+        var _isAdmin = response.data.is_admin;
+        commit('updateUserToken', _token);
+        commit('updateUserLoggedIn');
+        commit('updateAdminStatus', _isAdmin);
+        dispatch('retrieveUserName');
+        _app_js__WEBPACK_IMPORTED_MODULE_2__["router"].push('/eagles');
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
   },
-  // sync
-  mutations: {
-    initializeStore: function initializeStore(state) {
-      // if token exists, set state
-      if (localStorage.getItem('token')) {
-        state.userToken = localStorage.getItem('token');
-        state.userName = localStorage.getItem('name');
-        state.userLoggedIn = true;
-      }
-    },
-    resetStore: function resetStore(state) {
-      state.userName = '';
-      state.userToken = '';
-      state.is_admin = false;
-      state.eagles = [];
-    },
-    updateUserToken: function updateUserToken(state, token) {
-      state.userToken = token;
-      localStorage.setItem('token', token);
-    },
-    updateUserName: function updateUserName(state, name) {
-      state.userName = name;
-      localStorage.setItem('name', name);
-    },
-    updateUserLoggedIn: function updateUserLoggedIn(state) {
-      state.userLoggedIn = !state.userLoggedIn;
-    },
-    updateAdminStatus: function updateAdminStatus(state, is_admin) {
-      if (is_admin === '1') {
-        state.is_admin = true;
-      }
-    },
-    updateEagles: function updateEagles(state, eagles) {
-      eagles.sort(function (eagle1, eagle2) {
-        // Descending order
-        return eagle2.id - eagle1.id;
-      });
-      state.eagles = eagles;
-    }
-  },
-  getters: {
-    homeMessage: function homeMessage(state) {
-      return state.homeMessage;
-    }
-  },
-  // async
-  actions: {
-    retrieveUserName: function retrieveUserName(_ref) {
-      var state = _ref.state,
-          commit = _ref.commit;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken; // 
+  retrieveUserName: function retrieveUserName(_ref2) {
+    var state = _ref2.state,
+        commit = _ref2.commit;
+    return new Promise(function (resolve, reject) {
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].AUTHORIZED_HEADER;
 
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/me"), authorizedHeader).then(function (response) {
-          var _successResponse = response.data['Success'];
-          var _userName = _successResponse.name;
-          commit('updateUserName', _userName);
-          resolve(response);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    logInSubmit: function logInSubmit(_ref2, payload) {
-      var dispatch = _ref2.dispatch,
-          commit = _ref2.commit;
-      return new Promise(function (resolve, reject) {
-        // POST request to log in
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/login"), payload, headers).then(function (response) {
-          // success
-          var token = response.data.access_token;
-          var is_admin = response.data.is_admin;
-          commit('updateUserToken', token);
-          commit('updateUserLoggedIn');
-          commit('updateAdminStatus', is_admin);
-          dispatch('retrieveUserName'); // dispatch('retrieveEagles');
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Show_User_Profile');
 
-          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/eagles');
-          resolve(response);
-        }).catch(function (error) {
-          reject(error.response);
-        });
+      _authorizedHeader.headers['Authorization'] = state.userToken;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
+        var _successResponse = response.data['Success'];
+        var _userName = _successResponse.name;
+        commit('updateUserName', _userName);
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
       });
-    },
-    signUpSubmit: function signUpSubmit(_ref3, payload) {
-      var commit = _ref3.commit;
-      return new Promise(function (resolve, reject) {
-        // POST request to sign up
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/auth/register"), payload, headers).then(function (response) {
-          // success
-          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/log-in');
-          resolve(response);
-        }).catch(function (error) {
-          // signup failed
-          var _errorMessage = error.response.data.error.message;
-          reject(_errorMessage);
-        });
-      });
-    },
-    userLogOut: function userLogOut(_ref4) {
-      var commit = _ref4.commit,
-          state = _ref4.state;
-      return new Promise(function (resolve, reject) {
-        var logOutHeader = {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Authorization': state.userToken
-        };
-        var config = {
-          method: 'POST',
-          url: "".concat(API, "/auth/logout"),
-          headers: logOutHeader
-        };
-        axios__WEBPACK_IMPORTED_MODULE_0___default()(config).then(function (response) {
-          commit('updateUserLoggedIn');
-          localStorage.clear();
-          commit('resetStore');
-          _app_js__WEBPACK_IMPORTED_MODULE_1__["router"].push('/');
-          resolve(response);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    showUser: function showUser(_ref5) {
-      var commit = _ref5.commit,
-          state = _ref5.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/me"), authorizedHeader).then(function (response) {
-          var successResponse = response.data['Success'];
-          var is_admin = successResponse.is_admin;
-          commit('updateAdminStatus', is_admin);
-          resolve(state.is_admin);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    updateUser: function updateUser(_ref6, payload) {
-      var state = _ref6.state,
-          commit = _ref6.commit;
-      return new Promise(function (resolve, reject) {
-        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update user
-
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/me"), payload, authorizedHeader).then(function (response) {
-          // update user succeeded
-          if (payload.name) {
-            commit('updateUserName', payload.name);
-          }
-
-          resolve(response);
-        }).catch(function (error) {
-          // update user failed
-          var errorMessage = error.response.data.error.message;
-          reject(errorMessage);
-        });
-      });
-    },
-    createEagle: function createEagle(_ref7, payload) {
-      var dispatch = _ref7.dispatch,
-          state = _ref7.state;
-      return new Promise(function (resolve, reject) {
-        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to create eagle
-
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles"), payload, authorizedHeader).then(function (response) {
-          // success
-          dispatch('retrieveEagles');
-          resolve(response);
-        }).catch(function (error) {
-          // creation failed
-          reject(error);
-        });
-      });
-    },
-    updateEagle: function updateEagle(_ref8, payload) {
-      var dispatch = _ref8.dispatch,
-          state = _ref8.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken; // POST request to update eagle
-
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(payload.id), payload.eagle, authorizedHeader).then(function (response) {
-          // success
-          dispatch('retrieveEagles');
-          resolve(response);
-        }).catch(function (error) {
-          // creation failed
-          reject(error);
-        });
-      });
-    },
-    deleteEagle: function deleteEagle(_ref9, payload) {
-      var dispatch = _ref9.dispatch,
-          state = _ref9.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken; // {{BaseURL}}/eagles/26
-
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete("".concat(API, "/eagles/").concat(payload.id), authorizedHeader).then(function (response) {
-          // success
-          dispatch('retrieveEagles');
-          resolve(response);
-        }).catch(function (error) {
-          // creation failed
-          reject(error);
-        });
-      });
-    },
-    // **
-    // show eagles
-    // **
-    retrieveEagles: function retrieveEagles(_ref10) {
-      var commit = _ref10.commit,
-          state = _ref10.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles"), authorizedHeader).then(function (response) {
-          var successResponse = response.data["Success"];
-          var _linkEagles = successResponse.eagles.link_eagles;
-          var _myEagles = successResponse.eagles.my_eagles;
-
-          var eagles = _linkEagles.concat(_myEagles);
-
-          commit('updateEagles', eagles);
-          resolve(response);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    // **
-    // add eagle viewer
-    // **
-    addEagleViewer: function addEagleViewer(_ref11, payload) {
-      var state = _ref11.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        var id = payload.id;
-        var email = payload.email;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(id, "/link"), email, authorizedHeader).then(function (response) {
-          resolve(response);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    // **
-    // retrieve Eagle's list of viewers
-    // **
-    getEagleViewers: function getEagleViewers(_ref12, payload) {
-      var state = _ref12.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles/").concat(payload.id, "/viewers"), authorizedHeader).then(function (response) {
-          var emails = response.data['Success']['viewers'];
-          resolve(emails);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    deleteEagleViewer: function deleteEagleViewer(_ref13, payload) {
-      var state = _ref13.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post("".concat(API, "/eagles/").concat(payload.id, "/unlink"), payload.body, authorizedHeader).then(function (response) {
-          resolve(response);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    // payload.limit is the number of feathres to retrieve
-    // payload.limit  = 1 retrieves last feather
-    retrieveEagleFeathers: function retrieveEagleFeathers(_ref14, payload) {
-      var state = _ref14.state;
-      return new Promise(function (resolve, reject) {
-        var header = authorizedHeader;
-        header.headers['Authorization'] = state.userToken;
-        header.params = {
-          'limit': payload.limit
-        };
-        var lastFeather = '';
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/eagles/").concat(payload.id, "/feathers"), header).then(function (response) {
-          var feathersArr = response.data['Success']['feathers'];
-
-          if (feathersArr[0]) {
-            lastFeather = feathersArr[0];
-          } else {
-            lastFeather = "None Found";
-          }
-
-          resolve(lastFeather);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    retrieveAllEagles: function retrieveAllEagles(_ref15) {
-      var state = _ref15.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/zookeeper/eagles"), authorizedHeader).then(function (response) {
-          var successResponse = response.data['Success'];
-          resolve(successResponse.eagles);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    },
-    retrieveAllUsers: function retrieveAllUsers(_ref16) {
-      var state = _ref16.state;
-      return new Promise(function (resolve, reject) {
-        // Set user token for authorization
-        authorizedHeader.headers['Authorization'] = state.userToken;
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.get("".concat(API, "/zookeeper/users"), authorizedHeader).then(function (response) {
-          var successResponse = response.data['Success'];
-          resolve(successResponse.users);
-        }).catch(function (error) {
-          reject(error);
-        });
-      });
-    }
+    });
   }
+}; // mutations
+
+var mutations = {
+  initializeStore: function initializeStore(state) {
+    // if token exists, set state
+    if (localStorage.getItem('token')) {
+      state.userToken = localStorage.getItem('token');
+      state.userName = localStorage.getItem('name');
+      state.userLoggedIn = true;
+    }
+  },
+  updateUserToken: function updateUserToken(state, token) {
+    state.userToken = token;
+    localStorage.setItem('token', token);
+    console.log("user token ".concat(state.userToken));
+  },
+  updateUserLoggedIn: function updateUserLoggedIn(state) {
+    state.userLoggedIn = !state.userLoggedIn;
+    console.log("is logged in ".concat(state.userLoggedIn));
+  },
+  updateAdminStatus: function updateAdminStatus(state, isAdmin) {
+    if (isAdmin === '1') {
+      state.userIsAdmin = true;
+    }
+
+    console.log("is admin ".concat(state.userIsAdmin));
+  },
+  updateUserName: function updateUserName(state, name) {
+    state.userName = name;
+    localStorage.setItem('name', name);
+    console.log("user name is ".concat(state.userName));
+  }
+};
+/* harmony default export */ __webpack_exports__["default"] = ({
+  namespaced: true,
+  state: state,
+  getters: getters,
+  actions: actions,
+  mutations: mutations
+});
+
+/***/ }),
+
+/***/ "./resources/js/store/store.js":
+/*!*************************************!*\
+  !*** ./resources/js/store/store.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modules_user__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/user */ "./resources/js/store/modules/user.js");
+/* harmony import */ var _modules_eagle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/eagle */ "./resources/js/store/modules/eagle.js");
+
+
+var debug = "development" !== 'production';
+/* harmony default export */ __webpack_exports__["default"] = ({
+  modules: {
+    user: _modules_user__WEBPACK_IMPORTED_MODULE_0__["default"],
+    eagle: _modules_eagle__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
+  strict: debug
 });
 
 /***/ }),

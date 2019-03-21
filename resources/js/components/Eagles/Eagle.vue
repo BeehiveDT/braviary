@@ -57,16 +57,16 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('retrieveEagleFeathers', { 
-            limit: 1,
-            id: this.eagle.id
-            })
-            .then(response => { 
-                this.lastFeather = response;
-            })
-            .catch(error => {
-                // do nothing
-            })
+        // this.$store.dispatch('retrieveEagleFeathers', { 
+        //     limit: 1,
+        //     id: this.eagle.id
+        //     })
+        //     .then(response => { 
+        //         this.lastFeather = response;
+        //     })
+        //     .catch(error => {
+        //         // do nothing
+        //     })
     }
 }
 </script>
