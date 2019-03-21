@@ -2,8 +2,8 @@
 import Home from './components/Home.vue';
 import LogIn from './components/User/LogIn.vue';
 import SignUp from './components/User/SignUp.vue';
-import Eagles from './components/Eagles/Eagles.vue';
 import UserProfile from './components/User/UserProfile.vue';
+import Eagles from './components/Eagles/Eagles.vue';
 import AllEagles from './components/Zookeeper/AllEagles.vue';
 import AllUsers from './components/Zookeeper/AllUsers.vue';
 

@@ -33,14 +33,13 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary" :disabled="disableSubmit">Update</button>
-                <!-- use button below to test error message display -->
-                <!-- <button type="submit" class="btn btn-primary">Update</button> -->
             </form>
         </div>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 const errorResponse = {
                 'name': {
                     failed: false,
@@ -56,7 +55,7 @@ export default {
     name: 'logIn',
     data(){
         return {
-            userName: this.$store.state.userName,
+            userName: '',
             password1: '',
             password2: '',
             invalidPassword: false, // password doesn't meet requirement
@@ -66,6 +65,9 @@ export default {
         }
     },
     computed: {
+           ...mapState({
+                'userNameFromStore': state => state.user.userName
+            }),
     },
     methods: {
         submitName(){
@@ -74,11 +76,10 @@ export default {
         },
         submitPassword(){
             let password = { password: this.password1 };
-            // "name": "老鷹訓練師",
             this.updateUser(password);
         },
         updateUser(data){
-            this.$store.dispatch('updateUser', data)
+            this.$store.dispatch('user/updateUser', data)
             .then(response => {
                 // clear password fields on both name/password updates
                 this.password1 = '';
@@ -147,7 +148,15 @@ export default {
                 this.disableSubmit = true;
             }
         }
-    }
+    },
+    mounted(){
+        this.userName = this.$store.state.user.userName;
+    },
+    watch: {
+        userNameFromStore() {
+            this.userName = this.userNameFromStore;
+        },
+    },
 }
 </script>
 

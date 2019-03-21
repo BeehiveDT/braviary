@@ -48,7 +48,9 @@ const config = {
             case 'Sign_Up_User':        return this.API_BASE_URL + 'auth/register';
             case 'Log_In_User':         return this.API_BASE_URL + 'auth/login';
             case 'Log_Out_User':        return this.API_BASE_URL + 'auth/logout';
-            case 'Show_User_Profile':   return this.API_BASE_URL + 'me';
+            case 'Show_User_Profile':   return this.API_BASE_URL + 'me';                                            // GET
+            case 'Update_User_Profile': return this.API_BASE_URL + 'me';                                            // POST
+            
             // API EAGLE
             case 'Get_Eagle_List':      return this.API_BASE_URL + 'eagles';                                         // GET
             case 'Create_Eagle':        return this.API_BASE_URL + 'eagles';                                         // POST

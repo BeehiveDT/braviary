@@ -12946,7 +12946,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     isAdmin: {
       get: function get() {
-        return this.$store.state.user.userIsAdmin;
+        return this.$store.state.user.isAdmin;
       },
       set: function set(newValue) {
         this.isAdmin = newValue;
@@ -13230,6 +13230,11 @@ var errorResponse = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -13270,8 +13275,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
+
 var errorResponse = {
   'name': {
     failed: false,
@@ -13286,7 +13290,7 @@ var errorResponse = {
   name: 'logIn',
   data: function data() {
     return {
-      userName: this.$store.state.userName,
+      userName: '',
       password1: '',
       password2: '',
       invalidPassword: false,
@@ -13296,7 +13300,11 @@ var errorResponse = {
       errorResponse: errorResponse
     };
   },
-  computed: {},
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])({
+    'userNameFromStore': function userNameFromStore(state) {
+      return state.user.userName;
+    }
+  })),
   methods: {
     submitName: function submitName() {
       var name = {
@@ -13307,14 +13315,13 @@ var errorResponse = {
     submitPassword: function submitPassword() {
       var password = {
         password: this.password1
-      }; // "name": "老鷹訓練師",
-
+      };
       this.updateUser(password);
     },
     updateUser: function updateUser(data) {
       var _this = this;
 
-      this.$store.dispatch('updateUser', data).then(function (response) {
+      this.$store.dispatch('user/updateUser', data).then(function (response) {
         // clear password fields on both name/password updates
         _this.password1 = '';
         _this.password2 = '';
@@ -13378,6 +13385,14 @@ var errorResponse = {
       } else {
         this.disableSubmit = true;
       }
+    }
+  },
+  mounted: function mounted() {
+    this.userName = this.$store.state.user.userName;
+  },
+  watch: {
+    userNameFromStore: function userNameFromStore() {
+      this.userName = this.userNameFromStore;
     }
   }
 });
@@ -66692,10 +66707,13 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   beforeCreate: function beforeCreate() {
     console.log("before create");
-    this.$store.commit('user/initializeStore');
   },
   created: function created() {
-    console.log("created"); // 設定 API URL
+    console.log("created"); // this.$store.commit('user/initializeStore');
+    // if(this.$store.state.user.userLoggedIn){
+    //     this.$store.dispatch('user/retrieveUserProfile')
+    // }
+    // 設定 API URL
 
     this.$config.setAPI_BaseURL();
   },
@@ -67766,6 +67784,11 @@ var config = {
 
       case 'Show_User_Profile':
         return this.API_BASE_URL + 'me';
+      // GET
+
+      case 'Update_User_Profile':
+        return this.API_BASE_URL + 'me';
+      // POST
       // API EAGLE
 
       case 'Get_Eagle_List':
@@ -67812,8 +67835,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Home_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Home.vue */ "./resources/js/components/Home.vue");
 /* harmony import */ var _components_User_LogIn_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/User/LogIn.vue */ "./resources/js/components/User/LogIn.vue");
 /* harmony import */ var _components_User_SignUp_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/User/SignUp.vue */ "./resources/js/components/User/SignUp.vue");
-/* harmony import */ var _components_Eagles_Eagles_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Eagles/Eagles.vue */ "./resources/js/components/Eagles/Eagles.vue");
-/* harmony import */ var _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/User/UserProfile.vue */ "./resources/js/components/User/UserProfile.vue");
+/* harmony import */ var _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/User/UserProfile.vue */ "./resources/js/components/User/UserProfile.vue");
+/* harmony import */ var _components_Eagles_Eagles_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Eagles/Eagles.vue */ "./resources/js/components/Eagles/Eagles.vue");
 /* harmony import */ var _components_Zookeeper_AllEagles_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/Zookeeper/AllEagles.vue */ "./resources/js/components/Zookeeper/AllEagles.vue");
 /* harmony import */ var _components_Zookeeper_AllUsers_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/Zookeeper/AllUsers.vue */ "./resources/js/components/Zookeeper/AllUsers.vue");
 // Load Component Page
@@ -67837,10 +67860,10 @@ var routes = [{
   component: _components_User_LogIn_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   path: '/eagles',
-  component: _components_Eagles_Eagles_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _components_Eagles_Eagles_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   path: '/me',
-  component: _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _components_User_UserProfile_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   path: '/zookeeper/eagles',
   component: _components_Zookeeper_AllEagles_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
@@ -68062,13 +68085,16 @@ var actions = {
       });
     });
   },
+  // ------------------------------------------------------------------
+  // User Profile
+  // ------------------------------------------------------------------
   retrieveUserProfile: function retrieveUserProfile(_ref4) {
     var state = _ref4.state,
         commit = _ref4.commit;
     return new Promise(function (resolve, reject) {
-      var _token = state.userToken;
-
       var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Show_User_Profile');
+
+      var _token = state.userToken;
 
       var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
 
@@ -68083,6 +68109,31 @@ var actions = {
         reject(error);
       });
     });
+  },
+  updateUser: function updateUser(_ref5, payload) {
+    var state = _ref5.state,
+        commit = _ref5.commit;
+    return new Promise(function (resolve, reject) {
+      var _token = state.userToken;
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Update_User_Profile');
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token); // POST request to update user
+
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, payload, _authorizedHeader).then(function (response) {
+        // update user succeeded
+        if (payload.name) {
+          commit('updateUserName', payload.name);
+        }
+
+        resolve(response);
+      }).catch(function (error) {
+        // update user failed
+        var errorMessage = error.response.data.error.message;
+        reject(errorMessage);
+      });
+    });
   }
 }; // mutations
 
@@ -68091,7 +68142,6 @@ var mutations = {
     // if token exists, set state
     if (localStorage.getItem('token')) {
       state.userToken = localStorage.getItem('token');
-      state.userName = localStorage.getItem('name');
       state.userLoggedIn = true;
     }
   },
@@ -68114,7 +68164,8 @@ var mutations = {
     }
   },
   updateUserName: function updateUserName(state, name) {
-    state.userName = name;
+    // console.log(name)
+    state.userName = name; // console.log(state.userName)
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

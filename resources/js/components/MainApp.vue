@@ -78,7 +78,7 @@
             },
             isAdmin: {
                 get: function () {
-                    return this.$store.state.user.userIsAdmin;
+                    return this.$store.state.user.isAdmin;
                 },
                 set: function (newValue) {
                     this.isAdmin = newValue;

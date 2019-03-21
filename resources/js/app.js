@@ -73,10 +73,13 @@ const app = new Vue({
     },
     beforeCreate() {
         console.log(`before create`);
-        this.$store.commit('user/initializeStore');
     },
     created(){
-        console.log(`created`)
+        console.log(`created`);
+        // this.$store.commit('user/initializeStore');
+        // if(this.$store.state.user.userLoggedIn){
+        //     this.$store.dispatch('user/retrieveUserProfile')
+        // }
         // 設定 API URL
         this.$config.setAPI_BaseURL();
     },

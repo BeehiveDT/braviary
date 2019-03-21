@@ -91,12 +91,16 @@ const actions = {
                 reject(_errorMessage);
             })
         })
-    }, 
+    },
+    // ------------------------------------------------------------------
+    // User Profile
+    // ------------------------------------------------------------------
     retrieveUserProfile ({ state, commit })
     {
         return new Promise((resolve, reject) => {
-            let _token = state.userToken;
             let _url = BraviaryConfig.getAPI_URL('Show_User_Profile');
+            
+            let _token = state.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
 
             axios.get(_url, _authorizedHeader)
@@ -113,6 +117,28 @@ const actions = {
             });
         })    
     },
+    updateUser({state, commit}, payload){
+        return new Promise((resolve, reject) => {
+            let _token = state.userToken;
+            let _url = BraviaryConfig.getAPI_URL('Update_User_Profile');
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+
+            // POST request to update user
+            axios.post(_url, payload, _authorizedHeader)
+            .then(response=> {
+                // update user succeeded
+                if(payload.name){
+                    commit('updateUserName', payload.name);
+                }
+                resolve(response);
+            })
+            .catch(error=>{
+                // update user failed
+                let errorMessage = error.response.data.error.message;
+                reject(errorMessage);
+            })
+        })
+    },
 }
 
 // mutations
@@ -123,7 +149,6 @@ const mutations =
         // if token exists, set state
         if(localStorage.getItem('token')) {
             state.userToken = localStorage.getItem('token');
-            state.userName = localStorage.getItem('name');
             state.userLoggedIn = true;
         }
     },
@@ -149,7 +174,9 @@ const mutations =
         }
     },
     updateUserName (state, name){
+        // console.log(name)
         state.userName = name;
+        // console.log(state.userName)
     }, 
 }
 
