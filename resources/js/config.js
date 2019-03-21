@@ -49,14 +49,19 @@ const config = {
             case 'Show_User_Profile': return this.API_BASE_URL + 'me';
             // API EAGLE
             case 'Get_Eagle_List': return this.API_BASE_URL + 'eagles';
+            `${API}/eagles/${payload.id}/feathers`
+            case 'Get_Eagle_Feathers': return this.API_BASE_URL + 'eagles' + '/' + params.id + '/' + 'feathers'
 
             default: return this.API_BASE_URL;
         }
     },
 
-    getAuthorized_Header: function (token)
+    getAuthorized_Header: function (token, params = {})
     {
         this.AUTHORIZED_HEADER.headers['Authorization'] = token;
+        if(params.length > 0){
+            this.AUTHORIZED_HEADER.params = params;
+        }
         return this.AUTHORIZED_HEADER;
     }
 }

@@ -16,7 +16,7 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagles
     // ------------------------------------------------------------------
-    retrieveEagleList({commit, state, rootState}){
+    retrieveEagleList({commit, rootState}){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
@@ -38,7 +38,33 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagle
     // ------------------------------------------------------------------
+    retrieveEagleFeathers({commit, state, rootState}, payload){
+        return new Promise((resolve, reject) => {
+            let _token = rootState.user.userToken;
+            let _params = {'limit': payload.limit};
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagle_Feathers', payload);
 
+
+
+            // let lastFeather = '';
+
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                let _successResponse = response.data['Success'];
+            //     let feathersArr = response.data['Success']['feathers']
+            //     if (feathersArr[0]){
+            //         lastFeather = feathersArr[0]
+            //     }else{
+            //         lastFeather = "None Found"
+            //     }
+                resolve(_successResponse);
+            })
+            .catch((error) => {
+                reject(error);
+            });
+        })
+    },
 
 }
   

@@ -12520,16 +12520,20 @@ __webpack_require__.r(__webpack_exports__);
       return this.eagle.job_token;
     }
   },
-  mounted: function mounted() {// this.$store.dispatch('retrieveEagleFeathers', { 
-    //     limit: 1,
-    //     id: this.eagle.id
-    //     })
-    //     .then(response => { 
-    //         this.lastFeather = response;
-    //     })
-    //     .catch(error => {
-    //         // do nothing
-    //     })
+  mounted: function mounted() {
+    var _this = this;
+
+    this.$store.dispatch('eagle/retrieveEagleFeathers', {
+      limit: 1,
+      id: this.eagle.id
+    }).then(function (response) {
+      if (response.feathers[0]) {
+        _this.lastFeather = response.feathers[0];
+      } else {
+        _this.lastFeather = "None Found";
+      }
+    }).catch(function (error) {// do nothing
+    });
   }
 });
 
@@ -67765,13 +67769,23 @@ var config = {
 
       case 'Get_Eagle_List':
         return this.API_BASE_URL + 'eagles';
+        "".concat(API, "/eagles/").concat(payload.id, "/feathers");
+
+      case 'Get_Eagle_Feathers':
+        return this.API_BASE_URL + 'eagles' + '/' + params.id + '/' + 'feathers';
 
       default:
         return this.API_BASE_URL;
     }
   },
   getAuthorized_Header: function getAuthorized_Header(token) {
+    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     this.AUTHORIZED_HEADER.headers['Authorization'] = token;
+
+    if (params.length > 0) {
+      this.AUTHORIZED_HEADER.params = params;
+    }
+
     return this.AUTHORIZED_HEADER;
   }
 };
@@ -67858,7 +67872,6 @@ var actions = {
   // ------------------------------------------------------------------
   retrieveEagleList: function retrieveEagleList(_ref) {
     var commit = _ref.commit,
-        state = _ref.state,
         rootState = _ref.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
@@ -67880,9 +67893,41 @@ var actions = {
         reject(error);
       });
     });
+  },
+  // ------------------------------------------------------------------
+  // Eagle
+  // ------------------------------------------------------------------
+  retrieveEagleFeathers: function retrieveEagleFeathers(_ref2, payload) {
+    var commit = _ref2.commit,
+        state = _ref2.state,
+        rootState = _ref2.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+      var _params = {
+        'limit': payload.limit
+      };
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token, _params);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Get_Eagle_Feathers', payload); // let lastFeather = '';
+
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
+        var _successResponse = response.data['Success']; //     let feathersArr = response.data['Success']['feathers']
+        //     if (feathersArr[0]){
+        //         lastFeather = feathersArr[0]
+        //     }else{
+        //         lastFeather = "None Found"
+        //     }
+
+        resolve(_successResponse);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
   }
-};
-// mutations
+}; // mutations
+
 var mutations = {
   updateEagleList: function updateEagleList(state, eagleList) {
     eagleList.sort(function (eagle1, eagle2) {

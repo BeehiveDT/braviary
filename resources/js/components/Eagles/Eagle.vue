@@ -57,16 +57,20 @@ export default {
         }
     },
     mounted(){
-        // this.$store.dispatch('retrieveEagleFeathers', { 
-        //     limit: 1,
-        //     id: this.eagle.id
-        //     })
-        //     .then(response => { 
-        //         this.lastFeather = response;
-        //     })
-        //     .catch(error => {
-        //         // do nothing
-        //     })
+        this.$store.dispatch('eagle/retrieveEagleFeathers', { 
+            limit: 1,
+            id: this.eagle.id
+            })
+            .then(response => {
+                if (response.feathers[0]){
+                    this.lastFeather = response.feathers[0]
+                }else{
+                    this.lastFeather = "None Found"
+                }
+            })
+            .catch(error => {
+                // do nothing
+            })
     }
 }
 </script>
