@@ -69,10 +69,32 @@ const actions = {
             })
         })
     },
+    // ------------------------------------------------------------------
+    // Sign Up
+    // ------------------------------------------------------------------
+    signUpSubmit ({ commit }, payload) 
+    {
+        return new Promise((resolve, reject) => {
+            let _url = BraviaryConfig.getAPI_URL('Sign_Up_User');
+            let _header = BraviaryConfig.HEADER;
+
+            // POST request to sign up
+            axios.post(_url, payload, _header)
+            .then(response=> {
+                // success
+                router.push('/log-in');
+                resolve(response);
+            })
+            .catch(error=>{
+                // signup failed
+                let _errorMessage = error.response.data.error.message;
+                reject(_errorMessage);
+            })
+        })
+    }, 
     retrieveUserProfile ({ state, commit })
     {
         return new Promise((resolve, reject) => {
-            console.log(`retrieve user profile`)
             let _token = state.userToken;
             let _url = BraviaryConfig.getAPI_URL('Show_User_Profile');
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);

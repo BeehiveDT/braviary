@@ -45,6 +45,7 @@ const config = {
         switch (action)
         {
             // API USER
+            case 'Sign_Up_User':        return this.API_BASE_URL + 'auth/register';
             case 'Log_In_User':         return this.API_BASE_URL + 'auth/login';
             case 'Log_Out_User':        return this.API_BASE_URL + 'auth/logout';
             case 'Show_User_Profile':   return this.API_BASE_URL + 'me';

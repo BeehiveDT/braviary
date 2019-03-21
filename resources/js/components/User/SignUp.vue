@@ -90,7 +90,7 @@ export default {
             let password = this.password1;
             let name = this.userName;
 
-            this.$store.dispatch('signUpSubmit', { 
+            this.$store.dispatch('user/signUpSubmit', { 
                 email, 
                 password,
                 name

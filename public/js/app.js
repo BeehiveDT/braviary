@@ -13144,7 +13144,7 @@ var errorResponse = {
       var email = this.email;
       var password = this.password1;
       var name = this.userName;
-      this.$store.dispatch('signUpSubmit', {
+      this.$store.dispatch('user/signUpSubmit', {
         email: email,
         password: password,
         name: name
@@ -67755,6 +67755,9 @@ var config = {
 
     switch (action) {
       // API USER
+      case 'Sign_Up_User':
+        return this.API_BASE_URL + 'auth/register';
+
       case 'Log_In_User':
         return this.API_BASE_URL + 'auth/login';
 
@@ -68038,11 +68041,31 @@ var actions = {
       });
     });
   },
-  retrieveUserProfile: function retrieveUserProfile(_ref3) {
-    var state = _ref3.state,
-        commit = _ref3.commit;
+  // ------------------------------------------------------------------
+  // Sign Up
+  // ------------------------------------------------------------------
+  signUpSubmit: function signUpSubmit(_ref3, payload) {
+    var commit = _ref3.commit;
     return new Promise(function (resolve, reject) {
-      console.log("retrieve user profile");
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Sign_Up_User');
+
+      var _header = _config__WEBPACK_IMPORTED_MODULE_1__["config"].HEADER; // POST request to sign up
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, payload, _header).then(function (response) {
+        // success
+        _app_js__WEBPACK_IMPORTED_MODULE_2__["router"].push('/log-in');
+        resolve(response);
+      }).catch(function (error) {
+        // signup failed
+        var _errorMessage = error.response.data.error.message;
+        reject(_errorMessage);
+      });
+    });
+  },
+  retrieveUserProfile: function retrieveUserProfile(_ref4) {
+    var state = _ref4.state,
+        commit = _ref4.commit;
+    return new Promise(function (resolve, reject) {
       var _token = state.userToken;
 
       var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Show_User_Profile');
