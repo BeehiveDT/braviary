@@ -12360,7 +12360,7 @@ __webpack_require__.r(__webpack_exports__);
       var name = this.name;
       var frequency = parseInt(this.frequency);
       var tolerance = parseInt(this.tolerance);
-      this.$store.dispatch('createEagle', {
+      this.$store.dispatch('eagle/createEagle', {
         name: name,
         frequency: frequency,
         tolerance: tolerance
@@ -12527,8 +12527,10 @@ __webpack_require__.r(__webpack_exports__);
       limit: 1,
       id: this.eagle.id
     }).then(function (response) {
-      if (response.feathers[0]) {
-        _this.lastFeather = response.feathers[0];
+      var _lastFeather = response.feathers[0];
+
+      if (_lastFeather) {
+        _this.lastFeather = _lastFeather;
       } else {
         _this.lastFeather = "None Found";
       }
@@ -67756,7 +67758,7 @@ var config = {
     return this.API_BASE_URL;
   },
   getAPI_URL: function getAPI_URL(action) {
-    var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    var payload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
 
     switch (action) {
       // API USER
@@ -67769,10 +67771,15 @@ var config = {
 
       case 'Get_Eagle_List':
         return this.API_BASE_URL + 'eagles';
-        "".concat(API, "/eagles/").concat(payload.id, "/feathers");
+      // GET
+
+      case 'Create_Eagle':
+        return this.API_BASE_URL + 'eagles';
+      // POST
 
       case 'Get_Eagle_Feathers':
-        return this.API_BASE_URL + 'eagles' + '/' + params.id + '/' + 'feathers';
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';
+      // GET
 
       default:
         return this.API_BASE_URL;
@@ -67897,10 +67904,30 @@ var actions = {
   // ------------------------------------------------------------------
   // Eagle
   // ------------------------------------------------------------------
-  retrieveEagleFeathers: function retrieveEagleFeathers(_ref2, payload) {
-    var commit = _ref2.commit,
-        state = _ref2.state,
+  createEagle: function createEagle(_ref2, payload) {
+    var dispatch = _ref2.dispatch,
         rootState = _ref2.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Create_Eagle');
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, payload, _authorizedHeader).then(function (response) {
+        // // success
+        dispatch('retrieveEagleList');
+        resolve(response);
+      }).catch(function (error) {
+        // // creation failed
+        reject(error);
+      });
+    });
+  },
+  retrieveEagleFeathers: function retrieveEagleFeathers(_ref3, payload) {
+    var commit = _ref3.commit,
+        state = _ref3.state,
+        rootState = _ref3.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
       var _params = {
@@ -67909,17 +67936,10 @@ var actions = {
 
       var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token, _params);
 
-      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Get_Eagle_Feathers', payload); // let lastFeather = '';
-
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Get_Eagle_Feathers', payload);
 
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
-        var _successResponse = response.data['Success']; //     let feathersArr = response.data['Success']['feathers']
-        //     if (feathersArr[0]){
-        //         lastFeather = feathersArr[0]
-        //     }else{
-        //         lastFeather = "None Found"
-        //     }
-
+        var _successResponse = response.data['Success'];
         resolve(_successResponse);
       }).catch(function (error) {
         reject(error);

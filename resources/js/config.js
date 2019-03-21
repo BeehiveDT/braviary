@@ -40,7 +40,7 @@ const config = {
         return this.API_BASE_URL;
     },
     
-    getAPI_URL: function (action, params = {})
+    getAPI_URL: function (action, payload = {})
     {
         switch (action)
         {
@@ -48,9 +48,9 @@ const config = {
             case 'Log_In_User': return this.API_BASE_URL + 'auth/login';
             case 'Show_User_Profile': return this.API_BASE_URL + 'me';
             // API EAGLE
-            case 'Get_Eagle_List': return this.API_BASE_URL + 'eagles';
-            `${API}/eagles/${payload.id}/feathers`
-            case 'Get_Eagle_Feathers': return this.API_BASE_URL + 'eagles' + '/' + params.id + '/' + 'feathers'
+            case 'Get_Eagle_List': return this.API_BASE_URL + 'eagles';                                             // GET
+            case 'Create_Eagle': return this.API_BASE_URL + 'eagles';                                               // POST
+            case 'Get_Eagle_Feathers': return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';   // GET
 
             default: return this.API_BASE_URL;
         }

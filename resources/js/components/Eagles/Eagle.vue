@@ -62,10 +62,11 @@ export default {
             id: this.eagle.id
             })
             .then(response => {
-                if (response.feathers[0]){
-                    this.lastFeather = response.feathers[0]
+                let _lastFeather = response.feathers[0];
+                if (_lastFeather){
+                    this.lastFeather = _lastFeather;
                 }else{
-                    this.lastFeather = "None Found"
+                    this.lastFeather = "None Found";
                 }
             })
             .catch(error => {
