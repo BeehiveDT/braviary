@@ -17,88 +17,118 @@ const getters = {
 
 // actions
 const actions = {
-logInUser({ dispatch, commit }, payload)
-{
-    return new Promise((resolve, reject) => {
-        let _url = BraviaryConfig.getAPI_URL('Log_In_User');
-        let _header = BraviaryConfig.HEADER;
+    // ------------------------------------------------------------------
+    // Log In/Out
+    // ------------------------------------------------------------------
+    logInUser({ dispatch, commit }, payload)
+    {
+        return new Promise((resolve, reject) => {
+            let _url = BraviaryConfig.getAPI_URL('Log_In_User');
+            let _header = BraviaryConfig.HEADER;
 
-        axios.post(_url, payload, _header)
-        .then(response=> {
-            // success
-            let _token = response.data.access_token;
-            let _isAdmin = response.data.is_admin;
+            axios.post(_url, payload, _header)
+            .then(response=> {
+                // success
+                let _token = response.data.access_token;
+                let _isAdmin = response.data.is_admin;
 
-            commit('updateUserToken', _token);
-            commit('updateUserLoggedIn');
-            commit('updateAdminStatus', _isAdmin);
-            dispatch('retrieveUserName');
-            router.push('/eagles');
-            resolve(response);
+                commit('updateUserToken', _token);
+                commit('updateUserLoggedIn');
+                dispatch('retrieveUserProfile');
+                router.push('/eagles');
+                resolve(response);
+            })
+            .catch(error=>{
+                reject(error);
+            })
         })
-        .catch(error=>{
-            reject(error);
+    },
+    logOutUser({commit, state})
+    {
+        return new Promise((resolve, reject) => {
+            let _token = state.userToken;
+            let _url = BraviaryConfig.getAPI_URL('Log_Out_User');
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+
+            let config = {
+                method:'POST',
+                url: _url,
+                headers: _authorizedHeader.headers
+            }
+
+            axios(config)
+            .then( response => {
+                commit('updateUserLoggedIn');
+                localStorage.clear();
+                commit('resetStore');
+                router.push('/');
+                resolve(response);
+            })
+          .catch( error => {
+                reject(error);
+            })
         })
-    })
-},
-retrieveUserName ({ state, commit })
-{
-    return new Promise((resolve, reject) => {
+    },
+    retrieveUserProfile ({ state, commit })
+    {
+        return new Promise((resolve, reject) => {
+            console.log(`retrieve user profile`)
+            let _token = state.userToken;
+            let _url = BraviaryConfig.getAPI_URL('Show_User_Profile');
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
 
-        let _authorizedHeader = BraviaryConfig.AUTHORIZED_HEADER;
-        let _url = BraviaryConfig.getAPI_URL('Show_User_Profile');
-
-        _authorizedHeader.headers['Authorization'] = state.userToken;
-
-        axios.get(_url, _authorizedHeader)
-        .then(response => {
-            let _successResponse = response.data['Success'];
-            let _userName = _successResponse.name;
-            commit('updateUserName', _userName);
-            resolve(response)
-        })
-        .catch((error) => {
-            reject(error)
-        });
-    })    
-},
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                let _successResponse = response.data['Success'];
+                let _userName = _successResponse.name;
+                let _isAdmin = _successResponse.is_admin;
+                commit('updateUserName', _userName);
+                commit('updateAdminStatus', _isAdmin);
+                resolve(response)
+            })
+            .catch((error) => {
+                reject(error)
+            });
+        })    
+    },
 }
 
 // mutations
 const mutations =
 {
-initializeStore (state) 
-{
-    // if token exists, set state
-    if(localStorage.getItem('token')) {
-        state.userToken = localStorage.getItem('token');
-        state.userName = localStorage.getItem('name');
-        state.userLoggedIn = true;
-    }
-},
-updateUserToken (state, token)
-{
-    state.userToken = token;
-    localStorage.setItem('token', token);
-    console.log(`user token ${state.userToken}`);
-},
-updateUserLoggedIn (state)
-{
-    state.userLoggedIn = !state.userLoggedIn;
-    console.log(`is logged in ${state.userLoggedIn}`);
-},
-updateAdminStatus (state, isAdmin)
-{
-    if(isAdmin === '1'){
-        state.userIsAdmin = true;
-    }
-    console.log(`is admin ${state.userIsAdmin}`);
-},
-updateUserName (state, name){
-    state.userName = name;
-    localStorage.setItem('name', name);
-    console.log(`user name is ${state.userName}`);
-}, 
+    initializeStore (state) 
+    {
+        // if token exists, set state
+        if(localStorage.getItem('token')) {
+            state.userToken = localStorage.getItem('token');
+            state.userName = localStorage.getItem('name');
+            state.userLoggedIn = true;
+        }
+    },
+    resetStore(state){
+        state.userToken = undefined;
+        state.userLoggedIn = false;
+        state.userIsAdmin = false;
+        state.userName = undefined;
+    },   
+    updateUserToken (state, token)
+    {
+        state.userToken = token;
+        localStorage.setItem('token', token);
+    },
+    updateUserLoggedIn (state)
+    {
+        state.userLoggedIn = !state.userLoggedIn;
+    },
+    updateAdminStatus (state, isAdmin)
+    {
+        if(isAdmin === '1'){
+            state.userIsAdmin = true;
+        }
+    },
+    updateUserName (state, name){
+        state.userName = name;
+    }, 
 }
 
 export default {

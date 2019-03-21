@@ -52,14 +52,9 @@ export default {
                     })
                     .catch(
                     error => {
-                        console.log(error)
-                        // console.log(`signup failed RAWR`);
-                        // console.log(error.message.email);
                         this.email = '';
                         this.password = '';
                         this.logInFailed = true;
-                        console.log(typeof error.data.error.message === "string")
-                        console.log(error.data.error.message)
                     })
         },
     }

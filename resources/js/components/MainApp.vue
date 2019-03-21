@@ -78,7 +78,7 @@
             },
             isAdmin: {
                 get: function () {
-                    return this.$store.state.user.isAdmin;
+                    return this.$store.state.user.userIsAdmin;
                 },
                 set: function (newValue) {
                     this.isAdmin = newValue;
@@ -86,18 +86,21 @@
             }
         },
         methods: {
-            // userLogOut(){
-            //     this.$store.dispatch('userLogOut')
-            //         .then(response => { 
-            //             // do nothing
-            //         })
-            //         .catch(error => {
-            //             // do nothing
-            //         })
-            // }
+            userLogOut(){
+                this.$store.dispatch('user/logOutUser')
+                    .then(response => { 
+                        // do nothing
+                    })
+                    .catch(error => {
+                        // do nothing
+                    })
+            }
         },
         mounted(){
             this.$store.commit('user/initializeStore');
+            if(this.$store.state.user.userLoggedIn){
+                this.$store.dispatch('user/retrieveUserProfile')
+            }
         }
     }
 </script>

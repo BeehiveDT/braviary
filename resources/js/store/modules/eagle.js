@@ -56,7 +56,7 @@ const actions = {
             })
         })
     },
-    retrieveEagleFeathers({commit, state, rootState}, payload){
+    retrieveEagleFeathers({rootState}, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _params = {'limit': payload.limit};

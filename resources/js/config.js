@@ -45,12 +45,13 @@ const config = {
         switch (action)
         {
             // API USER
-            case 'Log_In_User': return this.API_BASE_URL + 'auth/login';
-            case 'Show_User_Profile': return this.API_BASE_URL + 'me';
+            case 'Log_In_User':         return this.API_BASE_URL + 'auth/login';
+            case 'Log_Out_User':        return this.API_BASE_URL + 'auth/logout';
+            case 'Show_User_Profile':   return this.API_BASE_URL + 'me';
             // API EAGLE
-            case 'Get_Eagle_List': return this.API_BASE_URL + 'eagles';                                             // GET
-            case 'Create_Eagle': return this.API_BASE_URL + 'eagles';                                               // POST
-            case 'Get_Eagle_Feathers': return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';   // GET
+            case 'Get_Eagle_List':      return this.API_BASE_URL + 'eagles';                                         // GET
+            case 'Create_Eagle':        return this.API_BASE_URL + 'eagles';                                         // POST
+            case 'Get_Eagle_Feathers':  return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';   // GET
 
             default: return this.API_BASE_URL;
         }

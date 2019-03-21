@@ -206,23 +206,6 @@ export default {
                 })
             })
         },
-        createEagle({ dispatch, state }, payload) {
-            return new Promise((resolve, reject) => {
-                authorizedHeader.headers['Authorization'] = state.userToken;
-                
-                // POST request to create eagle
-                axios.post(`${API}/eagles`, payload, authorizedHeader)
-                .then(response=> {
-                    // success
-                    dispatch('retrieveEagles')
-                    resolve(response);
-                })
-                .catch(error=>{
-                    // creation failed
-                    reject(error);
-                })
-            })
-        },
         updateEagle({dispatch, state}, payload){
             return new Promise((resolve, reject) => {
                 // Set user token for authorization
