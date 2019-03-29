@@ -16,7 +16,7 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagles
     // ------------------------------------------------------------------
-    retrieveEagleList({commit, rootState}){
+    retrieveEagleList({ commit, rootState }){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
@@ -56,7 +56,7 @@ const actions = {
             })
         })
     },
-    deleteEagle({dispatch, rootState}, payload){
+    deleteEagle({ dispatch, rootState }, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
@@ -73,7 +73,7 @@ const actions = {
             })
         })
     },
-    retrieveEagleFeathers({rootState}, payload){
+    retrieveEagleFeathers({ rootState }, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _params = {'limit': payload.limit};
@@ -87,6 +87,25 @@ const actions = {
             })
             .catch((error) => {
                 reject(error);
+            });
+        })
+    },
+    // ------------------------------------------------------------------
+    // Eagle Viewer
+    // ------------------------------------------------------------------
+    getEagleViewers({ rootState }, payload){
+        return new Promise((resolve, reject) => {
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagle_Viewers', payload);
+
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                let emails = response.data['Success']['viewers']
+                resolve(emails)
+            })
+            .catch((error) => {
+                reject(error)
             });
         })
     },

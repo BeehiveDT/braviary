@@ -153,13 +153,11 @@ export default {
             })
         },
         getEagleViewers(id){
-            this.$store.dispatch('getEagleViewers', {
+            this.$store.dispatch('eagle/getEagleViewers', {
                 id
             })
             .then(response => {
-                console.log(response);
                 this.viewers = response;
-                console.log(this.viewers);
             })
             .catch(error => {
                 // do nothing

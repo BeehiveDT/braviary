@@ -12801,12 +12801,10 @@ __webpack_require__.r(__webpack_exports__);
     getEagleViewers: function getEagleViewers(id) {
       var _this3 = this;
 
-      this.$store.dispatch('getEagleViewers', {
+      this.$store.dispatch('eagle/getEagleViewers', {
         id: id
       }).then(function (response) {
-        console.log(response);
         _this3.viewers = response;
-        console.log(_this3.viewers);
       }).catch(function (error) {// do nothing
       });
     },
@@ -67804,6 +67802,11 @@ var config = {
       case 'Get_Eagle_Feathers':
         return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';
       // GET
+      // API EAGLE VIEWER
+
+      case 'Get_Eagle_Viewers':
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';
+      // GET
 
       default:
         return this.API_BASE_URL;
@@ -67982,6 +67985,26 @@ var actions = {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
         var _successResponse = response.data['Success'];
         resolve(_successResponse);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  },
+  // ------------------------------------------------------------------
+  // Eagle Viewer
+  // ------------------------------------------------------------------
+  getEagleViewers: function getEagleViewers(_ref5, payload) {
+    var rootState = _ref5.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Get_Eagle_Viewers', payload);
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
+        var emails = response.data['Success']['viewers'];
+        resolve(emails);
       }).catch(function (error) {
         reject(error);
       });
