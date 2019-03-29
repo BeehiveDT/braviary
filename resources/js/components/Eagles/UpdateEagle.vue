@@ -38,7 +38,7 @@
                                 <div class="input-group mb-3">
                                     <input v-model="email" type="email" class="form-control" id="ViewerEmail" placeholder="Add Viewer by Email" aria-describedby="add-viewer" aria-label="Add viewer to eagle">
                                     <div class="input-group-append">
-                                        <button v-on:click="addEagleViewer(eagle.id)" class="btn btn-primary input-group-text" id="add-viewer" type="submit" >
+                                        <button class="btn btn-primary input-group-text" id="add-viewer" type="submit" >
                                             <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
                                         </button>
                                     </div>
@@ -141,7 +141,7 @@ export default {
             // email object
             let email = {target_mail: this.email}
 
-            this.$store.dispatch('addEagleViewer', {
+            this.$store.dispatch('eagle/addEagleViewer', {
                 id,
                 email
             })

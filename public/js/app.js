@@ -12790,7 +12790,7 @@ __webpack_require__.r(__webpack_exports__);
       var email = {
         target_mail: this.email
       };
-      this.$store.dispatch('addEagleViewer', {
+      this.$store.dispatch('eagle/addEagleViewer', {
         id: id,
         email: email
       }).then(function (response) {
@@ -50735,12 +50735,7 @@ var render = function() {
                                 {
                                   staticClass:
                                     "btn btn-primary input-group-text",
-                                  attrs: { id: "add-viewer", type: "submit" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.addEagleViewer(_vm.eagle.id)
-                                    }
-                                  }
+                                  attrs: { id: "add-viewer", type: "submit" }
                                 },
                                 [
                                   _c("font-awesome-icon", {
@@ -67807,6 +67802,10 @@ var config = {
       // GET
       // API EAGLE VIEWER
 
+      case 'Add_Eagle_Viewer':
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'link';
+      // POST
+
       case 'Get_Eagle_Viewers':
         return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';
       // GET
@@ -68016,8 +68015,30 @@ var actions = {
   // ------------------------------------------------------------------
   // Eagle Viewer
   // ------------------------------------------------------------------
-  getEagleViewers: function getEagleViewers(_ref6, payload) {
+  addEagleViewer: function addEagleViewer(_ref6, payload) {
     var rootState = _ref6.rootState;
+    return new Promise(function (resolve, reject) {
+      console.log('add eagle viewer');
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Add_Eagle_Viewer', payload);
+
+      var _email = payload.email;
+      console.log(_email);
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, _email, _authorizedHeader).then(function (response) {
+        console.log('ok');
+        console.log(response);
+        resolve(response);
+      }).catch(function (error) {
+        console.log('no ok');
+        console.log(error.response); // reject(error)
+      });
+    });
+  },
+  getEagleViewers: function getEagleViewers(_ref7, payload) {
+    var rootState = _ref7.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
 

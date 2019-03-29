@@ -59,6 +59,7 @@ const config = {
             case 'Get_Eagle_Feathers':  return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';  // GET
 
             // API EAGLE VIEWER
+            case 'Add_Eagle_Viewer':    return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'link';      // POST
             case 'Get_Eagle_Viewers':   return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';   // GET
 
             default: return this.API_BASE_URL;

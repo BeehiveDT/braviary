@@ -111,6 +111,28 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagle Viewer
     // ------------------------------------------------------------------
+    addEagleViewer({ rootState }, payload){
+        return new Promise((resolve, reject) => {
+            console.log('add eagle viewer')
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+            let _url = BraviaryConfig.getAPI_URL('Add_Eagle_Viewer', payload);
+            let _email = payload.email;
+            console.log(_email);
+
+            axios.post(_url, _email, _authorizedHeader)
+            .then(response => {
+                console.log('ok');
+                console.log(response);
+                resolve(response)
+            })
+            .catch((error) => {
+                console.log('no ok')
+                console.log(error.response);
+                // reject(error)
+            });
+        })
+    },
     getEagleViewers({ rootState }, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
