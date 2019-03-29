@@ -56,6 +56,23 @@ const actions = {
             })
         })
     },
+    deleteEagle({dispatch, rootState}, payload){
+        return new Promise((resolve, reject) => {
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+            let _url = BraviaryConfig.getAPI_URL('Delete_Eagle', payload);
+
+            axios.delete(_url, _authorizedHeader)
+            .then(response=> {
+                // success
+                dispatch('retrieveEagleList')
+                resolve(response);
+            })
+            .catch(error=>{
+                reject(error);
+            })
+        })
+    },
     retrieveEagleFeathers({rootState}, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;

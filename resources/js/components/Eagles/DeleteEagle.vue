@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         deleteEagle(id){
-            this.$store.dispatch('deleteEagle', {
+            this.$store.dispatch('eagle/deleteEagle', {
                 id
                 })
                 .then(response => { 

@@ -97,10 +97,7 @@
             }
         },
         mounted(){
-            this.$store.commit('user/initializeStore');
-            if(this.$store.state.user.userLoggedIn){
-                this.$store.dispatch('user/retrieveUserProfile')
-            }
+            
         }
     }
 </script>

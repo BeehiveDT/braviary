@@ -50,10 +50,11 @@ const config = {
             case 'Log_Out_User':        return this.API_BASE_URL + 'auth/logout';
             case 'Show_User_Profile':   return this.API_BASE_URL + 'me';                                            // GET
             case 'Update_User_Profile': return this.API_BASE_URL + 'me';                                            // POST
-            
+
             // API EAGLE
             case 'Get_Eagle_List':      return this.API_BASE_URL + 'eagles';                                         // GET
             case 'Create_Eagle':        return this.API_BASE_URL + 'eagles';                                         // POST
+            case 'Delete_Eagle':        return this.API_BASE_URL + 'eagles' + '/' + payload.id
             case 'Get_Eagle_Feathers':  return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';   // GET
 
             default: return this.API_BASE_URL;

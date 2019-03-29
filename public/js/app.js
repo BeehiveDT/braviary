@@ -12443,7 +12443,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     deleteEagle: function deleteEagle(id) {
-      this.$store.dispatch('deleteEagle', {
+      this.$store.dispatch('eagle/deleteEagle', {
         id: id
       }).then(function (response) {// do nothing
       }).catch(function (error) {// do nothing
@@ -12960,13 +12960,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  mounted: function mounted() {
-    this.$store.commit('user/initializeStore');
-
-    if (this.$store.state.user.userLoggedIn) {
-      this.$store.dispatch('user/retrieveUserProfile');
-    }
-  }
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -66719,6 +66713,11 @@ var app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   },
   beforeMount: function beforeMount() {
     console.log("before mount");
+    this.$store.commit('user/initializeStore');
+
+    if (this.$store.state.user.userLoggedIn) {
+      this.$store.dispatch('user/retrieveUserProfile');
+    }
   },
   mounted: function mounted() {
     console.log("mounted");
@@ -67799,6 +67798,9 @@ var config = {
         return this.API_BASE_URL + 'eagles';
       // POST
 
+      case 'Delete_Eagle':
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
+
       case 'Get_Eagle_Feathers':
         return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers';
       // GET
@@ -67946,8 +67948,27 @@ var actions = {
       });
     });
   },
-  retrieveEagleFeathers: function retrieveEagleFeathers(_ref3, payload) {
-    var rootState = _ref3.rootState;
+  deleteEagle: function deleteEagle(_ref3, payload) {
+    var dispatch = _ref3.dispatch,
+        rootState = _ref3.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Delete_Eagle', payload);
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(_url, _authorizedHeader).then(function (response) {
+        // success
+        dispatch('retrieveEagleList');
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  },
+  retrieveEagleFeathers: function retrieveEagleFeathers(_ref4, payload) {
+    var rootState = _ref4.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
       var _params = {

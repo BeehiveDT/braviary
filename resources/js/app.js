@@ -85,6 +85,10 @@ const app = new Vue({
     },
     beforeMount(){
         console.log(`before mount`)
+        this.$store.commit('user/initializeStore');
+        if(this.$store.state.user.userLoggedIn){
+            this.$store.dispatch('user/retrieveUserProfile')
+        }
     },
     mounted(){
         console.log(`mounted`)
