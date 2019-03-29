@@ -12774,7 +12774,7 @@ __webpack_require__.r(__webpack_exports__);
         frequency: frequency,
         tolerance: tolerance
       };
-      this.$store.dispatch('updateEagle', {
+      this.$store.dispatch('eagle/updateEagle', {
         id: id,
         eagle: eagle
       }).then(function (response) {
@@ -67796,6 +67796,9 @@ var config = {
         return this.API_BASE_URL + 'eagles';
       // POST
 
+      case 'Update_Eagle':
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
+
       case 'Delete_Eagle':
         return this.API_BASE_URL + 'eagles' + '/' + payload.id;
 
@@ -67951,9 +67954,29 @@ var actions = {
       });
     });
   },
-  deleteEagle: function deleteEagle(_ref3, payload) {
+  updateEagle: function updateEagle(_ref3, payload) {
     var dispatch = _ref3.dispatch,
         rootState = _ref3.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Update_Eagle', payload);
+
+      var _eagle = payload.eagle; // POST request to update eagle
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, _eagle, _authorizedHeader).then(function (response) {
+        dispatch('retrieveEagleList');
+        resolve(response);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  },
+  deleteEagle: function deleteEagle(_ref4, payload) {
+    var dispatch = _ref4.dispatch,
+        rootState = _ref4.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
 
@@ -67970,8 +67993,8 @@ var actions = {
       });
     });
   },
-  retrieveEagleFeathers: function retrieveEagleFeathers(_ref4, payload) {
-    var rootState = _ref4.rootState;
+  retrieveEagleFeathers: function retrieveEagleFeathers(_ref5, payload) {
+    var rootState = _ref5.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
       var _params = {
@@ -67993,8 +68016,8 @@ var actions = {
   // ------------------------------------------------------------------
   // Eagle Viewer
   // ------------------------------------------------------------------
-  getEagleViewers: function getEagleViewers(_ref5, payload) {
-    var rootState = _ref5.rootState;
+  getEagleViewers: function getEagleViewers(_ref6, payload) {
+    var rootState = _ref6.rootState;
     return new Promise(function (resolve, reject) {
       var _token = rootState.user.userToken;
 

@@ -125,7 +125,7 @@ export default {
             // eagle object
             let eagle = {name, frequency, tolerance}
 
-            this.$store.dispatch('updateEagle', {
+            this.$store.dispatch('eagle/updateEagle', {
                 id,
                 eagle
                 })
