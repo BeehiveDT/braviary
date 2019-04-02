@@ -67743,23 +67743,23 @@ var config = {
   setAPI_BaseURL: function setAPI_BaseURL() {
     switch (window.location.hostname) {
       case 'localhost':
-        this.BASE_URL = this.BASE_URL + '/';
+        this.API_BASE_URL = this.BASE_URL + '/';
         break;
 
       case 'braviary.test':
-        this.BASE_URL = this.BASE_URL + '/';
+        this.API_BASE_URL = this.BASE_URL + '/';
         break;
 
       case 'xlab.agriweather.online':
-        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
+        this.API_BASE_URL = 'https://xlab.agriweather.online/braviary/';
         break;
 
       default:
-        this.BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
+        this.API_BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
         break;
     }
 
-    this.API_BASE_URL = this.BASE_URL + 'api/';
+    this.API_BASE_URL = this.API_BASE_URL + 'api/';
     return this.API_BASE_URL;
   },
   getAPI_URL: function getAPI_URL(action) {
