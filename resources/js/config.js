@@ -33,7 +33,7 @@ const config = {
                                             break;
             case 'xlab.agriweather.online': this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
                                             break;
-            default:                        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
+            default:                        this.BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
                                             break;
         }
         this.API_BASE_URL = this.BASE_URL + 'api/'
@@ -61,6 +61,7 @@ const config = {
             // API EAGLE VIEWER
             case 'Add_Eagle_Viewer':    return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'link';      // POST
             case 'Get_Eagle_Viewers':   return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';   // GET
+            case 'Delete_Eagle_Viewer': return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'unlink';    // POST
 
             default: return this.API_BASE_URL;
         }

@@ -12795,6 +12795,8 @@ __webpack_require__.r(__webpack_exports__);
         email: email
       }).then(function (response) {
         _this2.getEagleViewers(id);
+
+        _this2.email = '';
       }).catch(function (error) {// do nothing
       });
     },
@@ -12812,14 +12814,14 @@ __webpack_require__.r(__webpack_exports__);
       this.viewerName = viewer.name;
       this.viewerEmail = viewer.email;
     },
-    deleteViewer: function deleteViewer(email) {
+    deleteEagleViewer: function deleteEagleViewer(email) {
       var _this4 = this;
 
       var body = {
         target_mail: email
       };
       var id = this.eagle.id;
-      this.$store.dispatch('deleteEagleViewer', {
+      this.$store.dispatch('eagle/deleteEagleViewer', {
         id: id,
         body: body
       }).then(function (response) {
@@ -50819,7 +50821,7 @@ var render = function() {
                                       },
                                       on: {
                                         click: function($event) {
-                                          _vm.deleteViewer(_vm.viewerEmail)
+                                          _vm.deleteEagleViewer(_vm.viewerEmail)
                                         }
                                       }
                                     },
@@ -67753,7 +67755,7 @@ var config = {
         break;
 
       default:
-        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
+        this.BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
         break;
     }
 
@@ -67809,6 +67811,10 @@ var config = {
       case 'Get_Eagle_Viewers':
         return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';
       // GET
+
+      case 'Delete_Eagle_Viewer':
+        return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'unlink';
+      // POST
 
       default:
         return this.API_BASE_URL;
@@ -68018,7 +68024,6 @@ var actions = {
   addEagleViewer: function addEagleViewer(_ref6, payload) {
     var rootState = _ref6.rootState;
     return new Promise(function (resolve, reject) {
-      console.log('add eagle viewer');
       var _token = rootState.user.userToken;
 
       var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
@@ -68026,14 +68031,10 @@ var actions = {
       var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Add_Eagle_Viewer', payload);
 
       var _email = payload.email;
-      console.log(_email);
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, _email, _authorizedHeader).then(function (response) {
-        console.log('ok');
-        console.log(response);
         resolve(response);
       }).catch(function (error) {
-        console.log('no ok');
-        console.log(error.response); // reject(error)
+        reject(error);
       });
     });
   },
@@ -68049,6 +68050,22 @@ var actions = {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(_url, _authorizedHeader).then(function (response) {
         var emails = response.data['Success']['viewers'];
         resolve(emails);
+      }).catch(function (error) {
+        reject(error);
+      });
+    });
+  },
+  deleteEagleViewer: function deleteEagleViewer(_ref8, payload) {
+    var rootState = _ref8.rootState;
+    return new Promise(function (resolve, reject) {
+      var _token = rootState.user.userToken;
+
+      var _authorizedHeader = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAuthorized_Header(_token);
+
+      var _url = _config__WEBPACK_IMPORTED_MODULE_1__["config"].getAPI_URL('Delete_Eagle_Viewer', payload);
+
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(_url, payload.body, _authorizedHeader).then(function (response) {
+        resolve(response);
       }).catch(function (error) {
         reject(error);
       });

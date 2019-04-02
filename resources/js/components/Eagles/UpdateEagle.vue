@@ -63,7 +63,7 @@
                                         
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                            <button type="button" v-on:click="deleteViewer(viewerEmail)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                            <button type="button" v-on:click="deleteEagleViewer(viewerEmail)" class="btn btn-danger" data-dismiss="modal">Yes</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                         </div>
                                         
@@ -147,6 +147,7 @@ export default {
             })
             .then(response => {
                 this.getEagleViewers(id);
+                this.email = '';
             })
             .catch(error => {
                 // do nothing
@@ -167,12 +168,12 @@ export default {
             this.viewerName = viewer.name;
             this.viewerEmail = viewer.email;
         },
-        deleteViewer(email){
+        deleteEagleViewer(email){
             
             let body = {target_mail: email}
             let id = this.eagle.id;
 
-            this.$store.dispatch('deleteEagleViewer', { 
+            this.$store.dispatch('eagle/deleteEagleViewer', { 
                     id,
                     body
                 })
