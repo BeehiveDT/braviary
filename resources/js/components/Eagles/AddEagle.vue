@@ -56,7 +56,7 @@ export default {
             let frequency = parseInt(this.frequency);
             let tolerance = parseInt(this.tolerance);
 
-            this.$store.dispatch('createEagle', { 
+            this.$store.dispatch('eagle/createEagle', { 
                 name,
                 frequency,
                 tolerance

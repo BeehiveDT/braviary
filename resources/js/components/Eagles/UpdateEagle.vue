@@ -38,7 +38,7 @@
                                 <div class="input-group mb-3">
                                     <input v-model="email" type="email" class="form-control" id="ViewerEmail" placeholder="Add Viewer by Email" aria-describedby="add-viewer" aria-label="Add viewer to eagle">
                                     <div class="input-group-append">
-                                        <button v-on:click="addEagleViewer(eagle.id)" class="btn btn-primary input-group-text" id="add-viewer" type="submit" >
+                                        <button class="btn btn-primary input-group-text" id="add-viewer" type="submit" >
                                             <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
                                         </button>
                                     </div>
@@ -63,7 +63,7 @@
                                         
                                         <!-- Modal footer -->
                                         <div class="modal-footer">
-                                            <button type="button" v-on:click="deleteViewer(viewerEmail)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                                            <button type="button" v-on:click="deleteEagleViewer(viewerEmail)" class="btn btn-danger" data-dismiss="modal">Yes</button>
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
                                         </div>
                                         
@@ -125,7 +125,7 @@ export default {
             // eagle object
             let eagle = {name, frequency, tolerance}
 
-            this.$store.dispatch('updateEagle', {
+            this.$store.dispatch('eagle/updateEagle', {
                 id,
                 eagle
                 })
@@ -141,25 +141,24 @@ export default {
             // email object
             let email = {target_mail: this.email}
 
-            this.$store.dispatch('addEagleViewer', {
+            this.$store.dispatch('eagle/addEagleViewer', {
                 id,
                 email
             })
             .then(response => {
                 this.getEagleViewers(id);
+                this.email = '';
             })
             .catch(error => {
                 // do nothing
             })
         },
         getEagleViewers(id){
-            this.$store.dispatch('getEagleViewers', {
+            this.$store.dispatch('eagle/getEagleViewers', {
                 id
             })
             .then(response => {
-                console.log(response);
                 this.viewers = response;
-                console.log(this.viewers);
             })
             .catch(error => {
                 // do nothing
@@ -169,12 +168,12 @@ export default {
             this.viewerName = viewer.name;
             this.viewerEmail = viewer.email;
         },
-        deleteViewer(email){
+        deleteEagleViewer(email){
             
             let body = {target_mail: email}
             let id = this.eagle.id;
 
-            this.$store.dispatch('deleteEagleViewer', { 
+            this.$store.dispatch('eagle/deleteEagleViewer', { 
                     id,
                     body
                 })

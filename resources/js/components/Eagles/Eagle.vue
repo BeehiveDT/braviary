@@ -57,12 +57,17 @@ export default {
         }
     },
     mounted(){
-        this.$store.dispatch('retrieveEagleFeathers', { 
+        this.$store.dispatch('eagle/retrieveEagleFeathers', { 
             limit: 1,
             id: this.eagle.id
             })
-            .then(response => { 
-                this.lastFeather = response;
+            .then(response => {
+                let _lastFeather = response.feathers[0];
+                if (_lastFeather){
+                    this.lastFeather = _lastFeather;
+                }else{
+                    this.lastFeather = "None Found";
+                }
             })
             .catch(error => {
                 // do nothing

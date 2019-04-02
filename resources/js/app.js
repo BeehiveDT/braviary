@@ -11,8 +11,9 @@ import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import VueClipboards from 'vue-clipboards';
 import {routes} from './routes';    // {routes} because importing a const.
-import StoreData from './store';
+import StoreData from './store/store';
 import MainApp from './components/MainApp.vue';
+import { config as BraviaryConfig } from './config';
 
 // font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -29,7 +30,9 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueClipboards);
-// Vue.forceUpdate();
+
+// 設定 config
+Vue.prototype.$config = BraviaryConfig;
 
 const store = new Vuex.Store(StoreData);
 
@@ -69,14 +72,23 @@ const app = new Vue({
         MainApp
     },
     beforeCreate() {
-        this.$store.commit('initializeStore');
-        console.log(`before create`)
+        console.log(`before create`);
     },
     created(){
-        console.log(`created`)
+        console.log(`created`);
+        // this.$store.commit('user/initializeStore');
+        // if(this.$store.state.user.userLoggedIn){
+        //     this.$store.dispatch('user/retrieveUserProfile')
+        // }
+        // 設定 API URL
+        this.$config.setAPI_BaseURL();
     },
     beforeMount(){
         console.log(`before mount`)
+        this.$store.commit('user/initializeStore');
+        if(this.$store.state.user.userLoggedIn){
+            this.$store.dispatch('user/retrieveUserProfile')
+        }
     },
     mounted(){
         console.log(`mounted`)

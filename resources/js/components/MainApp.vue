@@ -11,25 +11,11 @@
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <!-- <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                            <div class="navbar-nav ml-auto">
-                                <router-link to="/">Home</router-link>
-                                <router-link v-if="userNotLoggedIn" :to="{name:'Sign Up'}">Sign Up</router-link>
-                                <router-link v-else to="/eagles">Eagles</router-link>
-                                <span class="navbar-item-divider">|</span>
-                                <router-link v-if="userNotLoggedIn" to="/log-in">Log In</router-link>
-                                <router-link v-else v-on:click.native="userLogOut" to="/">Log Out</router-link>
-                            </div>
-                        </div> -->
 
                         <div class="collapse navbar-collapse" id="userLoggedInDropDown">
                             <ul class="navbar-nav ml-auto">
-                                <!-- <li class="nav-item active">
-                                    <router-link to="/">Home</router-link>
-                                </li> -->
                                 <li v-if="userNotLoggedIn" class="nav-item">
                                     <router-link :to="{name:'Sign Up'}">Sign Up</router-link>
-                                    <!-- <router-link v-else to="/eagles">Eagles</router-link> -->
                                 </li>
                                 <li v-if="userNotLoggedIn" class="nav-item">
                                     <router-link to="/log-in">Log In</router-link>
@@ -85,27 +71,23 @@
         // },
         computed: {
             userNotLoggedIn(){
-                return !this.$store.state.userLoggedIn;
+                return !this.$store.state.user.userLoggedIn;
             },
             userName(){
-                return this.$store.state.userName;
+                return this.$store.state.user.userName;
             },
             isAdmin: {
-                // return this.$store.state.is_admin;
                 get: function () {
-                    return this.$store.state.is_admin;
+                    return this.$store.state.user.isAdmin;
                 },
                 set: function (newValue) {
                     this.isAdmin = newValue;
                 }
             }
-            // isAdmin(){
-            //     return this.$store.state.is_admin
-            // }
         },
         methods: {
             userLogOut(){
-                this.$store.dispatch('userLogOut')
+                this.$store.dispatch('user/logOutUser')
                     .then(response => { 
                         // do nothing
                     })
@@ -115,14 +97,7 @@
             }
         },
         mounted(){
-            this.$store.dispatch('showUser')
-                .then(response => {
-                    // do nothing
-                    this.isAdmin = response;
-                })
-                .catch(error => {
-                    // do nothing
-                })
+            
         }
     }
 </script>
