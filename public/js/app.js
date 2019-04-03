@@ -12576,6 +12576,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -12958,7 +12960,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('user/logOutUser').then(function (response) {// do nothing
       }).catch(function (error) {// do nothing
       });
-      console.log(Object({"MIX_BASE_URL":"http://braviary.test/braviary/","MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}));
+      console.log(Object({"MIX_BASE_URL":"http://braviary.test/","MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}));
     }
   },
   mounted: function mounted() {}
@@ -50486,18 +50488,17 @@ var render = function() {
                 _vm._l(_vm.eagles, function(eagle, index) {
                   return _c(
                     "div",
-                    {
-                      key: index,
-                      staticClass: "eagle-card card col-lg-6 col-md-12 mb-4"
-                    },
+                    { key: index, staticClass: "col-lg-6 col-md-12 mb-4" },
                     [
-                      _c("div", { staticClass: "card-body" }, [
-                        _c(
-                          "div",
-                          { staticClass: "card-text" },
-                          [_c("eagle", { attrs: { eagle: eagle } })],
-                          1
-                        )
+                      _c("div", { staticClass: "eagle-card card" }, [
+                        _c("div", { staticClass: "card-body" }, [
+                          _c(
+                            "div",
+                            { staticClass: "card-text" },
+                            [_c("eagle", { attrs: { eagle: eagle } })],
+                            1
+                          )
+                        ])
                       ])
                     ]
                   )
@@ -67742,7 +67743,7 @@ var config = {
   // tool function
   // ------------------------------------------------------------------
   setAPI_BaseURL: function setAPI_BaseURL() {
-    console.log("http://braviary.test/braviary/" + 'api/'); // switch (window.location.hostname)
+    console.log("http://braviary.test/" + 'api/'); // switch (window.location.hostname)
     // {
     //     case 'localhost':               this.API_BASE_URL = this.BASE_URL + '/';
     //                                     break;
@@ -67755,7 +67756,7 @@ var config = {
     // }
     // this.API_BASE_URL = this.API_BASE_URL + 'api/';
 
-    this.API_BASE_URL = "http://braviary.test/braviary/" + 'api/';
+    this.API_BASE_URL = "http://braviary.test/" + 'api/';
     return this.API_BASE_URL;
   },
   getAPI_URL: function getAPI_URL(action) {

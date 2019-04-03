@@ -9,10 +9,12 @@
                 <add-eagle class="mb-4"></add-eagle>
 
                 <div class="row" id="ShowEagles">
-                    <div class="eagle-card card col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
-                        <div class="card-body">
-                            <div class="card-text">
-                                <eagle :eagle="eagle"></eagle>
+                    <div class="col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
+                        <div class="eagle-card card">
+                            <div class="card-body">
+                                <div class="card-text">
+                                    <eagle :eagle="eagle"></eagle>
+                                </div>
                             </div>
                         </div>
                     </div>
