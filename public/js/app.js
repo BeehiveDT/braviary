@@ -12958,6 +12958,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$store.dispatch('user/logOutUser').then(function (response) {// do nothing
       }).catch(function (error) {// do nothing
       });
+      console.log(Object({"MIX_BASE_URL":"http://braviary.test/braviary/","MIX_PUSHER_APP_KEY":"","MIX_PUSHER_APP_CLUSTER":"mt1","NODE_ENV":"development"}));
     }
   },
   mounted: function mounted() {}
@@ -67741,25 +67742,20 @@ var config = {
   // tool function
   // ------------------------------------------------------------------
   setAPI_BaseURL: function setAPI_BaseURL() {
-    switch (window.location.hostname) {
-      case 'localhost':
-        this.BASE_URL = this.BASE_URL + '/';
-        break;
+    console.log("http://braviary.test/braviary/" + 'api/'); // switch (window.location.hostname)
+    // {
+    //     case 'localhost':               this.API_BASE_URL = this.BASE_URL + '/';
+    //                                     break;
+    //     case 'braviary.test':           this.API_BASE_URL = this.BASE_URL + '/';
+    //                                     break;
+    //     case 'xlab.agriweather.online': this.API_BASE_URL = 'https://xlab.agriweather.online/braviary/';
+    //                                     break;
+    //     default:                        this.API_BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
+    //                                     break;
+    // }
+    // this.API_BASE_URL = this.API_BASE_URL + 'api/';
 
-      case 'braviary.test':
-        this.BASE_URL = this.BASE_URL + '/';
-        break;
-
-      case 'xlab.agriweather.online':
-        this.BASE_URL = 'https://xlab.agriweather.online/braviary/';
-        break;
-
-      default:
-        this.BASE_URL = this.BASE_URL + '/' + 'braviary' + '/';
-        break;
-    }
-
-    this.API_BASE_URL = this.BASE_URL + 'api/';
+    this.API_BASE_URL = "http://braviary.test/braviary/" + 'api/';
     return this.API_BASE_URL;
   },
   getAPI_URL: function getAPI_URL(action) {
