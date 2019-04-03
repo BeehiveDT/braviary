@@ -94,6 +94,7 @@
                     .catch(error => {
                         // do nothing
                     })
+                console.log(process.env);
             }
         },
         mounted(){
