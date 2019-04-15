@@ -8,6 +8,8 @@
         <br>
         <span>Tolerance: {{eagle.tolerance}}</span>
         <br>
+        <span>Fluffiness: {{fluffiness}}</span>
+        <br>
         <span>Job Token: {{eagle.job_token}}</span>
         <br>
         <span>Last Feather: {{ lastFeather }}</span>
@@ -48,6 +50,41 @@ export default {
             tolerance: this.eagle.tolerance,
             lastFeather: ''
         }
+    },
+    computed: {
+        fluffiness(){
+
+            let _tolerance = this.tolerance;
+            let _frequency = this.frequency;
+            let _lastFeatherTime = Date.parse(this.lastFeather);
+            let _fluffiness = 0;
+            let _timeGap = 0;
+            let _timeGapOverFreq = this.tolerance;
+
+            if(!isNaN(_lastFeatherTime)){
+
+                let _now = this.$moment.utc();
+                let _timeZone = this.$moment.tz.guess();
+                let _then = this.$moment.tz(this.$moment(_lastFeatherTime),'YYYY-MM-DD HH:mm',_timeZone);
+                let _utcOffset = this.$moment().utcOffset();
+                let _nowThenDiff = _now.diff(_then, 'minutes');
+
+                // time gap in minutes
+                // from: last feather check in time
+                // to: current time
+                _timeGap = _nowThenDiff - _utcOffset;
+                console.log(_timeGap);
+                _timeGapOverFreq = Math.floor(_timeGap / _frequency);
+
+                // numberator cannot be negative
+                if(_timeGapOverFreq <= _tolerance){
+                    let _numerator = _tolerance - _timeGapOverFreq;
+                    _fluffiness = _numerator / _tolerance;
+                }
+            }
+            
+            return _fluffiness;
+        },
     },
     methods: {
         // num is the number of feathres to retrieve
