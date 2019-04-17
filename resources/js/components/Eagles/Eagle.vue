@@ -13,7 +13,6 @@
         <span>Job Token: {{eagle.job_token}}</span>
         <br>
         <span>Last Feather: {{ lastFeather }}</span>
-        
 
         <div>
             <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
@@ -73,7 +72,6 @@ export default {
                 // from: last feather check in time
                 // to: current time
                 _timeGap = _nowThenDiff - _utcOffset;
-                console.log(_timeGap);
                 _timeGapOverFreq = Math.floor(_timeGap / _frequency);
 
                 // numberator cannot be negative
