@@ -35,11 +35,7 @@ Vue.use(VueClipboards);
 import VueMoment from 'vue-moment';
 import moment from 'moment-timezone';
 let _timeZone = moment.tz.guess();
-// console.log(_timeZone);
-console.log('before', moment())
 moment.tz.setDefault(_timeZone);
-console.log('after', moment())
-// Vue.prototype.$moment = moment
 Vue.use(VueMoment, { moment })
 
 // 設定 config

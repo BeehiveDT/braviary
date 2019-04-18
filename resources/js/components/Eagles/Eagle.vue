@@ -12,8 +12,7 @@
         <br>
         <span>Job Token: {{eagle.job_token}}</span>
         <br>
-        <span>Last Feather: {{ lastFeather }}</span>
-        
+        <span>Last Feather: {{ lastFeatherLocal }}</span>
 
         <div>
             <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
@@ -48,7 +47,8 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            lastFeather: ''
+            lastFeather: '',
+            lastFeatherLocal: ''
         }
     },
     computed: {
@@ -73,13 +73,13 @@ export default {
                 // from: last feather check in time
                 // to: current time
                 _timeGap = _nowThenDiff - _utcOffset;
-                console.log(_timeGap);
                 _timeGapOverFreq = Math.floor(_timeGap / _frequency);
 
                 // numberator cannot be negative
                 if(_timeGapOverFreq <= _tolerance){
                     let _numerator = _tolerance - _timeGapOverFreq;
                     _fluffiness = _numerator / _tolerance;
+                    _fluffiness = _fluffiness.toFixed(2)
                 }
             }
             
@@ -102,8 +102,11 @@ export default {
                 let _lastFeather = response.feathers[0];
                 if (_lastFeather){
                     this.lastFeather = _lastFeather;
+                    let _lastFeatherUTC = this.$moment.utc(_lastFeather);
+                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ssa');
+                    this.lastFeatherLocal = _lastFeatherLocal;
                 }else{
-                    this.lastFeather = "None Found";
+                    this.lastFeatherLocal = "None Found";
                 }
             })
             .catch(error => {
