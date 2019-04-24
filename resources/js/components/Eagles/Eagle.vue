@@ -1,28 +1,34 @@
 <template>
-    <div :id="`Eagle-${eagle.id}`">             
-        <span>{{eagle.id}}</span>
-        |
-        <span>{{eagle.name}}</span>
-        <br>
-        <span>Frequency: {{eagle.frequency}}</span>
-        <br>
-        <span>Tolerance: {{eagle.tolerance}}</span>
-        <br>
-        <span>Fluffiness: {{fluffiness}}</span>
-        <br>
-        <span>Job Token: {{eagle.job_token}}</span>
-        <br>
-        <span>Last Feather: {{ lastFeatherLocal }}</span>
+    <!-- <div :id="`Eagle-${eagle.id}`"> -->
+        <tr>
+            <th scope="row">{{ eagle.id }}</th>
+            <td>{{ eagle.name }}</td>
+            <td>{{ eagle.frequency }}</td>
+            <td>{{ eagle.tolerance }}</td>
+            <td>{{ fluffiness}}</td>  
+            <td>{{ lastFeatherLocal }}</td> 
+            <td>
+                <update-eagle :eagle="eagle"></update-eagle>
+            </td>
+            <td>
+                <button v-tooltip.top-center="eagle.job_token" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
+                    <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
+                </button>
+                <!-- {{ eagle.job_token }} -->
+            </td>
+            <td>
+                <delete-eagle :eagle="eagle"></delete-eagle>
+            </td>
+        </tr>
 
-        <div>
+        <!-- <div>
             <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
                 <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-                <!-- <span>Copy</span> -->
             </button>
             <delete-eagle :eagle="eagle"></delete-eagle>
             <update-eagle :eagle="eagle"></update-eagle>
-        </div>
-    </div>
+        </div> -->
+    <!-- </div> -->
 </template>
 
 <script>
@@ -48,7 +54,8 @@ export default {
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
             lastFeather: '',
-            lastFeatherLocal: ''
+            lastFeatherLocal: '',
+            msg: 'This is a button.'
         }
     },
     computed: {
@@ -103,7 +110,7 @@ export default {
                 if (_lastFeather){
                     this.lastFeather = _lastFeather;
                     let _lastFeatherUTC = this.$moment.utc(_lastFeather);
-                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ssa');
+                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ss A');
                     this.lastFeatherLocal = _lastFeatherLocal;
                 }else{
                     this.lastFeatherLocal = "None Found";

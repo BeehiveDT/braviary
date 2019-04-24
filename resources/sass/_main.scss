@@ -15,6 +15,10 @@
         }
     }
 
+    td[colspan="9"] {
+        text-align: center;
+    }
+
     div {
         border-radius: 0 !important;
     }
@@ -25,15 +29,7 @@
         border-radius: 50%;
     }
 
-    .eagles-btn {
-        margin-right: 3px;
-    }
-
-    // div[class^=col-] {
-    //     padding-right: 0px;
-    //     padding-left: 0px;
-    // }
-
+    // Update Eagle
     .slide-fade-enter-active {
         transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
     }

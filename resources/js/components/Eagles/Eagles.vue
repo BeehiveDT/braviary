@@ -5,18 +5,33 @@
                 <h2>{{ eaglePageMessage }}</h2>
             </div>
             <div v-else>
-                <!-- Add New Eagle -->        
-                <add-eagle class="mb-4"></add-eagle>
-
                 <div class="row" id="ShowEagles">
-                    <div class="col-lg-6 col-md-12 mb-4" v-for="(eagle, index) in eagles" :key="index">
-                        <div class="eagle-card card">
-                            <div class="card-body">
-                                <div class="card-text">
-                                    <eagle :eagle="eagle"></eagle>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-lg-12 col-md-12 mb-4">
+                        <!-- Eagles Table -->
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Frequency</th>
+                                    <th scope="col">Tolerance</th>
+                                    <th scope="col">Fluffiness</th>
+                                    <th scope="col">Last Feather</th>
+                                    <th scope="col">Update</th>
+                                    <th scope="col">Token</th>
+                                    <th scope="col">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="9">
+                                        <!-- Add New Eagle -->        
+                                        <add-eagle></add-eagle>
+                                    </td>
+                                </tr>
+                                <eagle v-for="(eagle, index) in eagles" :key="index" :eagle="eagle"></eagle>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

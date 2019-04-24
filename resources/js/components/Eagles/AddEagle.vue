@@ -1,12 +1,53 @@
 <template>
     <div class="row" id="add-eagle">
-        <div class="inline-div">
-            <button v-on:click="toggleShow" class="btn btn-dark round-button eagles-btn" type="button" data-toggle="collapse" data-target="#addNewEagle" aria-expanded="false" aria-controls="collapseExample">
-                <font-awesome-icon :icon="['fas', 'plus']"></font-awesome-icon>
-                <span>Add Eagle</span>
-            </button>
+
+        <div style="width: 100%" data-toggle="modal" data-target="#addNewEagle" v-on:click="toggleShow">
+            <span>Add New Eagle</span>
         </div>
-        <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
+
+        <!-- Add Eagle Modal -->
+        <div class="modal" id="addNewEagle" v-bind:class="{show: isShow}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    isShow: {{isShow}}
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Modal Heading</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form @submit.prevent="submit">
+                        <div class="form-group">
+                            <label for="EagleName">Name</label>
+                            <input v-model="name" type="text" class="form-control" id="EagleName" placeholder="Eagle Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="EagleFrequency">Frequency</label>
+                            <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="EagleTolerance">Tolerance</label>
+                            <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance" min="0">
+                        </div>
+                        <button type="submit" class="btn btn-primary round-button">
+                            <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
+                            <span>Send</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- <div v-bind:class="{show: isShow}" class="collapse" id="addNewEagle">
             <div class="card card-body">
                 <form @submit.prevent="submit">
                     <div class="form-group">
@@ -27,7 +68,8 @@
                     </button>
                 </form>
             </div>
-        </div>
+        </div> -->
+
     </div>
 </template>
 
@@ -75,8 +117,12 @@ export default {
 </script>
 
 <style scoped>
-    #addNewEagle {
+    /* #addNewEagle {
         width: 100%;
         margin-top: 15px;
+    } */
+    #AddEagleButton {
+        widows: 100%;
+        height: 100%;
     }
 </style>

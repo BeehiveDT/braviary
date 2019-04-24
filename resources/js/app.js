@@ -10,6 +10,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
 import VueClipboards from 'vue-clipboards';
+import VTooltip from 'v-tooltip';
 import {routes} from './routes';    // {routes} because importing a const.
 import StoreData from './store/store';
 import MainApp from './components/MainApp.vue';
@@ -25,11 +26,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
-// window.Vue = require('vue');
-
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueClipboards);
+Vue.use(VTooltip);
 
 // moment
 import VueMoment from 'vue-moment';
