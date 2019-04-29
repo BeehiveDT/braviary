@@ -8,8 +8,8 @@
         <modal v-if="isShow">
             <transition name="modal">
                 <div class="modal-mask">
-                    <div class="modal-wrapper">
-                        <div class="modal-container">
+                    <div class="modal-wrapper" v-on:click="toggleShow">
+                        <div class="modal-container" @click.stop>
                             <div class="modal-body">
                                 <form @submit.prevent="submit">
                                     <div class="form-group">
