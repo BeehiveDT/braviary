@@ -1,11 +1,14 @@
 <template>
-    <!-- <div :id="`Eagle-${eagle.id}`"> -->
         <tr>
             <th scope="row">{{ eagle.id }}</th>
             <td>{{ eagle.name }}</td>
             <td>{{ eagle.frequency }}</td>
             <td>{{ eagle.tolerance }}</td>
-            <td>{{ fluffiness}}</td>  
+            <td>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
+                </div>
+            </td>
             <td>{{ lastFeatherLocal }}</td> 
             <td>
                 <update-eagle :eagle="eagle"></update-eagle>
@@ -14,21 +17,11 @@
                 <button v-tooltip.top-center="eagle.job_token" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
                     <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
                 </button>
-                <!-- {{ eagle.job_token }} -->
             </td>
             <td>
                 <delete-eagle :eagle="eagle"></delete-eagle>
             </td>
         </tr>
-
-        <!-- <div>
-            <button v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
-                <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
-            </button>
-            <delete-eagle :eagle="eagle"></delete-eagle>
-            <update-eagle :eagle="eagle"></update-eagle>
-        </div> -->
-    <!-- </div> -->
 </template>
 
 <script>
@@ -89,8 +82,10 @@ export default {
                     _fluffiness = _fluffiness.toFixed(2)
                 }
             }
+
+            let _result = (_fluffiness*100).toFixed(0);
             
-            return _fluffiness;
+            return _result;
         },
     },
     methods: {
@@ -110,7 +105,7 @@ export default {
                 if (_lastFeather){
                     this.lastFeather = _lastFeather;
                     let _lastFeatherUTC = this.$moment.utc(_lastFeather);
-                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ss A');
+                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD HH:mm:ss');
                     this.lastFeatherLocal = _lastFeatherLocal;
                 }else{
                     this.lastFeatherLocal = "None Found";
