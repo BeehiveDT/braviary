@@ -110,7 +110,7 @@ export default {
                 if (_lastFeather){
                     this.lastFeather = _lastFeather;
                     let _lastFeatherUTC = this.$moment.utc(_lastFeather);
-                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ss A');
+                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD HH:mm:ss');
                     this.lastFeatherLocal = _lastFeatherLocal;
                 }else{
                     this.lastFeatherLocal = "None Found";
