@@ -1,6 +1,9 @@
 <template>
         <tr>
-            <th scope="row">{{ eagle.id }}</th>
+            <th scope="row">
+                # {{ eagle.id }}
+                <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon>
+            </th>
             <td>{{ eagle.name }}</td>
             <td>{{ eagle.frequency }}</td>
             <td>{{ eagle.tolerance }}</td>
