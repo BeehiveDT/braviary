@@ -6,6 +6,7 @@
  */
 
 require('./bootstrap');
+
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Vuex from 'vuex';
@@ -19,11 +20,11 @@ import { config as BraviaryConfig } from './config';
 // font awesome
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
-import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo } from '@fortawesome/free-solid-svg-icons'
+import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
 // import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo);
+library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle);
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.use(VueRouter);
