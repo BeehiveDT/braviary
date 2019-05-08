@@ -51,7 +51,7 @@ class EagleController extends Controller
             'name' => 'required|string|max:255',
             'frequency' => 'required|integer',
             'tolerance' => 'required|integer',
-            'description' => 'filled|string|'
+            'description' => 'nullable|string|'
         ]);
 
         if ($validator->fails()) {
@@ -80,7 +80,7 @@ class EagleController extends Controller
         $eagle->name = $request->name;
         $eagle->frequency = $request->frequency;
         $eagle->tolerance = $request->tolerance;
-        $eagle->description = $request->description ?? '';
+        $eagle->description = $request->description;
         $eagle->save();
         return response()->json([
             'Success' => [
@@ -104,7 +104,7 @@ class EagleController extends Controller
             'name' => 'filled|string|max:255',
             'frequency' => 'filled|integer',
             'tolerance' => 'filled|integer',
-            'description' => 'filled|string|'
+            'description' => 'nullable|string|'
         ]);
 
         if ($validator->fails()) {
@@ -146,7 +146,7 @@ class EagleController extends Controller
         $eagle->name = $request->name ?? $eagle->name;
         $eagle->frequency = $request->frequency ?? $eagle->frequency;
         $eagle->tolerance = $request->tolerance ?? $eagle->tolerance;
-        $eagle->description = $request->description ?? '';
+        $eagle->description = $request->has('description') ? $request->description : $eagle->description;
         $eagle->save();
         return response()->json([
             'Success' => [
@@ -165,22 +165,6 @@ class EagleController extends Controller
      */
     public function delete(Request $request, $eagleId)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'filled|string|max:255',
-            'frequency' => 'filled|integer',
-            'tolerance' => 'filled|integer',
-            'description' => 'filled|string|'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => $validator->messages()
-                ]
-            ], 422);
-        }
-
         $token = $request->header('Authorization');
         $user = User::where('api_token', $token)->first();
         if (is_null($user)) {

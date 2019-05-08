@@ -16,20 +16,6 @@ class UserController extends Controller
      */
     public function show(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'filled|string|max:16',
-            'password' => 'filled|string|min:6'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'error' => [
-                    'status' => 422,
-                    'message' => $validator->messages()
-                ]
-            ], 422);
-        }
-
         $token = $request->header('Authorization');
         $user = User::where('api_token', $token)->first();
         if (is_null($user)) {
