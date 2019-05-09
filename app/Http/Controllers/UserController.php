@@ -27,13 +27,8 @@ class UserController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'name' => $user->name,
-                'is_admin' => $user->is_admin
-            ]
-        ], 200);
+        return (array('name' => $user->name,
+                      'is_admin' => $user->is_admin));
     }
 
     /**

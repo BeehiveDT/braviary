@@ -28,12 +28,7 @@ class AdminController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'users' => User::all()
-            ]
-        ], 200);
+        return (User::all());
     }
 
     /**
@@ -55,12 +50,7 @@ class AdminController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'eagles' => Eagle::all()->makeHidden(['job_token'])
-            ]
-        ], 200);
+        return (Eagle::all()->makeHidden(['job_token']));
     }
 
     /**

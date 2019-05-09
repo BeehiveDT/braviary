@@ -49,12 +49,7 @@ class UserEagleController extends Controller
 
         $viewer = $eagle->users;
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'viewers' => $viewer
-            ]
-        ], 200);
+        return ($viewer);
     }
 
     /**
