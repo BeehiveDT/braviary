@@ -54,6 +54,7 @@ const config = {
 
             // API ZOOKEEPER
             case 'Get_Zookeeper_Eagle_List': return this.API_BASE_URL + 'zookeeper' + '/' + 'eagles';               // GET
+            case 'Get_Zookeeper_User_List': return this.API_BASE_URL + 'zookeeper' + '/' + 'users';               // GET
 
             default: return this.API_BASE_URL;
         }

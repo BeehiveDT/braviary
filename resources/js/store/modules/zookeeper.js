@@ -3,7 +3,8 @@ import { config as BraviaryConfig } from '../../config';
 
 // initial state
 const state = {
-    zookeeperEagleList: []
+    zookeeperEagleList: [],
+    zookeeperUserList: []
 }
   
 // getters
@@ -18,23 +19,39 @@ const actions = {
     // ------------------------------------------------------------------
     retrieveEagleList({commit, rootState}){	
         return new Promise((resolve, reject) => {
-                let _token = rootState.user.userToken;
-                let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
-                let _url = BraviaryConfig.getAPI_URL('Get_Zookeeper_Eagle_List');
-                console.log(_url)
-                axios.get(_url, _authorizedHeader)
-                .then(response => {	
-                    let _successResponse = response.data['Success'];
-                    let _zookeeperEagleList = _successResponse.eagles;
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+            let _url = BraviaryConfig.getAPI_URL('Get_Zookeeper_Eagle_List');
+            axios.get(_url, _authorizedHeader)
+            .then(response => {	
+                let _successResponse = response.data['Success'];
+                let _zookeeperEagleList = _successResponse.eagles;
 
-                    commit('updateEagleList', _zookeeperEagleList);
-                    // resolve(_successResponse.eagles);
-                })	
-                .catch((error) => {	
-                    reject(error);	
-                });	              
-            })
-         }
+                commit('updateEagleList', _zookeeperEagleList);
+                resolve(_successResponse.eagles);
+            })	
+            .catch((error) => {	
+                reject(error);	
+            });	              
+        })
+    },
+    retrieveUserList({commit, rootState}){	
+        return new Promise((resolve, reject) => {
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
+            let _url = BraviaryConfig.getAPI_URL('Get_Zookeeper_User_List');
+            axios.get(_url, _authorizedHeader)
+            .then(response => {	
+                let _successResponse = response.data['Success'];
+                let _zookeeperUserList = _successResponse.users;
+
+                commit('updateUserList', _zookeeperUserList);
+            })	
+            .catch((error) => {	
+                reject(error);	
+            });	              
+        })
+    },
 }
   
 // mutations
@@ -45,6 +62,10 @@ const mutations = {
             return eagle2.id - eagle1.id;
         });
         state.zookeeperEagleList = zookeeperEagleList;
+    },
+    updateUserList(state, zookeeperUserList){
+        console.log(zookeeperUserList)
+        state.zookeeperUserList = zookeeperUserList;
     }
 }
   

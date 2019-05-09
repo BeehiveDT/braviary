@@ -66,12 +66,10 @@ export default {
     mounted(){
         this.$store.dispatch('zookeeper/retrieveEagleList')
             .then(response => {
-                this.allEagles = response;
-                console.log(this.allEagles)
+                // do nothing
             })
             .catch(error => {
                 // do nothing
-                console.log('rawr')
             })
     }
 }
