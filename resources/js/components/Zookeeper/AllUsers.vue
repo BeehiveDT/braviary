@@ -9,6 +9,7 @@
                     <ul class="col-12" v-for="(user, index) in allUsers" :key="index">
                         <li>
                             <span>{{ user.name }}</span>
+                            <span>{{ user.email }}</span>
                         </li>
                     </ul>
                 </div>
@@ -26,23 +27,24 @@ export default {
     },
     data(){
         return{
-            allUsers: [],
             zookeeperMessage: `Hey hey, you shouldn't be here!`
         }
     },
     computed: {
         userCanZooKeep(){
-            return !this.$store.state.userLoggedIn || !this.$store.state.is_admin;
+            return !this.$store.state.user.userLoggedIn || !this.$store.state.user.userIsAdmin;
+        },
+        allUsers(){
+            return this.$store.state.zookeeper.zookeeperUserList;
         }
     },
     methods: {
 
     },
     mounted(){
-        this.$store.dispatch('retrieveAllUsers')
+        this.$store.dispatch('zookeeper/retrieveUserList')
             .then(response => {
-                console.log(response);
-                this.allUsers = response;
+                // do nothing
             })
             .catch(error => {
                 // do nothing

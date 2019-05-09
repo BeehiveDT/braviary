@@ -48,6 +48,7 @@ const actions = {
             .then(response=> {
                 // // success
                 dispatch('retrieveEagleList')
+                this.dispatch('zookeeper/retrieveEagleList');
                 resolve(response);
             })
             .catch(error=>{
@@ -67,6 +68,7 @@ const actions = {
            axios.post(_url, _eagle, _authorizedHeader)
            .then(response=> {
                dispatch('retrieveEagleList')
+               this.dispatch('zookeeper/retrieveEagleList');
                resolve(response);
            })
            .catch(error=>{
@@ -83,7 +85,8 @@ const actions = {
             axios.delete(_url, _authorizedHeader)
             .then(response=> {
                 // success
-                dispatch('retrieveEagleList')
+                dispatch('retrieveEagleList');
+                this.dispatch('zookeeper/retrieveEagleList');
                 resolve(response);
             })
             .catch(error=>{

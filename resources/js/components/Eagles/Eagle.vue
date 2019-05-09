@@ -17,7 +17,7 @@
                 <update-eagle :eagle="eagle"></update-eagle>
             </td>
             <td>
-                <button v-tooltip.top-center="eagle.job_token" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
+                <button v-tooltip.top-center="eagle.job_token? eagle.job_token: `Need to discuss about this`" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
                     <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
                 </button>
             </td>
@@ -92,10 +92,13 @@ export default {
         },
     },
     methods: {
-        // num is the number of feathres to retrieve
-        // num = 1 retrieves last feather
         copyEagleJobToken() {
-            return this.eagle.job_token;
+            if(this.eagle.job_token){
+                return this.eagle.job_token;
+            }else{
+                return 'Need to discuss about this'
+            }
+            // return this.eagle.job_token;
         }
     },
     mounted(){
