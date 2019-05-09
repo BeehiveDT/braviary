@@ -64,7 +64,6 @@ const mutations = {
         state.zookeeperEagleList = zookeeperEagleList;
     },
     updateUserList(state, zookeeperUserList){
-        console.log(zookeeperUserList)
         state.zookeeperUserList = zookeeperUserList;
     }
 }
