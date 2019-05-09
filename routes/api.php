@@ -42,8 +42,10 @@ Route::middleware('agriweather.api')->group(function () {
     Route::post('/eagles/{eagleId}', 'EagleController@update');
     // 刪除老鷹
     Route::delete('/eagles/{eagleId}', 'EagleController@delete');
-    // 要最後數支羽毛，預設1支
+    // 要最後數支羽毛，預設1支，可跳過，預設跳過10支
     Route::get('/eagles/{eagleId}/feathers', 'EagleController@feathers');
+    // 要多隻老鷹的最後10支羽毛
+    Route::get('/eagles/feathers', 'EagleController@batchFeathers');
     // 列出觀察者
     Route::get('/eagles/{eagleId}/viewers', 'UserEagleController@viewers');
     // 新增觀察者

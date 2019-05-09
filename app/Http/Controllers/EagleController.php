@@ -28,15 +28,11 @@ class EagleController extends Controller
             ], 404);
         }
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'eagles' => [
-                    'my_eagles' => $user->myEagles,
-                    'link_eagles' => $user->linkEagles
-                ]
-            ]
-        ], 200);
+        $output = array('eagles' => [
+                        'my_eagles' => $user->myEagles,
+                        'link_eagles' => $user->linkEagles
+                        ]);
+        return($output);
     }
 
     /**
@@ -202,7 +198,7 @@ class EagleController extends Controller
     }
 
     /**
-     * 給最後n根羽毛
+     * 給最後n根羽毛，跳過m跟
      *
      * @param Request $request
      * @param integer $eagleId
@@ -211,11 +207,13 @@ class EagleController extends Controller
     public function feathers(Request $request, $eagleId)
     {
         $limit = $request->input('limit') ?? 1;
-        if (filter_var($limit, FILTER_VALIDATE_INT) === false) {
+        $skip = $request->input('skip') ?? 10;
+        if (filter_var($limit, FILTER_VALIDATE_INT) === false ||
+            filter_var($skip, FILTER_VALIDATE_INT) === false) {
             return response()->json([
                 'error' => [
                     'status' => 422,
-                    'message' => 'Invalid limit'
+                    'message' => 'Invalid limit or skip'
                 ]
             ], 422);
         }
@@ -249,17 +247,53 @@ class EagleController extends Controller
             ], 404);
         }
 
-        $limit = $limit >0 && $limit <=6 ? $limit : 1;
-        $feathers = $eagle->feathers->sortByDesc('created_at')->take($limit);
+        $limit = $limit >0 && $limit <=10 ? $limit : 10;
+        $feathers = $eagle->feathers->sortByDesc('created_at')->slice($skip)->take($limit);
+        
 
-        return response()->json([
-            'Success' => [
-                'status' => 200,
-                'feathers' => $feathers->pluck('created_at')->map(function ($time) {
-                    return $time->format('Y-m-d H:i:s');
-                }),
-                'spots' => $feathers->pluck('spot')
-            ]
-        ], 200);
+        return(array_values($feathers->toArray()));
+    }
+
+    /**
+     * 給每一支老鷹最後10根羽毛
+     *
+     * @param Request $request
+     * @param integer $eagleId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function batchFeathers(Request $request)
+    {
+        $eagles = $request->input('eagles');
+        $eagle_list = explode(',', $eagles);
+
+        $token = $request->header('Authorization');
+        $user = User::where('api_token', $token)->first();
+        if (is_null($user)) {
+            return response()->json([
+                'error' => [
+                    'status' => 404,
+                    'message' => 'User Not Found'
+                ]
+            ], 404);
+        }
+
+        if ($user->is_admin) {
+            // 如果是zoo keeper，就可以觀測任一隻老鷹
+            $eagles = Eagle::wherein('id', $eagle_list)->get();
+        } else {
+            // 如果是擁有者或是觀察者也可以看到
+            $myeagles = $user->myEagles->wherein('id', $eagle_list);
+            $linkEagles = $user->linkEagles->wherein('id', $eagle_list);
+            $eagles = $myeagles->merge($linkEagles);
+        }
+
+        $output = [];
+        foreach ($eagles as $eagle) {
+            $output[$eagle->id] = $eagle->feathers->sortByDesc('created_at')->take(10)->pluck('created_at')->map(function ($time) {
+                return $time->format('Y-m-d H:i:s');
+            });
+        };
+
+        return($output);
     }
 }
