@@ -52,6 +52,9 @@ const config = {
             case 'Get_Eagle_Viewers':   return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'viewers';   // GET
             case 'Delete_Eagle_Viewer': return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'unlink';    // POST
 
+            // API ZOOKEEPER
+            case 'Get_Zookeeper_Eagle_List': return this.API_BASE_URL + 'zookeeper' + '/' + 'eagles';               // GET
+
             default: return this.API_BASE_URL;
         }
     },

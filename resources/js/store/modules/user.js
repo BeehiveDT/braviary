@@ -34,6 +34,7 @@ const actions = {
 
                 commit('updateUserToken', _token);
                 commit('updateUserLoggedIn');
+                commit('updateAdminStatus', _isAdmin);
                 dispatch('retrieveUserProfile');
                 router.push('/eagles');
                 resolve(response);
