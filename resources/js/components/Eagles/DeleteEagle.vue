@@ -2,7 +2,7 @@
     <div class="inline-div" :id="`DeleteEagle-${eagle.id}`">
 
         <!-- Button to Open the Modal -->
-        <button type="button" class="btn btn-danger round-button" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`">
+        <button type="button" class="btn btn-danger round-button" data-toggle="modal" :data-target="`#DeleteEagleModal-${eagle.id}`" :disabled=eagle.view_only>
             <font-awesome-icon :icon="['fas', 'trash-alt']"></font-awesome-icon>
             <!-- <span>Delete</span> -->
         </button>

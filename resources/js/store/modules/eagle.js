@@ -24,9 +24,11 @@ const actions = {
             axios.get(_url, _authorizedHeader)
             .then(response => {
                 let _successResponse = response.data;
-                let _linkEagles = _successResponse.eagles.link_eagles;
                 let _myEagles = _successResponse.eagles.my_eagles;
-                let _eagleList = _linkEagles.concat(_myEagles);
+                _myEagles.forEach(eagle => { eagle.view_only = false });
+                let _linkEagles = _successResponse.eagles.link_eagles;
+                _linkEagles.forEach(eagle => { eagle.view_only = true });
+                let _eagleList = _myEagles.concat(_linkEagles);
                 commit('updateEagleList', _eagleList);
                 resolve(response)
             })

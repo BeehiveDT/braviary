@@ -5,6 +5,33 @@
                 <h2>{{ eaglePageMessage }}</h2>
             </div>
             <div v-else>
+                <br>
+                <div class="row" id="skipEagles">
+                    <div class="form-group col-2">
+                        <select class="form-control" id="exampleFormControlSelect1" v-model="selected">
+                            <option value=10>10</option>
+                            <option value=25>25</option>
+                            <option value=50>50</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                    <div class="col-10">
+                        <nav class="float-right"  aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item" v-bind:class="{ disabled: hasPrevious }">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo; previous {{ selected }}</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" v-bind:class="{ disabled: hasNext }">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">next {{ selected }} &raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
                 <div class="row" id="ShowEagles">
                     <div class="col-lg-12 col-md-12 mb-4">
                         <!-- Eagles Table -->
@@ -56,7 +83,8 @@ export default {
             name: '',
             frequency: 0,
             tolerance: 0,
-            eaglePageMessage: 'Hey hey, You need to log in first.'
+            eaglePageMessage: 'Hey hey, You need to log in first.',
+            selected: 10
         }
     },
     computed: {
@@ -65,6 +93,12 @@ export default {
         },
         eagles(){
             return this.$store.state.eagle.eagleList;
+        },
+        hasPrevious(){
+            return this.selected == 'all';
+        },
+        hasNext(){
+            return this.selected == 'all';
         }
     },
     methods: {
@@ -99,7 +133,8 @@ export default {
     mounted: function () {
         this.$store.dispatch('eagle/retrieveEagleList')
             .then(response => { 
-                // do nothing
+                // retrieve first 10 eagles' feathers
+
             })
             .catch(error => {
                 // do nothing
