@@ -5,7 +5,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -17,15 +17,17 @@ import StoreData from './store/store';
 import MainApp from './components/MainApp.vue';
 import { config as BraviaryConfig } from './config';
 
+import Bootstrap from 'bootstrap'
+
 // font awesome
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faTimesCircle } from '@fortawesome/free-regular-svg-icons'
-import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
+import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 // import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle);
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueRouter);
 Vue.use(Vuex);
