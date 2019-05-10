@@ -23,12 +23,10 @@ const actions = {
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
             let _url = BraviaryConfig.getAPI_URL('Get_Zookeeper_Eagle_List');
             axios.get(_url, _authorizedHeader)
-            .then(response => {	
-                let _successResponse = response.data['Success'];
-                let _zookeeperEagleList = _successResponse.eagles;
-
+            .then(response => {
+                let _zookeeperEagleList = response.data;
                 commit('updateEagleList', _zookeeperEagleList);
-                resolve(_successResponse.eagles);
+                resolve(_zookeeperEagleList);
             })	
             .catch((error) => {	
                 reject(error);	
@@ -42,10 +40,9 @@ const actions = {
             let _url = BraviaryConfig.getAPI_URL('Get_Zookeeper_User_List');
             axios.get(_url, _authorizedHeader)
             .then(response => {	
-                let _successResponse = response.data['Success'];
-                let _zookeeperUserList = _successResponse.users;
-
+                let _zookeeperUserList = response.data;
                 commit('updateUserList', _zookeeperUserList);
+                resolve(_zookeeperUserList);
             })	
             .catch((error) => {	
                 reject(error);	

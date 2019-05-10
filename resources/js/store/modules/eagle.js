@@ -23,7 +23,7 @@ const actions = {
             let _url = BraviaryConfig.getAPI_URL('Get_Eagle_List');
             axios.get(_url, _authorizedHeader)
             .then(response => {
-                let _successResponse = response.data["Success"];
+                let _successResponse = response.data;
                 let _linkEagles = _successResponse.eagles.link_eagles;
                 let _myEagles = _successResponse.eagles.my_eagles;
                 let _eagleList = _linkEagles.concat(_myEagles);

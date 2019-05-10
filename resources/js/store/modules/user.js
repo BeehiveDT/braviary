@@ -106,7 +106,7 @@ const actions = {
 
             axios.get(_url, _authorizedHeader)
             .then(response => {
-                let _successResponse = response.data['Success'];
+                let _successResponse = response.data;
                 let _userName = _successResponse.name;
                 let _isAdmin = _successResponse.is_admin;
                 commit('updateUserName', _userName);

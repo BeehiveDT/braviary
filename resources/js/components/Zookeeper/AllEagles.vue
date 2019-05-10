@@ -18,7 +18,7 @@
                                     <th scope="col">Fluffiness</th>
                                     <th scope="col">Last Feather</th>
                                     <th scope="col">Update</th>
-                                    <th scope="col">Token</th>
+                                    <!-- <th scope="col">Token</th> -->
                                     <th scope="col">Remove</th>
                                 </tr>
                             </thead>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import Eagle from '../Eagles/Eagle.vue'
+import Eagle from './Eagle.vue'
 
 export default {
     name: 'all-eagles',
