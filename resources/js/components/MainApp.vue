@@ -2,46 +2,41 @@
     <div class="page" id="main">
         <!-- Wrapper container for footer position set up -->
         <div class="wrapper">
-            
-            <!-- Navigation Bar -->
-            <div class="navigation-bar">
-                <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-                    <div class="container">
-                        <router-link class="navbar-brand" to="/">Braviary</router-link>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-
-                        <div class="collapse navbar-collapse" id="userLoggedInDropDown">
-                            <ul class="navbar-nav ml-auto">
-                                <li v-if="userNotLoggedIn" class="nav-item">
-                                    <router-link :to="{name:'Sign Up'}">Sign Up</router-link>
-                                </li>
-                                <li v-if="userNotLoggedIn" class="nav-item">
-                                    <router-link to="/log-in">Log In</router-link>
-                                </li>
-                                <li v-else class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Welcome, {{ userName }}
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown"> 
-                                        <router-link v-if="isAdmin" to="/zookeeper/eagles" class="black-text">All Eagles</router-link>
-                                        <div v-if="isAdmin" class="dropdown-divider"></div>
-                                        <router-link v-if="isAdmin" to="/zookeeper/users" class="black-text">All Users</router-link>
-                                        <div v-if="isAdmin" class="dropdown-divider"></div>
-                                        <router-link to="/eagles" class="black-text">Eagles</router-link>
-                                        <div class="dropdown-divider"></div>
-                                        <router-link to="/me" class="black-text">Profile</router-link>
-                                        <div class="dropdown-divider"></div>
-                                        <router-link v-on:click.native="userLogOut" to="/" class="black-text">Log Out</router-link>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="/">Braviary</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul v-if="userNotLoggedIn" class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/sign-up">Sign Up</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link class="nav-link" to="/log-in">Log In</router-link>
+                            </li>
+                        </ul>
+                        <ul v-else class="navbar-nav ml-auto">
+                            <li v-if="isAdmin" class="nav-item">
+                                <router-link to="/zookeeper/eagles">All Eagles</router-link>
+                            </li>
+                            <li v-if="isAdmin" class="nav-item">
+                                <router-link v-if="isAdmin" to="/zookeeper/users">All Users</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/eagles">Eagles</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link to="/me">Profile</router-link>
+                            </li>
+                            <li class="nav-item">
+                                <router-link v-on:click.native="userLogOut" to="/">Log Out</router-link>
+                            </li>
+                        </ul>
                     </div>
-                </nav>
-            </div>
-            <br>
+                </div>
+            </nav>
             <!-- Page content -->
             <router-view></router-view>
         </div>

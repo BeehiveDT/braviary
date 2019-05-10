@@ -1,5 +1,5 @@
 const mix = require('laravel-mix');
-const browserSyncPlugin = require('browser-sync-webpack-plugin')
+// const browserSyncPlugin = require('browser-sync-webpack-plugin')
 
 /*
  |--------------------------------------------------------------------------
@@ -20,7 +20,6 @@ mix.js('resources/js/app.js', 'public/js')
 //       host: 'braviary.test', // your hostname from .hosts
 //       open: true // there is no browser in workspace
 //   });
-
 
 // DOCKER_HOST_IP
 // 10.0.75.1
