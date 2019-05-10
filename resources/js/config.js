@@ -63,7 +63,7 @@ const config = {
     getAuthorized_Header: function (token, params = {})
     {
         this.AUTHORIZED_HEADER.headers['Authorization'] = token;
-        if(params.length > 0){
+        if(Object.keys(params).length > 0){
             this.AUTHORIZED_HEADER.params = params;
         }
         return this.AUTHORIZED_HEADER;

@@ -97,13 +97,12 @@ const actions = {
     retrieveEagleFeathers({ rootState }, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
-            let _params = {'limit': payload.limit};
+            let _params = {'limit': payload.limit, 'skip': payload.skip};
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
             let _url = BraviaryConfig.getAPI_URL('Get_Eagle_Feathers', payload);
-
             axios.get(_url, _authorizedHeader)
             .then(response => {
-                let _successResponse = response.data['Success'];
+                let _successResponse = response.data;
                 resolve(_successResponse);
             })
             .catch((error) => {
