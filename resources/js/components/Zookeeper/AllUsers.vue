@@ -35,14 +35,14 @@ export default {
             return !this.$store.state.user.userLoggedIn || !this.$store.state.user.userIsAdmin;
         },
         allUsers(){
-            return this.$store.state.zookeeper.zookeeperUserList;
+            return this.$store.state.zookeeper.zookeeperUsersList;
         }
     },
     methods: {
 
     },
     mounted(){
-        this.$store.dispatch('zookeeper/retrieveUserList')
+        this.$store.dispatch('zookeeper/retrieveUsersList')
             .then(response => {
                 // do nothing
             })

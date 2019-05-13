@@ -101,11 +101,11 @@ export default {
             return this.$store.state.eagle.eaglesPage;
         },
         hasPrevious(){
-            let _currentPage = this.$store.state.eagle.eaglesCurrentPage;
+            let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;
             return _currentPage > 0;
         },
         hasNext(){
-            let _currentPage = this.$store.state.eagle.eaglesCurrentPage;
+            let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;
             let _totalPageNums = this.$store.state.eagle.totalPageNums;
             return (_currentPage+1) < _totalPageNums;
         },

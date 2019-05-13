@@ -3,12 +3,12 @@ import { config as BraviaryConfig } from '../../config';
 
 // initial state
 const state = {
-    eaglesPerPage: '10',
     eaglesList: [],
+    eaglesPerPage: '10',
     eaglesListPaginated: [],
     eaglesCurrent: [],
     eagleIDs: [],
-    eaglesCurrentPage: 0,
+    eaglesCurrentPageNum: 0,
     totalPageNums: 1
 }
   
@@ -48,7 +48,7 @@ const actions = {
                 commit('updateEaglesList', _payload);
                 commit('updateEaglesListPaginated', _eaglesPerPage);
 
-                let _eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPage]
+                let _eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum]
                 commit('updateEaglesCurrent', _eaglesCurrent);
                 resolve(response)
             })
@@ -197,12 +197,12 @@ const mutations = {
     },
     // Eagles page pagination
     updateEaglesPageOffset(state, offset){
-        state.eaglesCurrentPage += offset;
-        state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPage];
+        state.eaglesCurrentPageNum += offset;
+        state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
     },
     updateEaglesListPaginated(state, eaglesPerPage){
         // set current to first page
-        state.eaglesCurrentPage = 0;
+        state.eaglesCurrentPageNum = 0;
         // set eagles per page
         state.eaglesPerPage = eaglesPerPage;
         // empty eagles paginated 2d array
@@ -217,7 +217,7 @@ const mutations = {
         }else{
             while(_eaglesList.length) state.eaglesListPaginated.push(_eaglesList.splice(0,eaglesPerPage));
             state.totalPageNums = state.eaglesListPaginated.length;
-            state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPage];
+            state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
         }
     },
     updateEaglesCurrent(state, eaglesCurrent){
