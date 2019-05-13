@@ -76,6 +76,7 @@ export default {
                 })
                 .catch(error => {
                     // failed to create eagle
+                    console.log(error)
                 })
         }
     },

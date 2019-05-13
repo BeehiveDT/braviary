@@ -69,8 +69,8 @@ const actions = {
             axios.post(_url, payload, _authorizedHeader)
             .then(response=> {
                 // // success
-                dispatch('retrieveEaglesList')
-                this.dispatch('zookeeper/retrieveEaglesList');
+                dispatch('retrieveEaglesList', {eaglesPerPage: state.eaglesPerPage})
+                // this.dispatch('zookeeper/retrieveEaglesList', {eaglesPerPage: this.eaglesPerPage});
                 resolve(response);
             })
             .catch(error=>{
@@ -89,8 +89,8 @@ const actions = {
            // POST request to update eagle
            axios.post(_url, _eagle, _authorizedHeader)
            .then(response=> {
-               dispatch('retrieveEaglesList')
-               this.dispatch('zookeeper/retrieveEaglesList');
+                dispatch('retrieveEaglesList', {eaglesPerPage: state.eaglesPerPage})
+               this.dispatch('zookeeper/retrieveEaglesList', {eaglesPerPage: state.eaglesPerPage});
                resolve(response);
            })
            .catch(error=>{
@@ -107,8 +107,8 @@ const actions = {
             axios.delete(_url, _authorizedHeader)
             .then(response=> {
                 // success
-                dispatch('retrieveEaglesList');
-                this.dispatch('zookeeper/retrieveEaglesList');
+                dispatch('retrieveEaglesList', {eaglesPerPage: state.eaglesPerPage});
+                this.dispatch('zookeeper/retrieveEaglesList', {eaglesPerPage: state.eaglesPerPage});
                 resolve(response);
             })
             .catch(error=>{
