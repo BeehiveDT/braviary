@@ -175,9 +175,7 @@ const mutations =
         }
     },
     updateUserName (state, name){
-        // console.log(name)
         state.userName = name;
-        // console.log(state.userName)
     }, 
 }
 
