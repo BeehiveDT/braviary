@@ -2,7 +2,7 @@
     <div class="row" id="add-eagle">
 
         <div style="width: 100%" data-toggle="modal" data-target="#addNewEagle" v-on:click="toggleShow">
-            <span>Add New Eagle</span>
+            <span>+ Add New Eagle</span>
         </div>
         <!-- use the modal component, pass in the prop -->
         <div v-if="isShow">
