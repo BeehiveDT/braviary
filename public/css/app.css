@@ -10689,10 +10689,6 @@ a.text-dark:focus {
   display: inline;
 }
 
-#main .round-button {
-  border-radius: 50%;
-}
-
 #main .slide-fade-enter-active {
   transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }

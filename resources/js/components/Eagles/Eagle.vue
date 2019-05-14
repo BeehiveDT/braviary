@@ -104,12 +104,13 @@ export default {
     mounted(){
         this.$store.dispatch('eagle/retrieveEagleFeathers', { 
             limit: 1,
+            skip: 0,
             id: this.eagle.id
             })
             .then(response => {
-                let _lastFeather = response.feathers[0];
-                if (_lastFeather){
-                    this.lastFeather = _lastFeather;
+                if (response.length > 0){
+                    let _lastFeather = response.created_at;
+                    this.lastFeather = response.created_at;
                     let _lastFeatherUTC = this.$moment.utc(_lastFeather);
                     let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD HH:mm:ss');
                     this.lastFeatherLocal = _lastFeatherLocal;

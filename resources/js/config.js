@@ -41,7 +41,7 @@ const config = {
             case 'Update_User_Profile': return this.API_BASE_URL + 'me';                                           // POST
 
             // API EAGLE
-            case 'Get_Eagle_List':      return this.API_BASE_URL + 'eagles';                                        // GET
+            case 'Get_Eagles_List':      return this.API_BASE_URL + 'eagles';                                        // GET
             case 'Create_Eagle':        return this.API_BASE_URL + 'eagles';                                        // POST
             case 'Update_Eagle':        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
             case 'Delete_Eagle':        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
@@ -63,7 +63,7 @@ const config = {
     getAuthorized_Header: function (token, params = {})
     {
         this.AUTHORIZED_HEADER.headers['Authorization'] = token;
-        if(params.length > 0){
+        if(Object.keys(params).length > 0){
             this.AUTHORIZED_HEADER.params = params;
         }
         return this.AUTHORIZED_HEADER;

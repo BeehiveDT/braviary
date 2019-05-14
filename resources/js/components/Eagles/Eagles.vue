@@ -5,6 +5,33 @@
                 <h2>{{ eaglePageMessage }}</h2>
             </div>
             <div v-else>
+                <br>
+                <div class="row" id="skipEagles">
+                    <div class="form-group col-2">
+                        <select class="form-control" id="exampleFormControlSelect1" v-model="eaglesPerPage">
+                            <option value=10>10</option>
+                            <option value=25>25</option>
+                            <option value=50>50</option>
+                            <option value="all">All</option>
+                        </select>
+                    </div>
+                    <div class="col-10">
+                        <nav class="float-right"  aria-label="Page navigation example">
+                            <ul class="pagination">
+                                <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
+                                    <a class="page-link" href="#" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo; previous {{ eaglesPerPage }}</span>
+                                    </a>
+                                </li>
+                                <li class="page-item" v-bind:class="{ disabled: !hasNext }" @click="updateEaglesPageOffset(1)">
+                                    <a class="page-link" href="#" aria-label="Next">
+                                        <span aria-hidden="true">next {{ eaglesPerPage }} &raquo;</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
                 <div class="row" id="ShowEagles">
                     <div class="col-lg-12 col-md-12 mb-4">
                         <!-- Eagles Table -->
@@ -54,9 +81,13 @@ export default {
         return{
             isShow: false,
             name: '',
-            frequency: 0,
-            tolerance: 0,
-            eaglePageMessage: 'Hey hey, You need to log in first.'
+            eaglePageMessage: 'Hey hey, You need to log in first.',
+            eaglesPerPage: '10',
+        }
+    },
+    watch: {
+        eaglesPerPage: function(value) {
+            this.updateEaglesListPaginated(value);
         }
     },
     computed: {
@@ -64,46 +95,47 @@ export default {
             return !this.$store.state.user.userLoggedIn;
         },
         eagles(){
-            return this.$store.state.eagle.eagleList;
-        }
+            return this.$store.state.eagle.eaglesCurrent;
+        },
+        eaglesPage(){
+            return this.$store.state.eagle.eaglesPage;
+        },
+        hasPrevious(){
+            let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;
+            return _currentPage > 0;
+        },
+        hasNext(){
+            let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;
+            let _totalPageNums = this.$store.state.eagle.totalPageNums;
+            return (_currentPage+1) < _totalPageNums;
+        },
     },
     methods: {
         toggleShow(){
             this.isShow = !this.isShow;
         },
-        clearForm(){
-            this.name = '';
-            this.frequency = 0;
-            this.tolerance = 0;
-        },
-        submit(){
-            let name = this.name;
-            let frequency = parseInt(this.frequency);
-            let tolerance = parseInt(this.tolerance);
-
-            this.$store.dispatch('createEagle', { 
-                name,
-                frequency,
-                tolerance
-                })
+        retrieveEaglesList(){
+            this.$store.dispatch('eagle/retrieveEaglesList', {eaglesPerPage: this.eaglesPerPage})
                 .then(response => { 
-                    // clear and close form after successful eagle creation
-                    this.toggleShow();
-                    this.clearForm();
+                    // do nothing
                 })
                 .catch(error => {
-                    // failed to create eagle
+                    // do nothing
                 })
         },
+        updateEaglesPageOffset(offset){
+            if(this.hasPrevious && offset == -1){
+                this.$store.commit('eagle/updateEaglesPageOffset', offset);
+            }else if(this.hasNext && offset == 1){
+                this.$store.commit('eagle/updateEaglesPageOffset', offset);
+            }
+        },
+        updateEaglesListPaginated(eaglesPerPage){
+            this.$store.commit('eagle/updateEaglesListPaginated', eaglesPerPage);
+        }
     },
     mounted: function () {
-        this.$store.dispatch('eagle/retrieveEagleList')
-            .then(response => { 
-                // do nothing
-            })
-            .catch(error => {
-                // do nothing
-            })
+        this.retrieveEaglesList();
     }
 }
 </script>
