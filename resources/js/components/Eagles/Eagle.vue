@@ -12,7 +12,7 @@
                     <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
                 </div>
             </td>
-            <td>{{ lastFeatherLocal }}</td> 
+            <td>{{ lastFeather }}</td>
             <td>
                 <update-eagle :eagle="eagle"></update-eagle>
             </td>
@@ -49,14 +49,12 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            lastFeather: '',
             lastFeatherLocal: '',
             msg: 'This is a button.'
         }
     },
     computed: {
         fluffiness(){
-
             let _tolerance = this.tolerance;
             let _frequency = this.frequency;
             let _lastFeatherTime = Date.parse(this.lastFeather);
@@ -90,37 +88,21 @@ export default {
             
             return _result;
         },
+        lastFeather(){
+            if(this.eagle.lastTenFeathers.length > 0){
+                return this.eagle.lastTenFeathers[0]
+            }else{
+                return 'No Records Yet.'
+            }
+        }
     },
     methods: {
         copyEagleJobToken() {
-            if(this.eagle.job_token){
-                return this.eagle.job_token;
-            }else{
-                return 'Need to discuss about this'
-            }
-            // return this.eagle.job_token;
+            return this.eagle.job_token;
         }
     },
     mounted(){
-        this.$store.dispatch('eagle/retrieveEagleFeathers', { 
-            limit: 1,
-            skip: 0,
-            id: this.eagle.id
-            })
-            .then(response => {
-                if (response.length > 0){
-                    let _lastFeather = response.created_at;
-                    this.lastFeather = response.created_at;
-                    let _lastFeatherUTC = this.$moment.utc(_lastFeather);
-                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD HH:mm:ss');
-                    this.lastFeatherLocal = _lastFeatherLocal;
-                }else{
-                    this.lastFeatherLocal = "None Found";
-                }
-            })
-            .catch(error => {
-                // do nothing
-            })
+
     }
 }
 </script>

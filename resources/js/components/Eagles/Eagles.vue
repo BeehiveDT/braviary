@@ -19,14 +19,14 @@
                         <nav class="float-right"  aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
-                                    <a class="page-link" href="#" aria-label="Previous">
+                                    <span class="page-link" aria-label="Previous">
                                         <span aria-hidden="true">&laquo; previous {{ eaglesPerPage }}</span>
-                                    </a>
+                                    </span>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: !hasNext }" @click="updateEaglesPageOffset(1)">
-                                    <a class="page-link" href="#" aria-label="Next">
+                                    <span class="page-link" aria-label="Next">
                                         <span aria-hidden="true">next {{ eaglesPerPage }} &raquo;</span>
-                                    </a>
+                                    </span>
                                 </li>
                             </ul>
                         </nav>
@@ -70,6 +70,7 @@
 
 import AddEagle from './AddEagle.vue'
 import Eagle from './Eagle.vue'
+import { mapState } from 'vuex';
 
 export default {
     name: 'eagle-list',
@@ -91,15 +92,11 @@ export default {
         }
     },
     computed: {
-        userNotLoggedIn(){
-            return !this.$store.state.user.userLoggedIn;
-        },
-        eagles(){
-            return this.$store.state.eagle.eaglesCurrent;
-        },
-        eaglesPage(){
-            return this.$store.state.eagle.eaglesPage;
-        },
+        ...mapState({
+            'eagles': state => state.eagle.eaglesCurrent,
+            'userNotLoggedIn': state => !state.user.userLoggedIn,
+            'eaglesPage': state => state.eagle.eaglesPage,
+        }),
         hasPrevious(){
             let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;
             return _currentPage > 0;
@@ -116,22 +113,23 @@ export default {
         },
         retrieveEaglesList(){
             this.$store.dispatch('eagle/retrieveEaglesList', {eaglesPerPage: this.eaglesPerPage})
-                .then(response => { 
+                .then(response => {
                     // do nothing
                 })
                 .catch(error => {
                     // do nothing
                 })
         },
+        // 改頁數
         updateEaglesPageOffset(offset){
-            if(this.hasPrevious && offset == -1){
-                this.$store.commit('eagle/updateEaglesPageOffset', offset);
-            }else if(this.hasNext && offset == 1){
-                this.$store.commit('eagle/updateEaglesPageOffset', offset);
+            if((this.hasPrevious && offset == -1) || (this.hasNext && offset == 1) || (offset == 0)){
+                this.$store.dispatch('eagle/retrieveCurrent', { offset });
             }
         },
+        // 改筆數
         updateEaglesListPaginated(eaglesPerPage){
             this.$store.commit('eagle/updateEaglesListPaginated', eaglesPerPage);
+            this.updateEaglesPageOffset(0);
         }
     },
     mounted: function () {

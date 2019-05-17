@@ -22,7 +22,7 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagles
     // ------------------------------------------------------------------
-    retrieveEaglesList({ commit, rootState }, payload){
+    retrieveEaglesList({ commit, dispatch, rootState }, payload){
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
@@ -47,9 +47,13 @@ const actions = {
 
                 commit('updateEaglesList', _payload);
                 commit('updateEaglesListPaginated', _eaglesPerPage);
-
-                let _eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum]
-                commit('updateEaglesCurrent', _eaglesCurrent);
+                dispatch('retrieveCurrent', { offset: 0})
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
                 resolve(response)
             })
             .catch((error) => {
@@ -116,20 +120,50 @@ const actions = {
             })
         })
     },
-    retrieveEagleFeathers({ rootState }, payload){
+    retrieveCurrent({commit, rootState}, payload){
         return new Promise((resolve, reject) => {
+            // get list of ids
+            let _ids = [];
+            let _next = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset];
+            _next.forEach(e => _ids.push(e.id));
+            _ids = _ids.toString();
+
+            // set up axios get request
+            let _params = {eagles: _ids}
             let _token = rootState.user.userToken;
-            let _params = {'limit': payload.limit, 'skip': payload.skip};
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
-            let _url = BraviaryConfig.getAPI_URL('Get_Eagle_Feathers', payload);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagles_Feathers');
+
             axios.get(_url, _authorizedHeader)
             .then(response => {
-                let _successResponse = response.data;
-                resolve(_successResponse);
+                let _object = response.data
+                for (let _id in _object) {
+                    if (_object.hasOwnProperty(_id)) {
+                      // Do things here
+                      let _eagle = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset].find(eagle => eagle.id === parseInt(_id));
+                      _eagle.lastTenFeathers = _object[_id];
+                    }
+                }
+                commit('updateEaglesCurrent', payload.offset);
+                resolve(response)
             })
-            .catch((error) => {
-                reject(error);
-            });
+            .catch(error=>{
+                reject(error)
+            })
+        })
+        
+    },
+    retrieveLastTenFeathers({commit, rootState}, payload){
+        return new Promise((resolve, reject) => {
+
+            let _nextPage = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset]
+            let _ids = [];
+            _nextPage.forEach(function(e) { _ids.push(e.id)});
+            _ids = _ids.toString();
+
+            let _params = {eagles: _ids}
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
         })
     },
     // ------------------------------------------------------------------
@@ -196,11 +230,12 @@ const mutations = {
         state.eaglesList = _eaglesList;
     },
     // Eagles page pagination
-    updateEaglesPageOffset(state, offset){
+    updateEaglesCurrent(state, offset){
         state.eaglesCurrentPageNum += offset;
         state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
     },
     updateEaglesListPaginated(state, eaglesPerPage){
+        console.log('update eagles list paginated')
         // set current to first page
         state.eaglesCurrentPageNum = 0;
         // set eagles per page
@@ -212,17 +247,12 @@ const mutations = {
 
         if(eaglesPerPage == 'all'){
             state.eaglesListPaginated = _eaglesList;
-            state.eaglesCurrent = _eaglesList;
             state.totalPageNums = 1;
         }else{
             while(_eaglesList.length) state.eaglesListPaginated.push(_eaglesList.splice(0,eaglesPerPage));
             state.totalPageNums = state.eaglesListPaginated.length;
-            state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
         }
     },
-    updateEaglesCurrent(state, eaglesCurrent){
-        state.eaglesCurrent = eaglesCurrent;
-    }
 }
   
 export default {
