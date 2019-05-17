@@ -14,6 +14,9 @@
             </td>
             <td>{{ lastFeather }}</td>
             <td>
+                <feather-list :eagle="eagle"></feather-list>
+            </td>
+            <td>
                 <update-eagle :eagle="eagle"></update-eagle>
             </td>
             <td>
@@ -30,13 +33,14 @@
 <script>
 import UpdateEagle from './UpdateEagle.vue';
 import DeleteEagle from './DeleteEagle.vue';
-
+import FeatherList from './FeatherList.vue'
 
 export default {
     name: 'eagle',
     components: {
         UpdateEagle,
-        DeleteEagle
+        DeleteEagle,
+        FeatherList
     },
     props: {
         eagle: {

@@ -153,17 +153,28 @@ const actions = {
         })
         
     },
-    retrieveLastTenFeathers({commit, rootState}, payload){
+    retrieveFeathers({commit, rootState}, payload){
         return new Promise((resolve, reject) => {
 
-            let _nextPage = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset]
-            let _ids = [];
-            _nextPage.forEach(function(e) { _ids.push(e.id)});
-            _ids = _ids.toString();
-
-            let _params = {eagles: _ids}
+            let _payload = {
+                id: payload.id
+            }
+            let _params = {
+                limit: payload.limit,
+                skip: payload.skip
+            }
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagle_Feathers', _payload);
+
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                resolve(response.data);
+            })
+            .catch(error => {
+                reject(error);
+            })
+
         })
     },
     // ------------------------------------------------------------------
@@ -235,7 +246,6 @@ const mutations = {
         state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
     },
     updateEaglesListPaginated(state, eaglesPerPage){
-        console.log('update eagles list paginated')
         // set current to first page
         state.eaglesCurrentPageNum = 0;
         // set eagles per page

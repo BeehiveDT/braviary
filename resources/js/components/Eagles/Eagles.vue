@@ -44,6 +44,7 @@
                                     <th scope="col">Tolerance</th>
                                     <th scope="col">Fluffiness</th>
                                     <th scope="col">Last Feather</th>
+                                    <th scope="col">Feathers</th>
                                     <th scope="col">Update</th>
                                     <th scope="col">Token</th>
                                     <th scope="col">Remove</th>
@@ -51,7 +52,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td colspan="9">
+                                    <td colspan="10">
                                         <!-- Add New Eagle -->        
                                         <add-eagle></add-eagle>
                                     </td>
@@ -123,7 +124,13 @@ export default {
         // 改頁數
         updateEaglesPageOffset(offset){
             if((this.hasPrevious && offset == -1) || (this.hasNext && offset == 1) || (offset == 0)){
-                this.$store.dispatch('eagle/retrieveCurrent', { offset });
+                this.$store.dispatch('eagle/retrieveCurrent', { offset })
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
             }
         },
         // 改筆數

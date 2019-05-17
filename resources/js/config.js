@@ -41,11 +41,12 @@ const config = {
             case 'Update_User_Profile': return this.API_BASE_URL + 'me';                                           // POST
 
             // API EAGLE
-            case 'Get_Eagles_List':      return this.API_BASE_URL + 'eagles';                                        // GET
+            case 'Get_Eagles_List':     return this.API_BASE_URL + 'eagles';                                        // GET
             case 'Create_Eagle':        return this.API_BASE_URL + 'eagles';                                        // POST
             case 'Update_Eagle':        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
             case 'Delete_Eagle':        return this.API_BASE_URL + 'eagles' + '/' + payload.id;
-            case 'Get_Eagles_Feathers':  return this.API_BASE_URL + 'eagles' + '/' + 'feathers';  // GET
+            case 'Get_Eagle_Feathers':  return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'feathers'
+            case 'Get_Eagles_Feathers': return this.API_BASE_URL + 'eagles' + '/' + 'feathers';  // GET
 
             // API EAGLE VIEWER
             case 'Add_Eagle_Viewer':    return this.API_BASE_URL + 'eagles' + '/' + payload.id + '/' + 'link';      // POST
