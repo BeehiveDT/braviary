@@ -22,7 +22,7 @@ const actions = {
     // ------------------------------------------------------------------
     // Eagles
     // ------------------------------------------------------------------
-    retrieveEaglesList({commit, rootState}, payload){	
+    retrieveEaglesList({commit, dispatch, rootState}, payload){	
         return new Promise((resolve, reject) => {
             let _token = rootState.user.userToken;
             let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token);
@@ -31,6 +31,7 @@ const actions = {
             let _eaglesPerPage = payload.eaglesPerPage;
             axios.get(_url, _authorizedHeader)
             .then(response => {
+                // 抓老鷹
                 let _zookeeperEaglesList = response.data;
                 let _payload = {
                     zookeeperEaglesList: _zookeeperEaglesList,
@@ -39,14 +40,52 @@ const actions = {
                 commit('updateEaglesList', _payload);
                 commit('updateEaglesListPaginated', _eaglesPerPage);
 
-                let _eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
-                commit('updateEaglesCurrent', _eaglesCurrent);
+                dispatch('retrieveCurrent', { offset: 0})
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
 
                 resolve(_zookeeperEaglesList);
             })	
-            .catch((error) => {	
+            .catch((error) => {
+                
                 reject(error);	
             });	              
+        })
+    },
+    retrieveCurrent({commit, rootState}, payload){
+        return new Promise((resolve, reject) => {
+            let _page = state.eaglesCurrentPageNum + payload.offset
+
+            let _ids = [];
+            let _next = state.eaglesListPaginated[_page];
+            _next.forEach(e => _ids.push(e.id));
+            _ids = _ids.toString();
+
+            // get eagles feathers
+            let _params = {eagles: _ids};
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagles_Feathers');
+
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                let _object = response.data;
+                for (let _id in _object){
+                    if(_object.hasOwnProperty(_id)){
+                        let _eagle = state.eaglesListPaginated[_page].find(eagle => eagle.id === parseInt(_id));
+                        _eagle.lastTenFeathers = _object[_id];
+                    }
+                }
+                commit('updateEaglesCurrent', payload.offset);
+                resolve(response);
+            })
+            .catch(error => {
+                reject(error);
+            })
         })
     },
     // ------------------------------------------------------------------
@@ -89,11 +128,15 @@ const mutations = {
         });
         state.zookeeperEaglesList = _zookeeperEaglesList;
     },
-    // Eagles page pagination
-    updateEaglesPageOffset(state, offset){
+    updateEaglesCurrent(state, offset){
         state.eaglesCurrentPageNum += offset;
         state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
     },
+    // Eagles page pagination
+    // updateEaglesPageOffset(state, offset){
+    //     state.eaglesCurrentPageNum += offset;
+    //     state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
+    // },
     updateEaglesListPaginated(state, eaglesPerPage){
         // set current to first page
         state.eaglesCurrentPageNum = 0;
@@ -106,17 +149,12 @@ const mutations = {
 
         if(eaglesPerPage == 'all'){
             state.eaglesListPaginated = _eaglesList;
-            state.eaglesCurrent = _eaglesList;
             state.totalPageNums = 1;
         }else{
-            while(_eaglesList.length) state.eaglesListPaginated.push(_eaglesList.splice(0,eaglesPerPage));
+            while(_eaglesList.length) state.eaglesListPaginated.push(_eaglesList.splice(0, eaglesPerPage));
             state.totalPageNums = state.eaglesListPaginated.length;
-            state.eaglesCurrent = state.eaglesListPaginated[state.eaglesCurrentPageNum];
         }
     },
-    updateEaglesCurrent(state, eaglesCurrent){
-        state.eaglesCurrent = eaglesCurrent;
-    }
 }
   
 export default {

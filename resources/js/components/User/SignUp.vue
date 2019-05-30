@@ -164,10 +164,6 @@ export default {
             }
         }
     },
-    // created: function () {
-    //     console.log("UserToken")
-    //     console.log(this.$store.state.homeMessage);
-    // }
 }
 </script>
 

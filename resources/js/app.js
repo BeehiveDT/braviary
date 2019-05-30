@@ -22,11 +22,11 @@ import Bootstrap from 'bootstrap'
 // font awesome
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faTimesCircle } from '@fortawesome/free-regular-svg-icons';
-import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle, faList } from '@fortawesome/free-solid-svg-icons';
+import { faClipboard, faEdit, faTrashAlt, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle, faList, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
 // import { faGooglePlus } from '@fortawesome/free-brands-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle, faList);
+library.add(faClipboard, faEdit, faTrashAlt, faTimesCircle, faPaperPlane, faPlus, faFeatherAlt, faRedo, faExclamationTriangle, faList, faRedoAlt);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(VueRouter);
@@ -83,37 +83,32 @@ const app = new Vue({
         MainApp
     },
     beforeCreate() {
-        console.log(`before create`);
+        // console.log(`before create`);
     },
     created(){
-        console.log(`created`);
-        // this.$store.commit('user/initializeStore');
-        // if(this.$store.state.user.userLoggedIn){
-        //     this.$store.dispatch('user/retrieveUserProfile')
-        // }
-        // 設定 API URL
+        // console.log(`created`);
         this.$config.setAPI_BaseURL();
     },
     beforeMount(){
-        console.log(`before mount`)
+        // console.log(`before mount`)
         this.$store.commit('user/initializeStore');
         if(this.$store.state.user.userLoggedIn){
             this.$store.dispatch('user/retrieveUserProfile');
         }
     },
     mounted(){
-        console.log(`mounted`)
+        // console.log(`mounted`)
     },
     beforeUpdate(){
-        console.log(`beforeUpdate`)
+        // console.log(`beforeUpdate`)
     },
     updated(){
-        console.log(`updated`)
+        // console.log(`updated`)
     },
     beforeDestroy(){
-        console.log(`beforeDestroy`)
+        // console.log(`beforeDestroy`)
     },
     destroyed(){
-        console.log(`destroyed`)
+        // console.log(`destroyed`)
     }
 });

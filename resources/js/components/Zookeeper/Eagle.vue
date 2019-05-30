@@ -2,14 +2,14 @@
         <tr>
             <th scope="row">
                 # {{ eagle.id }}
-                <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon>
+                <!-- <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon> -->
             </th>
             <td>{{ eagle.name }}</td>
             <td>{{ eagle.frequency }}</td>
             <td>{{ eagle.tolerance }}</td>
             <td>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
+                    <div class="progress-bar progress-bar-striped" v-bind:class="classObject" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
                 </div>
             </td>
             <td>{{ lastFeatherLocal }}</td> 
@@ -49,78 +49,73 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            lastFeather: '',
-            lastFeatherLocal: '',
+            // lastFeather: '',
+            // lastFeatherLocal: '',
             msg: 'This is a button.'
         }
     },
     computed: {
-        fluffiness(){
-
-            let _tolerance = this.tolerance;
-            let _frequency = this.frequency;
-            let _lastFeatherTime = Date.parse(this.lastFeather);
-            let _fluffiness = 0;
-            let _timeGap = 0;
-            let _timeGapOverFreq = this.tolerance;
-
-            if(!isNaN(_lastFeatherTime)){
-
-                let _now = this.$moment.utc();
-                let _timeZone = this.$moment.tz.guess();
-                let _then = this.$moment.tz(this.$moment(_lastFeatherTime),'YYYY-MM-DD HH:mm',_timeZone);
-                let _utcOffset = this.$moment().utcOffset();
-                let _nowThenDiff = _now.diff(_then, 'minutes');
-
-                // time gap in minutes
-                // from: last feather check in time
-                // to: current time
-                _timeGap = _nowThenDiff - _utcOffset;
-                _timeGapOverFreq = Math.floor(_timeGap / _frequency);
-
-                // numberator cannot be negative
-                if(_timeGapOverFreq <= _tolerance){
-                    let _numerator = _tolerance - _timeGapOverFreq;
-                    _fluffiness = _numerator / _tolerance;
-                    _fluffiness = _fluffiness.toFixed(2)
-                }
+        classObject: function () {
+            return {
+                'bg-primary': this.fluffiness > 50,
+                'bg-danger': !(this.fluffiness > 50)
             }
-
-            let _result = (_fluffiness*100).toFixed(0);
-            
-            return _result;
         },
+        fluffiness(){
+            let _tolerance = this.eagle.tolerance;
+            let _frequency = this.eagle.frequency;
+            let _feathers = this.eagle.lastTenFeathers;
+            let _length = _feathers.length;
+            let _fluffiness = 0;
+            let _tardy = 0;
+            let _max = 0;
+
+            if(_length < 10){
+                return 0;
+            }else{
+                let _then = this.$moment.utc();
+                let _current = this.$moment.utc(_feathers[0]);
+                let _timeGap = _then.diff(_current, 'minutes');
+                let _timeGapOverFreq = Math.floor(_timeGap/ _frequency);
+
+                for (let i = 0; i < _length; i++) {
+                    _current = this.$moment.utc(_feathers[i])
+                    _timeGap = _then.diff(_current, 'minutes');
+                    _then = _current;
+
+                    _timeGapOverFreq = Math.floor(_timeGap/ _frequency);
+                    
+                    if(_timeGapOverFreq > 1){
+                        _tardy += 1;
+                    }
+                    if(_timeGapOverFreq > _max){
+                        _max = _timeGapOverFreq;
+                    }
+                }
+
+                _fluffiness = (10 - _tardy)/10;
+
+                return (_fluffiness*100).toFixed(0);
+            }
+        },
+        lastFeatherLocal(){
+            if(this.eagle.lastTenFeathers.length > 0){
+                let _lastFeather = this.eagle.lastTenFeathers[0]
+                return this.getLocalTime(_lastFeather);
+            }else{
+                return 'No Records Yet.'
+            }
+        }
     },
     methods: {
-        copyEagleJobToken() {
-            if(this.eagle.job_token){
-                return this.eagle.job_token;
-            }else{
-                return 'Need to discuss about this'
-            }
-            // return this.eagle.job_token;
+        getLocalTime(lastFeather){
+            let _lastFeatherUTC = this.$moment.utc(lastFeather);
+            let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD hh:mm:ss a');
+            return _lastFeatherLocal
         }
     },
     mounted(){
-        this.$store.dispatch('eagle/retrieveEagleFeathers', { 
-            limit: 1,
-            skip: 0,
-            id: this.eagle.id
-            })
-            .then(response => {
-                if (response.length > 0){
-                    let _lastFeather = response.created_at;
-                    this.lastFeather = response.created_at;
-                    let _lastFeatherUTC = this.$moment.utc(_lastFeather);
-                    let _lastFeatherLocal = this.$moment(_lastFeatherUTC).local().format('YYYY-MM-DD HH:mm:ss');
-                    this.lastFeatherLocal = _lastFeatherLocal;
-                }else{
-                    this.lastFeatherLocal = "None Found";
-                }
-            })
-            .catch(error => {
-                // do nothing
-            })
+
     }
 }
 </script>

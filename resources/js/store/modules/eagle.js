@@ -39,7 +39,7 @@ const actions = {
                 let _linkEagles = _successResponse.eagles.link_eagles;
                 _linkEagles.forEach(eagle => { eagle.view_only = true });
                 let _eaglesList = _myEagles.concat(_linkEagles);
-
+                
                 let _payload = {
                     eaglesList: _eaglesList,
                     eaglesPerPage: _eaglesPerPage
@@ -60,6 +60,39 @@ const actions = {
                 reject(error)
             });
         })
+    },
+    retrieveCurrent({commit, rootState}, payload){
+        return new Promise((resolve, reject) => {
+            // get list of ids
+            let _ids = [];
+            let _next = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset];
+            _next.forEach(e => _ids.push(e.id));
+            _ids = _ids.toString();
+
+            // set up axios get request
+            let _params = {eagles: _ids};
+            let _token = rootState.user.userToken;
+            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
+            let _url = BraviaryConfig.getAPI_URL('Get_Eagles_Feathers');
+
+            axios.get(_url, _authorizedHeader)
+            .then(response => {
+                let _object = response.data
+                for (let _id in _object) {
+                    if (_object.hasOwnProperty(_id)) {
+                      // Do things here
+                      let _eagle = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset].find(eagle => eagle.id === parseInt(_id));
+                      _eagle.lastTenFeathers = _object[_id];
+                    }
+                }
+                commit('updateEaglesCurrent', payload.offset);
+                resolve(response)
+            })
+            .catch(error=>{
+                reject(error)
+            })
+        })
+        
     },
     // ------------------------------------------------------------------
     // Eagle
@@ -120,40 +153,7 @@ const actions = {
             })
         })
     },
-    retrieveCurrent({commit, rootState}, payload){
-        return new Promise((resolve, reject) => {
-            // get list of ids
-            let _ids = [];
-            let _next = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset];
-            _next.forEach(e => _ids.push(e.id));
-            _ids = _ids.toString();
-
-            // set up axios get request
-            let _params = {eagles: _ids}
-            let _token = rootState.user.userToken;
-            let _authorizedHeader = BraviaryConfig.getAuthorized_Header(_token, _params);
-            let _url = BraviaryConfig.getAPI_URL('Get_Eagles_Feathers');
-
-            axios.get(_url, _authorizedHeader)
-            .then(response => {
-                let _object = response.data
-                for (let _id in _object) {
-                    if (_object.hasOwnProperty(_id)) {
-                      // Do things here
-                      let _eagle = state.eaglesListPaginated[state.eaglesCurrentPageNum+payload.offset].find(eagle => eagle.id === parseInt(_id));
-                      _eagle.lastTenFeathers = _object[_id];
-                    }
-                }
-                commit('updateEaglesCurrent', payload.offset);
-                resolve(response)
-            })
-            .catch(error=>{
-                reject(error)
-            })
-        })
-        
-    },
-    retrieveFeathers({commit, rootState}, payload){
+    retrieveFeathers({rootState}, payload){
         return new Promise((resolve, reject) => {
 
             let _payload = {

@@ -2,7 +2,7 @@
         <tr>
             <th scope="row">
                 # {{ eagle.id }}
-                <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon>
+                <!-- <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon> -->
             </th>
             <td>{{ eagle.name }}</td>
             <td>{{ eagle.frequency }}</td>
@@ -54,16 +54,18 @@ export default {
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
             msg: 'This is a button.',
+            max: 0,
         }
     },
     computed: {
         classObject: function () {
             return {
-                'bg-primary': this.fluffiness > 50,
-                'bg-danger': !(this.fluffiness > 50)
+                'bg-primary': this.max < this.tolerance,
+                'bg-danger': !(this.max < this.tolerance)
             }
         },
         fluffiness(){
+
             let _tolerance = this.eagle.tolerance;
             let _frequency = this.eagle.frequency;
             let _feathers = this.eagle.lastTenFeathers;
@@ -75,7 +77,6 @@ export default {
             if(_length < 10){
                 return 0;
             }else{
-                let tardy = 0;
                 let _then = this.$moment.utc();
                 let _current = this.$moment.utc(_feathers[0]);
                 let _timeGap = _then.diff(_current, 'minutes');
@@ -96,7 +97,8 @@ export default {
                     }
                 }
 
-                let _fluffiness = (10 - _tardy)/10;
+                _fluffiness = (10 - _tardy)/10;
+                this.max = _max;
 
                 return (_fluffiness*100).toFixed(0);
             }
