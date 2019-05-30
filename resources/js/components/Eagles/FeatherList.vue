@@ -36,9 +36,21 @@
                                 </ul>
                             </nav>
                         </div>
-                        <div v-for="(feather, index) in feathers" :key="index">
-                            <li>{{ getLocalTime(feather.created_at) }}</li>
-                        </div>
+
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Content</th>
+                                    <th scope="col">Time</th>
+                                </tr>
+                            </thead>
+                            <tbody v-for="(feather, index) in feathers" :key="index">
+                                <tr>
+                                    <td>{{ feather.spot }}</td>
+                                    <td>{{ getLocalTime(feather.created_at)}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
 
                 </div>
