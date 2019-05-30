@@ -69,8 +69,8 @@
 
 <script>
 
-import AddEagle from './AddEagle.vue'
-import Eagle from './Eagle.vue'
+import AddEagle from './AddEagle.vue';
+import Eagle from './Eagle.vue';
 import { mapState } from 'vuex';
 
 export default {

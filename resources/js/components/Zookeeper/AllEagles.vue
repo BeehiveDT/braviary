@@ -56,7 +56,7 @@
                                         <add-eagle></add-eagle>
                                     </td>
                                 </tr> -->
-                                <eagle v-for="(eagle, index) in allEagles" :key="index" :eagle="eagle"></eagle>
+                                <eagle v-for="(eagle, index) in eagles" :key="index" :eagle="eagle"></eagle>
                             </tbody>
                         </table>
                     </div>
@@ -67,7 +67,8 @@
 </template>
 
 <script>
-import Eagle from './Eagle.vue'
+import Eagle from './Eagle.vue';
+import { mapState } from 'vuex';
 
 export default {
     name: 'all-eagles',
@@ -86,11 +87,11 @@ export default {
         }
     },
     computed: {
+        ...mapState({
+            'eagles': state => state.zookeeper.eaglesCurrent,
+        }),
         userCanZooKeep(){
             return !this.$store.state.user.userLoggedIn || !this.$store.state.user.userIsAdmin;
-        },
-        allEagles(){
-            return this.$store.state.zookeeper.eaglesCurrent;
         },
         hasPrevious(){
             let _currentPage = this.$store.state.zookeeper.eaglesCurrentPageNum;
@@ -101,28 +102,38 @@ export default {
             let _totalPageNums = this.$store.state.zookeeper.totalPageNums;
             return (_currentPage+1) < _totalPageNums;
         },
+    
     },
     methods: {
+        retrieveEaglesList(){
+            this.$store.dispatch('zookeeper/retrieveEaglesList', {eaglesPerPage: this.eaglesPerPage})
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
+        },
+        // 改頁數
         updateEaglesPageOffset(offset){
-            if(this.hasPrevious && offset == -1){
-                this.$store.commit('zookeeper/updateEaglesPageOffset', offset);
-            }else if(this.hasNext && offset == 1){
-                this.$store.commit('zookeeper/updateEaglesPageOffset', offset);
+            if((this.hasPrevious && offset == -1) || (this.hasNext && offset == 1) || (offset == 0)){
+                this.$store.dispatch('zookeeper/retrieveCurrent', { offset })
+                .then(response => {
+                    // do nothing
+                })
+                .catch(error => {
+                    // do nothing
+                })
             }
         },
+        // 改筆數
         updateEaglesListPaginated(eaglesPerPage){
             this.$store.commit('zookeeper/updateEaglesListPaginated', eaglesPerPage);
-        },
-
+            this.updateEaglesPageOffset(0);
+        }
     },
     mounted(){
-        this.$store.dispatch('zookeeper/retrieveEaglesList', {eaglesPerPage: this.eaglesPerPage})
-            .then(response => {
-                // do nothing
-            })
-            .catch(error => {
-                // do nothing
-            })
+        this.retrieveEaglesList();
     }
 }
 </script>

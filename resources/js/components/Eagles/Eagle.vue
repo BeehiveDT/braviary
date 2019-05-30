@@ -2,7 +2,7 @@
         <tr>
             <th scope="row">
                 # {{ eagle.id }}
-                <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon>
+                <!-- <font-awesome-icon v-if="fluffiness < 50" class="faa-flash animated red" :icon="['fas', 'exclamation-triangle']"></font-awesome-icon> -->
             </th>
             <td>{{ eagle.name }}</td>
             <td>{{ eagle.frequency }}</td>
@@ -64,6 +64,7 @@ export default {
             }
         },
         fluffiness(){
+
             let _tolerance = this.eagle.tolerance;
             let _frequency = this.eagle.frequency;
             let _feathers = this.eagle.lastTenFeathers;
@@ -75,7 +76,6 @@ export default {
             if(_length < 10){
                 return 0;
             }else{
-                let tardy = 0;
                 let _then = this.$moment.utc();
                 let _current = this.$moment.utc(_feathers[0]);
                 let _timeGap = _then.diff(_current, 'minutes');
@@ -96,7 +96,7 @@ export default {
                     }
                 }
 
-                let _fluffiness = (10 - _tardy)/10;
+                _fluffiness = (10 - _tardy)/10;
 
                 return (_fluffiness*100).toFixed(0);
             }
