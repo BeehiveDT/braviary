@@ -22,11 +22,11 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="EagleFrequency">Frequency</label>
-                                        <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency" min="0">
+                                        <input v-model="frequency" type="number" class="form-control" id="EagleFrequency" placeholder="Frequency" min="1">
                                     </div>
                                     <div class="form-group">
                                         <label for="EagleTolerance">Tolerance</label>
-                                        <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance" min="0">
+                                        <input v-model="tolerance" type="number" class="form-control" id="EagleTolerance" placeholder="Tolerance" min="1">
                                     </div>
                                     <button type="submit" class="btn btn-primary round-button">
                                         <font-awesome-icon :icon="['fas', 'paper-plane']"></font-awesome-icon>
@@ -49,8 +49,8 @@ export default {
         return{
             isShow: false,
             name: '',
-            frequency: 0,
-            tolerance: 0,
+            frequency: 1,
+            tolerance: 1,
             showModal: false
         }
     },
@@ -60,8 +60,8 @@ export default {
         },
         clearForm(){
             this.name = '';
-            this.frequency = 0;
-            this.tolerance = 0;
+            this.frequency = 1;
+            this.tolerance = 1;
         },
         submit(){
             let name = this.name;

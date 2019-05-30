@@ -15,7 +15,12 @@
                             <option value="all">All</option>
                         </select>
                     </div>
-                    <div class="col-10">
+                    <div class="col-1">
+                        <button @click="retrieveEaglesList()" class="btn btn-dark" >
+                            <font-awesome-icon :icon="['fas', 'redo-alt']"></font-awesome-icon>
+                        </button>
+                    </div>
+                    <div class="col-9">
                         <nav class="float-right"  aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
