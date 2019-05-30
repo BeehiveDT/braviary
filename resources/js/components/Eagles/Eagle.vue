@@ -9,7 +9,7 @@
             <td>{{ eagle.tolerance }}</td>
             <td>
                 <div class="progress">
-                    <div class="progress-bar progress-bar-striped bg-primary" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
+                    <div class="progress-bar progress-bar-striped" v-bind:class="classObject" role="progressbar" :style="{ width: fluffiness + '%', color: 'black'}" aria-valuenow="34" aria-valuemin="0" aria-valuemax="100"> &nbsp; {{fluffiness}} %</div>
                 </div>
             </td>
             <td>{{ lastFeatherLocal }}</td>
@@ -53,11 +53,16 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            // lastFeatherLocal: '',
-            msg: 'This is a button.'
+            msg: 'This is a button.',
         }
     },
     computed: {
+        classObject: function () {
+            return {
+                'bg-primary': this.fluffiness > 50,
+                'bg-danger': !(this.fluffiness > 50)
+            }
+        },
         fluffiness(){
             let _tolerance = this.eagle.tolerance;
             let _frequency = this.eagle.frequency;
@@ -89,11 +94,9 @@ export default {
                     if(_timeGapOverFreq > _max){
                         _max = _timeGapOverFreq;
                     }
-                    // console.log(_tardy)
-                    // console.log(_max)
                 }
 
-                let _fluffiness = (10 - _tardy)/10
+                let _fluffiness = (10 - _tardy)/10;
 
                 return (_fluffiness*100).toFixed(0);
             }
