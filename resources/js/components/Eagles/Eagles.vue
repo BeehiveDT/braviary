@@ -20,12 +20,17 @@
                             <ul class="pagination">
                                 <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
                                     <span class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo; previous {{ eaglesPerPage }}</span>
+                                        <span aria-hidden="true">&laquo; previous</span>
+                                    </span>
+                                </li>
+                                <li class="page-item" v-bind:class="{ disabled: true }">
+                                    <span class="page-link">
+                                        <span aria-hidden="true"> page {{ current+1 }} / {{ total }}</span>
                                     </span>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: !hasNext }" @click="updateEaglesPageOffset(1)">
                                     <span class="page-link" aria-label="Next">
-                                        <span aria-hidden="true">next {{ eaglesPerPage }} &raquo;</span>
+                                        <span aria-hidden="true">next &raquo;</span>
                                     </span>
                                 </li>
                             </ul>
@@ -64,6 +69,7 @@
                 </div>
             </div>
         </div>
+        <br>
     </div>
 </template>
 
@@ -97,6 +103,8 @@ export default {
             'eagles': state => state.eagle.eaglesCurrent,
             'userNotLoggedIn': state => !state.user.userLoggedIn,
             'eaglesPage': state => state.eagle.eaglesPage,
+            'current': state => state.eagle.eaglesCurrentPageNum,
+            'total': state => state.eagle.totalPageNums
         }),
         hasPrevious(){
             let _currentPage = this.$store.state.eagle.eaglesCurrentPageNum;

@@ -83,37 +83,32 @@ const app = new Vue({
         MainApp
     },
     beforeCreate() {
-        console.log(`before create`);
+        // console.log(`before create`);
     },
     created(){
-        console.log(`created`);
-        // this.$store.commit('user/initializeStore');
-        // if(this.$store.state.user.userLoggedIn){
-        //     this.$store.dispatch('user/retrieveUserProfile')
-        // }
-        // 設定 API URL
+        // console.log(`created`);
         this.$config.setAPI_BaseURL();
     },
     beforeMount(){
-        console.log(`before mount`)
+        // console.log(`before mount`)
         this.$store.commit('user/initializeStore');
         if(this.$store.state.user.userLoggedIn){
             this.$store.dispatch('user/retrieveUserProfile');
         }
     },
     mounted(){
-        console.log(`mounted`)
+        // console.log(`mounted`)
     },
     beforeUpdate(){
-        console.log(`beforeUpdate`)
+        // console.log(`beforeUpdate`)
     },
     updated(){
-        console.log(`updated`)
+        // console.log(`updated`)
     },
     beforeDestroy(){
-        console.log(`beforeDestroy`)
+        // console.log(`beforeDestroy`)
     },
     destroyed(){
-        console.log(`destroyed`)
+        // console.log(`destroyed`)
     }
 });

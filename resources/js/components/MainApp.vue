@@ -21,9 +21,9 @@
                             <li v-if="isAdmin" class="nav-item">
                                 <router-link to="/zookeeper/eagles">All Eagles</router-link>
                             </li>
-                            <li v-if="isAdmin" class="nav-item">
+                            <!-- <li v-if="isAdmin" class="nav-item">
                                 <router-link v-if="isAdmin" to="/zookeeper/users">All Users</router-link>
-                            </li>
+                            </li> -->
                             <li class="nav-item">
                                 <router-link to="/eagles">Eagles</router-link>
                             </li>
@@ -59,11 +59,6 @@
 <script>
     export default {
         name: 'main-app',
-        // data(){
-        //     return{
-        //         isAdmin: false
-        //     }
-        // },
         computed: {
             userNotLoggedIn(){
                 return !this.$store.state.user.userLoggedIn;
@@ -89,7 +84,6 @@
                     .catch(error => {
                         // do nothing
                     })
-                console.log(process.env);
             }
         },
         mounted(){

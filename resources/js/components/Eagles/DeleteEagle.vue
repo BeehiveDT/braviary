@@ -21,7 +21,7 @@
                     <!-- Modal body -->
                     <div class="modal-body">
                         <!-- Photo by Andreas Barth from Pexels -->
-                        <img style="width: 100%;" :src="'/img/upset_eagle.jpg'">
+                        <img style="width: 100%;" v-bind:src="imgUrl"/>
                         <span>Are you sure you want to delete {{ eagle.name }}?</span>
                     </div>
                     
@@ -37,7 +37,6 @@
 
     </div>
 </template>
-
 <script>
 export default {
     name: 'delete-eagle',
@@ -51,7 +50,8 @@ export default {
         return{
             name: this.eagle.name,
             frequency: this.eagle.frequency,
-            tolerance: this.eagle.tolerance
+            tolerance: this.eagle.tolerance,
+            imgUrl: process.env.MIX_BASE_URL + '/img/upset_eagle.jpg'
         }
     },
     methods: {
@@ -67,6 +67,9 @@ export default {
                 })
         }
     },
+    mounted(){
+
+    }
 }
 </script>
 
