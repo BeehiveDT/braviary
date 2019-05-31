@@ -56,8 +56,8 @@ export default {
     computed: {
         classObject: function () {
             return {
-                'bg-primary': this.max < this.tolerance,
-                'bg-danger': !(this.max < this.tolerance)
+                'bg-primary': this.max <= this.tolerance,
+                'bg-danger': !(this.max <= this.tolerance)
             }
         },
         fluffiness(){
