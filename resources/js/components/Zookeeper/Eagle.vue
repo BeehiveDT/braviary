@@ -49,16 +49,15 @@ export default {
             name: this.eagle.name,
             frequency: this.eagle.frequency,
             tolerance: this.eagle.tolerance,
-            // lastFeather: '',
-            // lastFeatherLocal: '',
-            msg: 'This is a button.'
+            msg: 'This is a button.',
+            max: 0,
         }
     },
     computed: {
         classObject: function () {
             return {
-                'bg-primary': this.fluffiness > 50,
-                'bg-danger': !(this.fluffiness > 50)
+                'bg-primary': this.max < this.tolerance,
+                'bg-danger': !(this.max < this.tolerance)
             }
         },
         fluffiness(){
@@ -94,6 +93,7 @@ export default {
                 }
 
                 _fluffiness = (10 - _tardy)/10;
+                this.max = _max;
 
                 return (_fluffiness*100).toFixed(0);
             }
