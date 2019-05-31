@@ -24,9 +24,7 @@
                         <nav class="float-right"  aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
-                                    <span class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo; previous</span>
-                                    </span>
+                                    <a class="page-link btn-pagination" v-bind:class="{ 'text-info': hasPrevious }">&laquo; previous</a>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: true }">
                                     <span class="page-link">
@@ -34,9 +32,7 @@
                                     </span>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: !hasNext }" @click="updateEaglesPageOffset(1)">
-                                    <span class="page-link" aria-label="Next">
-                                        <span aria-hidden="true">next &raquo;</span>
-                                    </span>
+                                    <a class="page-link btn-pagination" v-bind:class="{ 'text-info': hasNext }">next &raquo;</a>
                                 </li>
                             </ul>
                         </nav>
@@ -159,5 +155,8 @@ export default {
 </script>
 
 <style scoped>
-    
+
+.btn-pagination{
+    cursor: pointer;
+}
 </style>
