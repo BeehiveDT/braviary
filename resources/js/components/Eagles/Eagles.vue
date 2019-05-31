@@ -44,12 +44,24 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Frequency</th>
-                                    <th scope="col">Tolerance</th>
-                                    <th scope="col">Fluffiness</th>
-                                    <th scope="col">Last Feather</th>
+                                    <th scope="col">
+                                        <span>ID</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span>Name</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Minute(s)/Feather'">Frequency</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Max Tardiness = <br> Freq. x Tolerance'">Tolerance</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Latest On Time Feathers % <br> Red Bar: Latest feathers includes at least one that exceeds specified tolerance'">Fluffiness</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span>Last Feather</span>
+                                    </th>
                                     <th scope="col">Feathers</th>
                                     <th scope="col">Update</th>
                                     <th scope="col">Token</th>
