@@ -204,10 +204,11 @@ const actions = {
 
             axios.get(_url, _authorizedHeader)
             .then(response => {
-                let emails = response.data['Success']['viewers']
+                let emails = response.data
                 resolve(emails)
             })
             .catch((error) => {
+                console.log(error)
                 reject(error)
             });
         })

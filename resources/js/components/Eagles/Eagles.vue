@@ -24,9 +24,7 @@
                         <nav class="float-right"  aria-label="Page navigation example">
                             <ul class="pagination">
                                 <li class="page-item" v-bind:class="{ disabled: !hasPrevious }" @click="updateEaglesPageOffset(-1)">
-                                    <span class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo; previous</span>
-                                    </span>
+                                    <a class="page-link btn-pagination" v-bind:class="{ 'text-info': hasPrevious }">&laquo; previous</a>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: true }">
                                     <span class="page-link">
@@ -34,9 +32,7 @@
                                     </span>
                                 </li>
                                 <li class="page-item" v-bind:class="{ disabled: !hasNext }" @click="updateEaglesPageOffset(1)">
-                                    <span class="page-link" aria-label="Next">
-                                        <span aria-hidden="true">next &raquo;</span>
-                                    </span>
+                                    <a class="page-link btn-pagination" v-bind:class="{ 'text-info': hasNext }">next &raquo;</a>
                                 </li>
                             </ul>
                         </nav>
@@ -48,12 +44,24 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">ID</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Frequency</th>
-                                    <th scope="col">Tolerance</th>
-                                    <th scope="col">Fluffiness</th>
-                                    <th scope="col">Last Feather</th>
+                                    <th scope="col">
+                                        <span>ID</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span>Name</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Minute(s)/Feather'">Frequency</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Max Tardiness = <br> Freq. x Tolerance'">Tolerance</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span v-tooltip.bottom="'Latest On Time Feathers % <br> Red Bar: Latest feathers includes at least one that exceeds specified tolerance'">Fluffiness</span>
+                                    </th>
+                                    <th scope="col">
+                                        <span>Last Feather</span>
+                                    </th>
                                     <th scope="col">Feathers</th>
                                     <th scope="col">Update</th>
                                     <th scope="col">Token</th>
@@ -159,5 +167,8 @@ export default {
 </script>
 
 <style scoped>
-    
+
+.btn-pagination{
+    cursor: pointer;
+}
 </style>

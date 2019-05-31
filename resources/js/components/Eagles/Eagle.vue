@@ -20,7 +20,7 @@
                 <update-eagle :eagle="eagle"></update-eagle>
             </td>
             <td>
-                <button v-tooltip.top-center="eagle.job_token? eagle.job_token: `Need to discuss about this`" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
+                <button v-tooltip.bottom="eagle.job_token? eagle.job_token: `Need to discuss about this`" v-clipboard="copyEagleJobToken" class="btn btn-primary round-button">
                     <font-awesome-icon :icon="['fas', 'clipboard']"></font-awesome-icon>
                 </button>
             </td>

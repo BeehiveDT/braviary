@@ -49,6 +49,8 @@
                                                 <div class="scrollable" id="example-1">
                                                     <div v-for="(viewer, index) in viewers" :key="index">
                                                         <font-awesome-icon v-on:click="deleteViewerConfirmation(viewer)" class="red" :icon="['far', 'times-circle']" data-toggle="modal" data-target="#deleteViewerConfirmation"></font-awesome-icon>
+                                                        <span>{{ viewer.name }}</span>
+                                                        &nbsp;
                                                         <span>{{ viewer.email }}</span>
                                                     </div>
                                                 </div>
