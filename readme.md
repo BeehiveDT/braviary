@@ -66,3 +66,24 @@ chown tuvix:www-data database.sqlite
 # 回到專案目錄後
 php artisan migrate
 ```
+
+## 7. Set Base URL
+```bash 
+vim .env
+
+MIX_BASE_URL=http://example.com/braviary/
+=>
+MIX_BASE_URL=your own base url
+```
+
+## 8. npm 安裝套件
+在 braviary 資料夾透過 npm 安裝需要的套件（記錄在 package.json）。
+```
+$ npm install
+```
+
+## 9. npm run watch
+Listen for file changes while in development mode。
+```
+$ npm run watch
+```
