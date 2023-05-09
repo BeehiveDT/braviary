@@ -31,7 +31,7 @@
         "@fortawesome/free-solid-svg-icons": "^5.7.2",
         "@fortawesome/vue-fontawesome": "^0.1.5",
         "font-awesome-animation": "^0.2.1",
-        "moment-timezone": "^0.5.23",
+        "moment-timezone": "^0.5.35",
         "v-tooltip": "^2.0.1",
         "vue-clipboards": "^1.2.4",
         "vue-moment": "^4.1.0",
